@@ -225,23 +225,25 @@
 
     /* Mobile menu overlay */
     .mobile-menu {
-      display: none;
+      display: flex;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       z-index: 200;
       background: rgba(2, 6, 23, 0.95);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      pointer-events: none;
     }
 
     [data-theme="light"] .mobile-menu {
       background: rgba(248, 250, 252, 0.97);
     }
 
-    .mobile-menu.open { display: flex; }
+    .mobile-menu.open { pointer-events: auto; }
 
     .mobile-menu a {
       font-size: 1.3rem;
@@ -1156,6 +1158,100 @@
       color: var(--emerald-600);
     }
 
+    /* ---- Scroll animations ---- */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+    .reveal-delay-5 { transition-delay: .5s; }
+    .reveal-delay-6 { transition-delay: .6s; }
+
+    /* Hero entrance animation */
+    .hero-content { animation: fadeInUp .9s cubic-bezier(.22,1,.36,1) both; }
+    .hero-visual { animation: fadeInUp .9s cubic-bezier(.22,1,.36,1) .2s both; }
+
+    /* ---- Frosted glass enhancement ---- */
+    .feature-card,
+    .tech-card,
+    .pricing-card,
+    .api-feature,
+    .api-code {
+      backdrop-filter: blur(16px) saturate(1.4);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    }
+
+    .hero-visual-card {
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    }
+
+    .stats-bar {
+      backdrop-filter: blur(20px) saturate(1.3);
+      -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    }
+
+    /* ---- Mobile menu animation ---- */
+    .mobile-menu {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .35s cubic-bezier(.22,1,.36,1), visibility .35s;
+    }
+
+    .mobile-menu.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu a {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .4s cubic-bezier(.22,1,.36,1), transform .4s cubic-bezier(.22,1,.36,1), background .2s, color .2s;
+    }
+
+    .mobile-menu.open a:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: .08s; }
+    .mobile-menu.open a:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: .14s; }
+    .mobile-menu.open a:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: .20s; }
+    .mobile-menu.open a:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: .26s; }
+    .mobile-menu.open a:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: .32s; }
+    .mobile-menu.open a:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: .38s; }
+
+    .mobile-menu .mobile-close {
+      opacity: 0;
+      transform: rotate(-90deg);
+      transition: opacity .3s .1s, transform .3s .1s;
+    }
+
+    .mobile-menu.open .mobile-close {
+      opacity: 1;
+      transform: rotate(0);
+    }
+
     /* ---- Responsive ---- */
     @media (max-width: 1024px) {
       .hero .container { grid-template-columns: 1fr; }
@@ -1276,19 +1372,19 @@
 <!-- ==================== Stats ==================== -->
 <div class="stats-bar">
   <div class="container">
-    <div class="stat-item">
+    <div class="stat-item reveal">
       <div class="stat-value">5 500+</div>
       <div class="stat-label">Абонентов на платформе</div>
     </div>
-    <div class="stat-item">
+    <div class="stat-item reveal reveal-delay-1">
       <div class="stat-value">37</div>
       <div class="stat-label">Моделей данных</div>
     </div>
-    <div class="stat-item">
+    <div class="stat-item reveal reveal-delay-2">
       <div class="stat-value">24/7</div>
       <div class="stat-label">Автоматизация</div>
     </div>
-    <div class="stat-item">
+    <div class="stat-item reveal reveal-delay-3">
       <div class="stat-value">15 мин</div>
       <div class="stat-label">Развёртывание</div>
     </div>
@@ -1298,37 +1394,37 @@
 <!-- ==================== Features ==================== -->
 <section id="features">
   <div class="container">
-    <div class="section-badge">Возможности</div>
-    <h2 class="section-title">Всё для управления ISP</h2>
-    <p class="section-subtitle">Полный цикл: от подключения абонента до СОРМ-отчётности. Один интерфейс, один сервер, без лишнего.</p>
+    <div class="section-badge reveal">Возможности</div>
+    <h2 class="section-title reveal reveal-delay-1">Всё для управления ISP</h2>
+    <p class="section-subtitle reveal reveal-delay-2">Полный цикл: от подключения абонента до СОРМ-отчётности. Один интерфейс, один сервер, без лишнего.</p>
 
     <div class="features-grid">
-      <div class="feature-card">
+      <div class="feature-card reveal reveal-delay-1">
         <div class="feature-icon fi-green">&#128100;</div>
         <h3>Управление абонентами</h3>
         <p>Древовидная структура, папки, категории. Поиск, фильтры, быстрые чипы. Массовые операции, экспорт в CSV.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal reveal-delay-2">
         <div class="feature-icon fi-blue">&#128176;</div>
         <h3>Тарификация и платежи</h3>
         <p>Гибкие тарифные планы, периодические и разовые услуги. Интеграция с платёжными системами, 1С, SOAP API.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal reveal-delay-3">
         <div class="feature-icon fi-purple">&#128268;</div>
         <h3>RADIUS-авторизация</h3>
         <p>FreeRADIUS 3.2.3 из коробки. PPPoE, IPoE, VoIP, IPTV. Три виртуальных сервера для разных типов трафика.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal reveal-delay-1">
         <div class="feature-icon fi-amber">&#128200;</div>
         <h3>Аналитика и отчёты</h3>
         <p>Dashboard с ключевыми метриками. Должники, баланс по категориям, топ тарифов. Экспорт данных в Excel.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal reveal-delay-2">
         <div class="feature-icon fi-rose">&#128274;</div>
         <h3>СОРМ-интеграция</h3>
         <p>Передача данных по ФЗ. Поддержка стандартных и пользовательских схем СОРМ3. Готовые коннекторы.</p>
       </div>
-      <div class="feature-card">
+      <div class="feature-card reveal reveal-delay-3">
         <div class="feature-icon fi-cyan">&#128231;</div>
         <h3>Уведомления</h3>
         <p>SMS и email рассылки. Автоматические напоминания о задолженности. Шаблоны сообщений с поддержкой переменных.</p>
@@ -1340,47 +1436,47 @@
 <!-- ==================== Tech Stack ==================== -->
 <section id="tech" class="tech-section">
   <div class="container">
-    <div class="section-badge">Технологии</div>
-    <h2 class="section-title">Надёжный стек</h2>
-    <p class="section-subtitle">Проверенные enterprise-решения. Открытые стандарты. Простое обслуживание.</p>
+    <div class="section-badge reveal">Технологии</div>
+    <h2 class="section-title reveal reveal-delay-1">Надёжный стек</h2>
+    <p class="section-subtitle reveal reveal-delay-2">Проверенные enterprise-решения. Открытые стандарты. Простое обслуживание.</p>
 
     <div class="tech-grid">
-      <div class="tech-card">
+      <div class="tech-card reveal reveal-delay-1">
         <span class="tech-icon">&#128013;</span>
         <h4>Python 3.11</h4>
         <p>Современный, типизированный, быстрый</p>
       </div>
-      <div class="tech-card">
+      <div class="tech-card reveal reveal-delay-2">
         <span class="tech-icon">&#127760;</span>
         <h4>Django 4.2 LTS</h4>
         <p>Long Term Support до 2026</p>
       </div>
-      <div class="tech-card">
+      <div class="tech-card reveal reveal-delay-3">
         <span class="tech-icon">&#128451;</span>
         <h4>PostgreSQL 16</h4>
         <p>Надёжность, JSON, полнотекстовый поиск</p>
       </div>
-      <div class="tech-card">
+      <div class="tech-card reveal reveal-delay-4">
         <span class="tech-icon">&#128736;</span>
         <h4>Redis 7 + Celery 5</h4>
         <p>Фоновые задачи, расписания, очереди</p>
       </div>
-      <div class="tech-card">
+      <div class="tech-card reveal reveal-delay-1">
         <span class="tech-icon">&#128225;</span>
         <h4>FreeRADIUS 3.2</h4>
         <p>PPPoE, IPoE, VoIP, IPTV</p>
       </div>
-      <div class="tech-card">
+      <div class="tech-card reveal reveal-delay-2">
         <span class="tech-icon">&#128230;</span>
         <h4>Docker Compose</h4>
         <p>Один файл — вся инфраструктура</p>
       </div>
-      <div class="tech-card">
+      <div class="tech-card reveal reveal-delay-3">
         <span class="tech-icon">&#128737;</span>
         <h4>Nginx + Gunicorn</h4>
         <p>Production-ready из коробки</p>
       </div>
-      <div class="tech-card">
+      <div class="tech-card reveal reveal-delay-4">
         <span class="tech-icon">&#127912;</span>
         <h4>AdminLTE 3 + BS5</h4>
         <p>Адаптивный UI, тёмная тема</p>
@@ -1392,12 +1488,12 @@
 <!-- ==================== Pricing ==================== -->
 <section id="pricing">
   <div class="container">
-    <div class="section-badge">Тарифы</div>
-    <h2 class="section-title">Прозрачное ценообразование</h2>
-    <p class="section-subtitle">Без скрытых платежей. Лицензия включает все модули, обновления и базовую поддержку.</p>
+    <div class="section-badge reveal">Тарифы</div>
+    <h2 class="section-title reveal reveal-delay-1">Прозрачное ценообразование</h2>
+    <p class="section-subtitle reveal reveal-delay-2">Без скрытых платежей. Лицензия включает все модули, обновления и базовую поддержку.</p>
 
     <div class="pricing-grid">
-      <div class="pricing-card">
+      <div class="pricing-card reveal reveal-delay-1">
         <h3>Старт</h3>
         <div class="price-desc">До 1 000 абонентов</div>
         <div class="price">По запросу</div>
@@ -1410,7 +1506,7 @@
         </ul>
         <a href="mailto:sales@smit34.ru" class="btn-pricing outline">Узнать цену</a>
       </div>
-      <div class="pricing-card featured">
+      <div class="pricing-card featured reveal reveal-delay-2">
         <h3>Бизнес</h3>
         <div class="price-desc">До 10 000 абонентов</div>
         <div class="price">По запросу</div>
@@ -1424,7 +1520,7 @@
         </ul>
         <a href="mailto:sales@smit34.ru" class="btn-pricing filled">Запросить демо</a>
       </div>
-      <div class="pricing-card">
+      <div class="pricing-card reveal reveal-delay-3">
         <h3>Корпоративный</h3>
         <div class="price-desc">Без ограничений</div>
         <div class="price">По запросу</div>
@@ -1445,12 +1541,12 @@
 <!-- ==================== API ==================== -->
 <section id="api" class="api-section">
   <div class="container">
-    <div class="section-badge">Интеграция</div>
-    <h2 class="section-title">Мощный API</h2>
-    <p class="section-subtitle">REST, SOAP, webhook. Интеграция с любой внешней системой за минуты.</p>
+    <div class="section-badge reveal">Интеграция</div>
+    <h2 class="section-title reveal reveal-delay-1">Мощный API</h2>
+    <p class="section-subtitle reveal reveal-delay-2">REST, SOAP, webhook. Интеграция с любой внешней системой за минуты.</p>
 
     <div class="api-demo">
-      <div class="api-code">
+      <div class="api-code reveal reveal-delay-1">
         <div class="api-code-header">
           <span class="method get">GET</span>
           /rest_api/v2/Abonents/5552/
@@ -1467,28 +1563,28 @@
       </div>
 
       <div class="api-features">
-        <div class="api-feature">
+        <div class="api-feature reveal reveal-delay-1">
           <div class="af-icon fi-green">&#128196;</div>
           <div>
             <h4>REST API v2</h4>
             <p>CRUD для всех 37 моделей. Фильтрация, сортировка, пагинация, выбор полей.</p>
           </div>
         </div>
-        <div class="api-feature">
+        <div class="api-feature reveal reveal-delay-2">
           <div class="af-icon fi-blue">&#128176;</div>
           <div>
             <h4>SOAP API (Spyne)</h4>
             <p>Приём платежей от банков, 1С, платёжных терминалов. WSDL-описание.</p>
           </div>
         </div>
-        <div class="api-feature">
+        <div class="api-feature reveal reveal-delay-3">
           <div class="af-icon fi-purple">&#128274;</div>
           <div>
             <h4>Обещанный платёж</h4>
             <p>GET/POST/DELETE. Настраиваемые суммы и сроки. Предоплата и постоплата.</p>
           </div>
         </div>
-        <div class="api-feature">
+        <div class="api-feature reveal reveal-delay-4">
           <div class="af-icon fi-amber">&#128268;</div>
           <div>
             <h4>Webhooks и AJAX</h4>
@@ -1503,10 +1599,10 @@
 <!-- ==================== CTA ==================== -->
 <section class="cta-section">
   <div class="container">
-    <div class="section-badge">Начните сегодня</div>
-    <h2 class="section-title">Готовы к переходу?</h2>
-    <p class="section-subtitle">Мы поможем с миграцией данных из любой существующей системы: Carbon 4, Expert Billing, Mikbill, LanBilling и других.</p>
-    <div class="cta-buttons">
+    <div class="section-badge reveal">Начните сегодня</div>
+    <h2 class="section-title reveal reveal-delay-1">Готовы к переходу?</h2>
+    <p class="section-subtitle reveal reveal-delay-2">Мы поможем с миграцией данных из любой существующей системы: Carbon 4, Expert Billing, Mikbill, LanBilling и других.</p>
+    <div class="cta-buttons reveal reveal-delay-3">
       <a href="mailto:sales@smit34.ru" class="btn-primary">Запросить демо</a>
       <a href="https://docs.billing.smit34.ru" class="btn-secondary" target="_blank">Читать документацию</a>
     </div>
@@ -1602,6 +1698,23 @@
       mobileMenu.classList.remove('open');
       document.body.style.overflow = '';
     });
+  }
+
+  // --- Scroll reveal (IntersectionObserver) ---
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var revealObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function(el) { revealObs.observe(el); });
+  } else {
+    // Fallback: show all
+    revealEls.forEach(function(el) { el.classList.add('visible'); });
   }
 
   // --- Canvas background ---
