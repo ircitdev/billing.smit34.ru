@@ -6,10 +6,20 @@
   <title>СмИТ Биллинг 1.0 — Биллинговая система для операторов связи</title>
   <meta name="description" content="Современная биллинговая платформа для интернет-провайдеров. Python, Django, PostgreSQL, Docker. Управление абонентами, тарифами, платежами, RADIUS, СОРМ.">
   <meta property="og:title" content="СмИТ Биллинг 1.0 — Биллинговая система для операторов связи">
-  <meta property="og:description" content="Современная биллинговая платформа для интернет-провайдеров. Python, Django, PostgreSQL, Docker.">
-  <meta property="og:image" content="https://storage.googleapis.com/uspeshnyy-projects/smit/docs.billing/ogimage.png">
+  <meta property="og:description" content="Современная биллинговая платформа для интернет-провайдеров. Python, Django, PostgreSQL, Docker. Управление абонентами, тарифами, платежами, RADIUS, СОРМ.">
+  <meta property="og:image" content="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/ogimage.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://billing.smit34.ru/">
+  <meta property="og:site_name" content="СмИТ Биллинг 1.0">
   <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="СмИТ Биллинг 1.0 — Биллинговая система для операторов связи">
+  <meta name="twitter:description" content="Современная биллинговая платформа для интернет-провайдеров. Python, Django, PostgreSQL, Docker.">
+  <meta name="twitter:image" content="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/ogimage.jpg">
+  <meta name="theme-color" content="#10b981">
+  <link rel="canonical" href="https://billing.smit34.ru/">
   <style>
     /* ========================================
        СмИТ Биллинг Landing — smit34.ru style
@@ -905,6 +915,157 @@
       line-height: 1.5;
     }
 
+    /* ---- Demo section ---- */
+    .demo-section {
+      background: rgba(30, 41, 59, 0.3);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+    }
+
+    .demo-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+
+    .demo-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 40px 48px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      backdrop-filter: blur(16px) saturate(1.4);
+      -webkit-backdrop-filter: blur(16px) saturate(1.4);
+      cursor: pointer;
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+      text-decoration: none;
+      color: inherit;
+      min-width: 260px;
+    }
+
+    .demo-btn:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      border-color: rgba(16,185,129,0.3);
+    }
+
+    .demo-btn .demo-icon {
+      width: 72px; height: 72px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      background: rgba(16,185,129,0.12);
+    }
+
+    .demo-btn h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--slate-100);
+    }
+
+    .demo-btn p {
+      font-size: .85rem;
+      color: var(--slate-400);
+      margin: 0;
+    }
+
+    [data-theme="light"] .demo-section {
+      background: rgba(241,245,249,0.5);
+      border-color: var(--border-light);
+    }
+    [data-theme="light"] .demo-btn {
+      background: var(--bg-card);
+      border-color: var(--bg-card-border);
+    }
+    [data-theme="light"] .demo-btn:hover {
+      box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+      border-color: rgba(16,185,129,0.25);
+    }
+    [data-theme="light"] .demo-btn h3 { color: var(--text-primary); }
+    [data-theme="light"] .demo-btn p { color: var(--text-secondary); }
+
+    /* ---- Video modal ---- */
+    .video-modal {
+      display: flex;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 300;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .35s cubic-bezier(.22,1,.36,1), visibility .35s;
+    }
+
+    .video-modal.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .video-modal-inner {
+      position: relative;
+      width: 100%;
+      max-width: 960px;
+      aspect-ratio: 16/9;
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      transform: scale(0.9);
+      transition: transform .35s cubic-bezier(.22,1,.36,1);
+    }
+
+    .video-modal.open .video-modal-inner {
+      transform: scale(1);
+    }
+
+    .video-modal-inner iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    .video-modal-close {
+      position: absolute;
+      top: -48px; right: 0;
+      width: 44px; height: 44px;
+      border: none;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s;
+    }
+
+    .video-modal-close:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    @media (max-width: 768px) {
+      .demo-buttons { flex-direction: column; align-items: center; }
+      .demo-btn { min-width: unset; width: 100%; max-width: 340px; padding: 32px; }
+      .video-modal { padding: 20px; }
+      .video-modal-close { top: -44px; }
+    }
+
     /* ---- CTA ---- */
     .cta-section {
       text-align: center;
@@ -1240,6 +1401,7 @@
     .mobile-menu.open a:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: .26s; }
     .mobile-menu.open a:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: .32s; }
     .mobile-menu.open a:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: .38s; }
+    .mobile-menu.open a:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: .44s; }
 
     .mobile-menu .mobile-close {
       opacity: 0;
@@ -1297,6 +1459,7 @@
     <a href="#tech">Технологии</a>
     <a href="#pricing">Тарифы</a>
     <a href="#api">API</a>
+    <a href="#demo">Демо</a>
     <a href="https://docs.billing.smit34.ru" class="btn-header" target="_blank">Документация</a>
   </nav>
   <div class="header-actions" style="display:flex;align-items:center;gap:8px">
@@ -1315,6 +1478,7 @@
   <a href="#tech" class="mobile-link">Технологии</a>
   <a href="#pricing" class="mobile-link">Тарифы</a>
   <a href="#api" class="mobile-link">API</a>
+  <a href="#demo" class="mobile-link">Демо</a>
   <a href="https://docs.billing.smit34.ru" target="_blank" class="mobile-link">Документация</a>
   <a href="mailto:sales@smit34.ru" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
 </div>
@@ -1596,6 +1760,36 @@
   </div>
 </section>
 
+<!-- ==================== Demo / Presentation ==================== -->
+<section id="demo" class="demo-section">
+  <div class="container">
+    <div class="section-badge reveal">Демонстрация</div>
+    <h2 class="section-title reveal reveal-delay-1">Посмотрите в действии</h2>
+    <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto">Видеопрезентация системы и PDF-документ с описанием возможностей для руководства.</p>
+
+    <div class="demo-buttons">
+      <button class="demo-btn reveal reveal-delay-1" id="open-video" type="button">
+        <div class="demo-icon">&#9654;</div>
+        <h3>Видеопрезентация</h3>
+        <p>Обзор интерфейса и ключевых функций</p>
+      </button>
+      <a href="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/smitbillig.pdf" download class="demo-btn reveal reveal-delay-2">
+        <div class="demo-icon">&#128196;</div>
+        <h3>Скачать презентацию</h3>
+        <p>PDF, описание возможностей</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Video modal -->
+<div class="video-modal" id="video-modal">
+  <div class="video-modal-inner">
+    <button class="video-modal-close" id="video-modal-close">&#10005;</button>
+    <iframe id="video-iframe" src="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
 <!-- ==================== CTA ==================== -->
 <section class="cta-section">
   <div class="container">
@@ -1699,6 +1893,31 @@
       document.body.style.overflow = '';
     });
   }
+
+  // --- Video modal ---
+  var videoModal = document.getElementById('video-modal');
+  var videoIframe = document.getElementById('video-iframe');
+  var videoSrc = 'https://player.vimeo.com/video/1074227498?autoplay=1&title=0&byline=0&portrait=0';
+
+  document.getElementById('open-video').addEventListener('click', function() {
+    videoIframe.src = videoSrc;
+    videoModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+
+  function closeVideoModal() {
+    videoModal.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function() { videoIframe.src = ''; }, 350);
+  }
+
+  document.getElementById('video-modal-close').addEventListener('click', closeVideoModal);
+  videoModal.addEventListener('click', function(e) {
+    if (e.target === videoModal) closeVideoModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && videoModal.classList.contains('open')) closeVideoModal();
+  });
 
   // --- Scroll reveal (IntersectionObserver) ---
   var revealEls = document.querySelectorAll('.reveal');
