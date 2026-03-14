@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>СмИТ Биллинг 1.0 — Биллинговая система для операторов связи</title>
   <meta name="description" content="Современная биллинговая платформа для интернет-провайдеров. Python, Django, PostgreSQL, Docker. Управление абонентами, тарифами, платежами, RADIUS, СОРМ.">
   <meta property="og:title" content="СмИТ Биллинг 1.0 — Биллинговая система для операторов связи">
@@ -339,12 +339,48 @@
       line-height: 1.7;
     }
 
+    /* ---- Animated gradient background ---- */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      25% { background-position: 50% 100%; }
+      50% { background-position: 100% 50%; }
+      75% { background-position: 50% 0%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-gradient-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+      background: linear-gradient(-45deg,
+        rgba(16,185,129,0.08),
+        rgba(6,182,212,0.06),
+        rgba(99,102,241,0.08),
+        rgba(168,85,247,0.06),
+        rgba(16,185,129,0.08));
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+
+    [data-theme="light"] .hero-gradient-bg {
+      background: linear-gradient(-45deg,
+        rgba(16,185,129,0.06),
+        rgba(6,182,212,0.04),
+        rgba(99,102,241,0.06),
+        rgba(168,85,247,0.04),
+        rgba(16,185,129,0.06));
+      background-size: 400% 400%;
+    }
+
     /* ---- Hero ---- */
     .hero {
       min-height: 100vh;
       display: flex;
       align-items: center;
       padding-top: 64px;
+      position: relative;
+      overflow: hidden;
     }
 
     .hero .container {
@@ -1353,9 +1389,12 @@
     .reveal-delay-5 { transition-delay: .5s; }
     .reveal-delay-6 { transition-delay: .6s; }
 
-    /* Hero entrance animation */
-    .hero-content { animation: fadeInUp .9s cubic-bezier(.22,1,.36,1) both; }
-    .hero-visual { animation: fadeInUp .9s cubic-bezier(.22,1,.36,1) .2s both; }
+    /* Hero entrance animation — sequential */
+    .hero-badge { animation: fadeInUp .8s cubic-bezier(.22,1,.36,1) .1s both; }
+    .hero h1 { animation: fadeInUp .8s cubic-bezier(.22,1,.36,1) .25s both; }
+    .hero-desc { animation: fadeInUp .8s cubic-bezier(.22,1,.36,1) .4s both; }
+    .hero-buttons { animation: fadeInUp .8s cubic-bezier(.22,1,.36,1) .55s both; }
+    .hero-visual { animation: fadeInUp .9s cubic-bezier(.22,1,.36,1) .7s both; }
 
     /* ---- Frosted glass enhancement ---- */
     .feature-card,
@@ -1402,6 +1441,8 @@
     .mobile-menu.open a:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: .32s; }
     .mobile-menu.open a:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: .38s; }
     .mobile-menu.open a:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: .44s; }
+    .mobile-menu.open a:nth-child(9) { opacity: 1; transform: translateY(0); transition-delay: .50s; }
+    .mobile-menu.open a:nth-child(10) { opacity: 1; transform: translateY(0); transition-delay: .56s; }
 
     .mobile-menu .mobile-close {
       opacity: 0;
@@ -1438,14 +1479,48 @@
       .stat-item .stat-value { font-size: 2rem; }
       .tech-grid { grid-template-columns: 1fr 1fr; }
       .hero-buttons { flex-direction: column; }
+      .hero-buttons .btn-secondary { text-align: center; justify-content: center; }
       .hero-float { display: none; }
       .footer .container { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+    }
+
+    /* ---- Safari / iOS fixes ---- */
+    @supports (-webkit-touch-callout: none) {
+      /* Fix 100vh on iOS Safari (address bar) */
+      .hero { min-height: -webkit-fill-available; }
+      .mobile-menu { height: -webkit-fill-available; }
+
+      /* Safe area insets for notch devices */
+      .header { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+      .footer { padding-bottom: max(30px, env(safe-area-inset-bottom)); }
+
+      /* Smooth scrolling */
+      html { -webkit-overflow-scrolling: touch; }
+
+      /* Prevent text size adjust on orientation change */
+      body { -webkit-text-size-adjust: 100%; }
+
+      /* Fix backdrop-filter rendering */
+      .hero-visual-card,
+      .feature-card,
+      .tech-card,
+      .pricing-card,
+      .mobile-menu { -webkit-transform: translateZ(0); transform: translateZ(0); }
+    }
+
+    /* Fix tap highlight on iOS */
+    a, button { -webkit-tap-highlight-color: transparent; }
+
+    /* Prevent zoom on input focus on iOS */
+    @media (max-width: 768px) {
+      input, select, textarea { font-size: 16px !important; }
     }
   </style>
 </head>
 <body>
 
+<div class="hero-gradient-bg"></div>
 <canvas id="bg-canvas"></canvas>
 
 <!-- ==================== Header ==================== -->
@@ -1479,6 +1554,8 @@
   <a href="#pricing" class="mobile-link">Тарифы</a>
   <a href="#api" class="mobile-link">API</a>
   <a href="#demo" class="mobile-link">Демо</a>
+  <a href="#" class="mobile-link" id="mobile-open-video">&#9654; Видео</a>
+  <a href="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/smitbillig.pdf" class="mobile-link" download>&#8615; Презентация</a>
   <a href="https://docs.billing.smit34.ru" target="_blank" class="mobile-link">Документация</a>
   <a href="mailto:sales@smit34.ru" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
 </div>
@@ -1491,8 +1568,9 @@
       <h1>Современный <span class="gradient-text">биллинг</span> для операторов связи</h1>
       <p class="hero-desc">Управление абонентами, тарификация, платежи, RADIUS-авторизация, СОРМ и аналитика в единой системе. Развёртывание за 15 минут через Docker.</p>
       <div class="hero-buttons">
-        <a href="mailto:sales@smit34.ru" class="btn-primary">Запросить демо</a>
-        <a href="https://docs.billing.smit34.ru" class="btn-secondary" target="_blank">Документация</a>
+        <a href="mailto:sales@smit34.ru" class="btn-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Запросить демо</a>
+        <a href="#" class="btn-secondary" id="hero-open-video"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21"/></svg> Видео</a>
+        <a href="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/smitbillig.pdf" class="btn-secondary" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Презентация</a>
       </div>
     </div>
     <div class="hero-visual">
@@ -1899,10 +1977,24 @@
   var videoIframe = document.getElementById('video-iframe');
   var videoSrc = 'https://player.vimeo.com/video/1074227498?autoplay=1&title=0&byline=0&portrait=0';
 
-  document.getElementById('open-video').addEventListener('click', function() {
+  function openVideoModal() {
     videoIframe.src = videoSrc;
     videoModal.classList.add('open');
     document.body.style.overflow = 'hidden';
+  }
+
+  document.getElementById('open-video').addEventListener('click', openVideoModal);
+
+  document.getElementById('hero-open-video').addEventListener('click', function(e) {
+    e.preventDefault();
+    openVideoModal();
+  });
+
+  document.getElementById('mobile-open-video').addEventListener('click', function(e) {
+    e.preventDefault();
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+    openVideoModal();
   });
 
   function closeVideoModal() {
