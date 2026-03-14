@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>СмИТ Биллинг 1.0 — Биллинговая система для операторов связи</title>
+  <meta name="description" content="Современная биллинговая платформа для интернет-провайдеров. Python, Django, PostgreSQL, Docker. Управление абонентами, тарифами, платежами, RADIUS, СОРМ.">
+  <meta property="og:title" content="СмИТ Биллинг 1.0 — Биллинговая система для операторов связи">
+  <meta property="og:description" content="Современная биллинговая платформа для интернет-провайдеров. Python, Django, PostgreSQL, Docker.">
+  <meta property="og:image" content="https://storage.googleapis.com/uspeshnyy-projects/smit/docs.billing/ogimage.png">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <style>
+    /* ========================================
+       СмИТ Биллинг Landing — smit34.ru style
+       Emerald/Teal palette, glass cards, dark/light
+       ======================================== */
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --teal-400: #2dd4bf;
+      --teal-500: #14b8a6;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --slate-950: #020617;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--slate-50);
+      background: var(--slate-950);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ---- Canvas background ---- */
+    #bg-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 100;
+      background: rgba(2, 6, 23, 0.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background .3s;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-logo-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--emerald-500), var(--teal-400));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .header-logo-text {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    .header-logo-text span {
+      font-weight: 300;
+      opacity: .7;
+      margin-left: 4px;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .header-nav a {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--slate-300);
+      transition: color .2s;
+    }
+
+    .header-nav a:hover { color: var(--emerald-400); }
+
+    .btn-header {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      background: linear-gradient(135deg, var(--emerald-500), var(--teal-400));
+      color: #fff;
+      font-weight: 600;
+      font-size: .9rem;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-header:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.4);
+    }
+
+    /* ---- Sections general ---- */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 40px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--emerald-400);
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-radius: 100px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--emerald-400), var(--teal-400));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-subtitle {
+      font-size: 1.15rem;
+      color: var(--slate-400);
+      max-width: 600px;
+      line-height: 1.7;
+    }
+
+    /* ---- Hero ---- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 64px;
+    }
+
+    .hero .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--emerald-400);
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-radius: 100px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--emerald-400), var(--teal-400));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--slate-400);
+      margin-bottom: 36px;
+      max-width: 500px;
+      line-height: 1.7;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, var(--emerald-500), var(--teal-400));
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(16, 185, 129, 0.45);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      background: rgba(255,255,255, 0.06);
+      color: var(--slate-200);
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: transform .2s, background .2s;
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255, 0.1);
+    }
+
+    /* Hero visual */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-visual-card {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .hero-visual-card .mock-header {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .hero-visual-card .mock-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+
+    .mock-dot.red { background: #ef4444; }
+    .mock-dot.yellow { background: #f59e0b; }
+    .mock-dot.green { background: #22c55e; }
+
+    .hero-visual-card .mock-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .mock-row:last-child { border-bottom: none; }
+
+    .mock-avatar {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .mock-avatar.a1 { background: linear-gradient(135deg, #818cf8, #6366f1); }
+    .mock-avatar.a2 { background: linear-gradient(135deg, #34d399, #059669); }
+    .mock-avatar.a3 { background: linear-gradient(135deg, #fb923c, #ea580c); }
+    .mock-avatar.a4 { background: linear-gradient(135deg, #f472b6, #db2777); }
+
+    .mock-name {
+      flex: 1;
+      font-size: .85rem;
+      font-weight: 500;
+    }
+
+    .mock-name small {
+      display: block;
+      font-size: .7rem;
+      color: var(--slate-500);
+      font-weight: 400;
+    }
+
+    .mock-balance {
+      font-size: .85rem;
+      font-weight: 600;
+    }
+
+    .mock-balance.positive { color: var(--emerald-400); }
+    .mock-balance.negative { color: #f87171; }
+
+    .mock-status {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .mock-status.on { background: var(--emerald-400); box-shadow: 0 0 8px var(--emerald-400); }
+    .mock-status.off { background: #f87171; box-shadow: 0 0 8px #f87171; }
+
+    .hero-float {
+      position: absolute;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .hero-float.f1 {
+      top: -20px; right: -20px;
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(20,184,166,0.1));
+      border-radius: 16px;
+      border: 1px solid rgba(16,185,129,0.2);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      animation-delay: 0s;
+    }
+
+    .hero-float.f2 {
+      bottom: -10px; left: -30px;
+      width: 70px; height: 70px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.1));
+      border-radius: 14px;
+      border: 1px solid rgba(99,102,241,0.2);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      animation-delay: 1.5s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* ---- Stats bar ---- */
+    .stats-bar {
+      padding: 60px 40px;
+      background: rgba(30, 41, 59, 0.4);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .stats-bar .container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+
+    .stat-item .stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--emerald-400), var(--teal-400));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-item .stat-label {
+      font-size: .9rem;
+      color: var(--slate-400);
+      margin-top: 4px;
+    }
+
+    /* ---- Features ---- */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .feature-card {
+      background: rgba(255,255,255, 0.04);
+      border: 1px solid rgba(255,255,255, 0.06);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(12px);
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .feature-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .fi-green { background: rgba(16,185,129,0.12); }
+    .fi-blue { background: rgba(99,102,241,0.12); }
+    .fi-purple { background: rgba(168,85,247,0.12); }
+    .fi-amber { background: rgba(245,158,11,0.12); }
+    .fi-rose { background: rgba(244,63,94,0.12); }
+    .fi-cyan { background: rgba(6,182,212,0.12); }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--slate-100);
+    }
+
+    .feature-card p {
+      font-size: .9rem;
+      color: var(--slate-400);
+      line-height: 1.6;
+    }
+
+    /* ---- Tech stack ---- */
+    .tech-section {
+      background: rgba(30, 41, 59, 0.3);
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    .tech-card {
+      background: rgba(255,255,255, 0.03);
+      border: 1px solid rgba(255,255,255, 0.06);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+      transition: transform .3s, border-color .3s;
+    }
+
+    .tech-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+
+    .tech-card .tech-icon {
+      font-size: 2.2rem;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .tech-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--slate-100);
+    }
+
+    .tech-card p {
+      font-size: .8rem;
+      color: var(--slate-500);
+    }
+
+    /* ---- Pricing ---- */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .pricing-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .3s, border-color .3s;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(16,185,129,0.3);
+    }
+
+    .pricing-card.featured {
+      border-color: rgba(16,185,129,0.4);
+      background: rgba(16,185,129,0.06);
+    }
+
+    .pricing-card.featured::before {
+      content: 'Популярный';
+      position: absolute;
+      top: 16px; right: -30px;
+      background: linear-gradient(135deg, var(--emerald-500), var(--teal-400));
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 40px;
+      transform: rotate(45deg);
+    }
+
+    .pricing-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--slate-100);
+    }
+
+    .pricing-card .price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin: 20px 0;
+      background: linear-gradient(135deg, var(--emerald-400), var(--teal-400));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .pricing-card .price small {
+      font-size: .9rem;
+      font-weight: 400;
+      -webkit-text-fill-color: var(--slate-400);
+    }
+
+    .pricing-card .price-desc {
+      font-size: .85rem;
+      color: var(--slate-500);
+      margin-bottom: 24px;
+    }
+
+    .pricing-card ul {
+      list-style: none;
+      margin-bottom: 28px;
+    }
+
+    .pricing-card ul li {
+      padding: 8px 0;
+      font-size: .9rem;
+      color: var(--slate-300);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pricing-card ul li::before {
+      content: '\2713';
+      color: var(--emerald-400);
+      font-weight: 700;
+      font-size: .85rem;
+      flex-shrink: 0;
+    }
+
+    .btn-pricing {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      text-align: center;
+      font-weight: 600;
+      font-size: .95rem;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .btn-pricing.filled {
+      background: linear-gradient(135deg, var(--emerald-500), var(--teal-400));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(16,185,129,0.3);
+    }
+
+    .btn-pricing.filled:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(16,185,129,0.4);
+    }
+
+    .btn-pricing.outline {
+      background: transparent;
+      color: var(--slate-200);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .btn-pricing.outline:hover {
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-2px);
+    }
+
+    /* ---- API section ---- */
+    .api-section .api-demo {
+      margin-top: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .api-code {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .api-code-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 20px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: .8rem;
+      color: var(--slate-400);
+    }
+
+    .api-code-header .method {
+      padding: 2px 10px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: .7rem;
+      text-transform: uppercase;
+    }
+
+    .method.get { background: rgba(34,197,94,0.15); color: #4ade80; }
+    .method.post { background: rgba(59,130,246,0.15); color: #60a5fa; }
+    .method.delete { background: rgba(239,68,68,0.15); color: #f87171; }
+
+    .api-code pre {
+      padding: 20px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: .82rem;
+      line-height: 1.7;
+      color: var(--slate-300);
+      overflow-x: auto;
+      margin: 0;
+      background: none;
+    }
+
+    .api-code pre .key { color: #7dd3fc; }
+    .api-code pre .str { color: #86efac; }
+    .api-code pre .num { color: #fbbf24; }
+    .api-code pre .comment { color: var(--slate-600); }
+
+    .api-features {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .api-feature {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      transition: border-color .2s;
+    }
+
+    .api-feature:hover {
+      border-color: rgba(16,185,129,0.25);
+    }
+
+    .api-feature .af-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .api-feature h4 {
+      font-size: .95rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--slate-100);
+    }
+
+    .api-feature p {
+      font-size: .82rem;
+      color: var(--slate-500);
+      line-height: 1.5;
+    }
+
+    /* ---- CTA ---- */
+    .cta-section {
+      text-align: center;
+      background: linear-gradient(180deg, var(--slate-950) 0%, rgba(16,185,129,0.08) 50%, var(--slate-950) 100%);
+    }
+
+    .cta-section .section-title {
+      font-size: 2.5rem;
+    }
+
+    .cta-section .section-subtitle {
+      margin: 0 auto 36px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ---- Footer ---- */
+    .footer {
+      padding: 60px 40px 30px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      background: rgba(15, 23, 42, 0.5);
+    }
+
+    .footer .container {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .footer-brand-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--emerald-500), var(--teal-400));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .footer-brand-text {
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .footer-desc {
+      font-size: .85rem;
+      color: var(--slate-500);
+      line-height: 1.6;
+      max-width: 300px;
+    }
+
+    .footer h4 {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--slate-200);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .footer ul {
+      list-style: none;
+    }
+
+    .footer ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer ul li a {
+      font-size: .85rem;
+      color: var(--slate-500);
+      transition: color .2s;
+    }
+
+    .footer ul li a:hover {
+      color: var(--emerald-400);
+    }
+
+    .footer-bottom {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-bottom p {
+      font-size: .8rem;
+      color: var(--slate-600);
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 12px;
+    }
+
+    .footer-socials a {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .9rem;
+      color: var(--slate-400);
+      transition: all .2s;
+    }
+
+    .footer-socials a:hover {
+      background: rgba(16,185,129,0.15);
+      border-color: rgba(16,185,129,0.3);
+      color: var(--emerald-400);
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 1024px) {
+      .hero .container { grid-template-columns: 1fr; }
+      .hero-visual { margin-top: 40px; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
+      .tech-grid { grid-template-columns: repeat(2, 1fr); }
+      .api-section .api-demo { grid-template-columns: 1fr; }
+      .footer .container { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 60px 20px; }
+      .header { padding: 0 16px; }
+      .header-nav { display: none; }
+      .hero h1 { font-size: 2.2rem; }
+      .section-title { font-size: 2rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .stats-bar .container { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .stat-item .stat-value { font-size: 2rem; }
+      .tech-grid { grid-template-columns: 1fr 1fr; }
+      .hero-buttons { flex-direction: column; }
+      .hero-float { display: none; }
+      .footer .container { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- ==================== Header ==================== -->
+<header class="header">
+  <a href="#" class="header-logo">
+    <div class="header-logo-icon">C</div>
+    <div class="header-logo-text">СмИТ Биллинг<span>1.0</span></div>
+  </a>
+  <nav class="header-nav">
+    <a href="#features">Возможности</a>
+    <a href="#tech">Технологии</a>
+    <a href="#pricing">Тарифы</a>
+    <a href="#api">API</a>
+    <a href="https://docs.billing.smit34.ru" class="btn-header" target="_blank">Документация</a>
+  </nav>
+</header>
+
+<!-- ==================== Hero ==================== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">Новая эра биллинга</div>
+      <h1>Современный <span class="gradient-text">биллинг</span> для операторов связи</h1>
+      <p class="hero-desc">Управление абонентами, тарификация, платежи, RADIUS-авторизация, СОРМ и аналитика в единой системе. Развёртывание за 15 минут через Docker.</p>
+      <div class="hero-buttons">
+        <a href="mailto:sales@smit34.ru" class="btn-primary">Запросить демо</a>
+        <a href="https://docs.billing.smit34.ru" class="btn-secondary" target="_blank">Документация</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-float f1">&#128202;</div>
+      <div class="hero-float f2">&#9889;</div>
+      <div class="hero-visual-card">
+        <div class="mock-header">
+          <div class="mock-dot red"></div>
+          <div class="mock-dot yellow"></div>
+          <div class="mock-dot green"></div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-avatar a1"></div>
+          <div class="mock-name">Иванов И.И. <small>Договор #12345</small></div>
+          <div class="mock-balance positive">+2 450 &#8381;</div>
+          <div class="mock-status on"></div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-avatar a2"></div>
+          <div class="mock-name">Петрова А.С. <small>Договор #12346</small></div>
+          <div class="mock-balance positive">+890 &#8381;</div>
+          <div class="mock-status on"></div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-avatar a3"></div>
+          <div class="mock-name">ООО "Альфа" <small>Договор #50001</small></div>
+          <div class="mock-balance negative">-350 &#8381;</div>
+          <div class="mock-status off"></div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-avatar a4"></div>
+          <div class="mock-name">Сидоров К.В. <small>Договор #12348</small></div>
+          <div class="mock-balance positive">+1 200 &#8381;</div>
+          <div class="mock-status on"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Stats ==================== -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stat-item">
+      <div class="stat-value">5 500+</div>
+      <div class="stat-label">Абонентов на платформе</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">37</div>
+      <div class="stat-label">Моделей данных</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">24/7</div>
+      <div class="stat-label">Автоматизация</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value">15 мин</div>
+      <div class="stat-label">Развёртывание</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== Features ==================== -->
+<section id="features">
+  <div class="container">
+    <div class="section-badge">Возможности</div>
+    <h2 class="section-title">Всё для управления ISP</h2>
+    <p class="section-subtitle">Полный цикл: от подключения абонента до СОРМ-отчётности. Один интерфейс, один сервер, без лишнего.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon fi-green">&#128100;</div>
+        <h3>Управление абонентами</h3>
+        <p>Древовидная структура, папки, категории. Поиск, фильтры, быстрые чипы. Массовые операции, экспорт в CSV.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-blue">&#128176;</div>
+        <h3>Тарификация и платежи</h3>
+        <p>Гибкие тарифные планы, периодические и разовые услуги. Интеграция с платёжными системами, 1С, SOAP API.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-purple">&#128268;</div>
+        <h3>RADIUS-авторизация</h3>
+        <p>FreeRADIUS 3.2.3 из коробки. PPPoE, IPoE, VoIP, IPTV. Три виртуальных сервера для разных типов трафика.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-amber">&#128200;</div>
+        <h3>Аналитика и отчёты</h3>
+        <p>Dashboard с ключевыми метриками. Должники, баланс по категориям, топ тарифов. Экспорт данных в Excel.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-rose">&#128274;</div>
+        <h3>СОРМ-интеграция</h3>
+        <p>Передача данных по ФЗ. Поддержка стандартных и пользовательских схем СОРМ3. Готовые коннекторы.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-cyan">&#128231;</div>
+        <h3>Уведомления</h3>
+        <p>SMS и email рассылки. Автоматические напоминания о задолженности. Шаблоны сообщений с поддержкой переменных.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Tech Stack ==================== -->
+<section id="tech" class="tech-section">
+  <div class="container">
+    <div class="section-badge">Технологии</div>
+    <h2 class="section-title">Надёжный стек</h2>
+    <p class="section-subtitle">Проверенные enterprise-решения. Открытые стандарты. Простое обслуживание.</p>
+
+    <div class="tech-grid">
+      <div class="tech-card">
+        <span class="tech-icon">&#128013;</span>
+        <h4>Python 3.11</h4>
+        <p>Современный, типизированный, быстрый</p>
+      </div>
+      <div class="tech-card">
+        <span class="tech-icon">&#127760;</span>
+        <h4>Django 4.2 LTS</h4>
+        <p>Long Term Support до 2026</p>
+      </div>
+      <div class="tech-card">
+        <span class="tech-icon">&#128451;</span>
+        <h4>PostgreSQL 16</h4>
+        <p>Надёжность, JSON, полнотекстовый поиск</p>
+      </div>
+      <div class="tech-card">
+        <span class="tech-icon">&#128736;</span>
+        <h4>Redis 7 + Celery 5</h4>
+        <p>Фоновые задачи, расписания, очереди</p>
+      </div>
+      <div class="tech-card">
+        <span class="tech-icon">&#128225;</span>
+        <h4>FreeRADIUS 3.2</h4>
+        <p>PPPoE, IPoE, VoIP, IPTV</p>
+      </div>
+      <div class="tech-card">
+        <span class="tech-icon">&#128230;</span>
+        <h4>Docker Compose</h4>
+        <p>Один файл — вся инфраструктура</p>
+      </div>
+      <div class="tech-card">
+        <span class="tech-icon">&#128737;</span>
+        <h4>Nginx + Gunicorn</h4>
+        <p>Production-ready из коробки</p>
+      </div>
+      <div class="tech-card">
+        <span class="tech-icon">&#127912;</span>
+        <h4>AdminLTE 3 + BS5</h4>
+        <p>Адаптивный UI, тёмная тема</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Pricing ==================== -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-badge">Тарифы</div>
+    <h2 class="section-title">Прозрачное ценообразование</h2>
+    <p class="section-subtitle">Без скрытых платежей. Лицензия включает все модули, обновления и базовую поддержку.</p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Старт</h3>
+        <div class="price-desc">До 1 000 абонентов</div>
+        <div class="price">По запросу</div>
+        <ul>
+          <li>Все модули биллинга</li>
+          <li>RADIUS-авторизация</li>
+          <li>Email-уведомления</li>
+          <li>Docker-развёртывание</li>
+          <li>Документация</li>
+        </ul>
+        <a href="mailto:sales@smit34.ru" class="btn-pricing outline">Узнать цену</a>
+      </div>
+      <div class="pricing-card featured">
+        <h3>Бизнес</h3>
+        <div class="price-desc">До 10 000 абонентов</div>
+        <div class="price">По запросу</div>
+        <ul>
+          <li>Все модули из "Старт"</li>
+          <li>СОРМ-интеграция</li>
+          <li>SOAP API для платежей</li>
+          <li>SMS-рассылки</li>
+          <li>Приоритетная поддержка</li>
+          <li>Помощь с миграцией</li>
+        </ul>
+        <a href="mailto:sales@smit34.ru" class="btn-pricing filled">Запросить демо</a>
+      </div>
+      <div class="pricing-card">
+        <h3>Корпоративный</h3>
+        <div class="price-desc">Без ограничений</div>
+        <div class="price">По запросу</div>
+        <ul>
+          <li>Все модули из "Бизнес"</li>
+          <li>Выделенный менеджер</li>
+          <li>SLA 99.9%</li>
+          <li>Кастомные доработки</li>
+          <li>Миграция под ключ</li>
+          <li>Обучение персонала</li>
+        </ul>
+        <a href="mailto:sales@smit34.ru" class="btn-pricing outline">Связаться</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== API ==================== -->
+<section id="api" class="api-section">
+  <div class="container">
+    <div class="section-badge">Интеграция</div>
+    <h2 class="section-title">Мощный API</h2>
+    <p class="section-subtitle">REST, SOAP, webhook. Интеграция с любой внешней системой за минуты.</p>
+
+    <div class="api-demo">
+      <div class="api-code">
+        <div class="api-code-header">
+          <span class="method get">GET</span>
+          /rest_api/v2/Abonents/5552/
+        </div>
+        <pre>{
+  <span class="key">"id"</span>: <span class="num">5552</span>,
+  <span class="key">"name"</span>: <span class="str">"Иванов Иван Иванович"</span>,
+  <span class="key">"contract_number"</span>: <span class="str">"12345"</span>,
+  <span class="key">"tarif"</span>: <span class="num">131</span>,
+  <span class="key">"enabled"</span>: <span class="num">true</span>,
+  <span class="key">"email"</span>: <span class="str">"ivanov@example.com"</span>,
+  <span class="key">"balance"</span>: <span class="str">"2450.00"</span>
+}</pre>
+      </div>
+
+      <div class="api-features">
+        <div class="api-feature">
+          <div class="af-icon fi-green">&#128196;</div>
+          <div>
+            <h4>REST API v2</h4>
+            <p>CRUD для всех 37 моделей. Фильтрация, сортировка, пагинация, выбор полей.</p>
+          </div>
+        </div>
+        <div class="api-feature">
+          <div class="af-icon fi-blue">&#128176;</div>
+          <div>
+            <h4>SOAP API (Spyne)</h4>
+            <p>Приём платежей от банков, 1С, платёжных терминалов. WSDL-описание.</p>
+          </div>
+        </div>
+        <div class="api-feature">
+          <div class="af-icon fi-purple">&#128274;</div>
+          <div>
+            <h4>Обещанный платёж</h4>
+            <p>GET/POST/DELETE. Настраиваемые суммы и сроки. Предоплата и постоплата.</p>
+          </div>
+        </div>
+        <div class="api-feature">
+          <div class="af-icon fi-amber">&#128268;</div>
+          <div>
+            <h4>Webhooks и AJAX</h4>
+            <p>IP-пулы, DNS-резолв, порты коммутаторов. Асинхронные JSON-ответы.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<section class="cta-section">
+  <div class="container">
+    <div class="section-badge">Начните сегодня</div>
+    <h2 class="section-title">Готовы к переходу?</h2>
+    <p class="section-subtitle">Мы поможем с миграцией данных из любой существующей системы: Carbon 4, Expert Billing, Mikbill, LanBilling и других.</p>
+    <div class="cta-buttons">
+      <a href="mailto:sales@smit34.ru" class="btn-primary">Запросить демо</a>
+      <a href="https://docs.billing.smit34.ru" class="btn-secondary" target="_blank">Читать документацию</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Footer ==================== -->
+<footer class="footer">
+  <div class="container">
+    <div>
+      <div class="footer-brand">
+        <div class="footer-brand-icon">C</div>
+        <div class="footer-brand-text">СмИТ Биллинг 1.0</div>
+      </div>
+      <p class="footer-desc">Биллинговая платформа для операторов связи и сервис-провайдеров. Python 3.11, Django 4.2, PostgreSQL 16.</p>
+    </div>
+    <div>
+      <h4>Продукт</h4>
+      <ul>
+        <li><a href="#features">Возможности</a></li>
+        <li><a href="#tech">Технологии</a></li>
+        <li><a href="#pricing">Тарифы</a></li>
+        <li><a href="#api">API</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Ресурсы</h4>
+      <ul>
+        <li><a href="https://docs.billing.smit34.ru" target="_blank">Документация</a></li>
+        <li><a href="https://docs.billing.smit34.ru/pages/api.html" target="_blank">API Reference</a></li>
+        <li><a href="https://docs.billing.smit34.ru/pages/installation.html" target="_blank">Установка</a></li>
+        <li><a href="https://docs.billing.smit34.ru/pages/troubleshooting.html" target="_blank">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Контакты</h4>
+      <ul>
+        <li><a href="mailto:sales@smit34.ru">sales@smit34.ru</a></li>
+        <li><a href="mailto:support@smit34.ru">support@smit34.ru</a></li>
+        <li><a href="tel:+79220376812">+7 922-037-68-12</a></li>
+        <li><a href="tel:+79222248165">+7 922-224-81-65</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>&copy; 2026 ООО "СмИТ". Все права защищены.</p>
+      <div class="footer-socials">
+        <a href="https://t.me/smit34" title="Telegram">&#9993;</a>
+        <a href="https://vk.com/smit34" title="ВКонтакте">V</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ==================== Background Canvas ==================== -->
+<script>
+(function() {
+  var canvas = document.getElementById('bg-canvas');
+  var ctx = canvas.getContext('2d');
+  var nodes = [];
+  var nodeCount = 50;
+  var maxDist = 160;
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function init() {
+    resize();
+    nodes = [];
+    for (var i = 0; i < nodeCount; i++) {
+      nodes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        r: Math.random() * 2 + 1
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      n.x += n.vx;
+      n.y += n.vy;
+      if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+      if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.25)';
+      ctx.fill();
+
+      for (var j = i + 1; j < nodes.length; j++) {
+        var m = nodes[j];
+        var dx = n.x - m.x;
+        var dy = n.y - m.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < maxDist) {
+          ctx.beginPath();
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(m.x, m.y);
+          ctx.strokeStyle = 'rgba(16, 185, 129, ' + (0.08 * (1 - dist / maxDist)) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  init();
+  draw();
+})();
+</script>
+
+</body>
+</html>
