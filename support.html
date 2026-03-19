@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Служба поддержки — СмИТ Биллинг</title>
+  <meta name="theme-color" content="#10b981">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --teal-500: #14b8a6;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --slate-950: #020617;
+    }
+
+    [data-theme="light"] {
+      --bg-body: #f8fafc;
+      --bg-card: rgba(255,255,255,0.7);
+      --bg-card-border: rgba(0,0,0,0.08);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --border-light: rgba(0,0,0,0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--slate-50);
+      background: var(--slate-950);
+      line-height: 1.7;
+      transition: background .3s, color .3s;
+    }
+    [data-theme="light"] body {
+      color: var(--text-primary);
+      background: var(--bg-body);
+    }
+
+    a { color: var(--emerald-400); text-decoration: none; transition: color .2s; }
+    a:hover { color: var(--emerald-500); }
+    [data-theme="light"] a { color: var(--emerald-600); }
+    [data-theme="light"] a:hover { color: var(--emerald-700); }
+
+    .header {
+      position: sticky; top: 0; z-index: 100;
+      height: 64px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px;
+      background: rgba(2,6,23,0.8);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    [data-theme="light"] .header {
+      background: rgba(248,250,252,0.85);
+      border-bottom-color: rgba(0,0,0,0.06);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-icon {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--emerald-500), var(--teal-500));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px; color: #fff;
+    }
+    .logo-text { font-weight: 600; font-size: 16px; color: var(--slate-50); }
+    [data-theme="light"] .logo-text { color: var(--text-primary); }
+
+    .theme-toggle {
+      width: 38px; height: 38px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05); color: var(--slate-300);
+      cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+    .theme-toggle:hover { background: rgba(255,255,255,0.1); }
+    [data-theme="light"] .theme-toggle { border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.04); color: var(--slate-600); }
+
+    .content-card {
+      max-width: 800px; margin: 48px auto; padding: 48px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    [data-theme="light"] .content-card {
+      background: var(--bg-card);
+      border-color: var(--bg-card-border);
+    }
+
+    .content-card h1 {
+      font-size: 28px; font-weight: 700; margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--emerald-400), var(--teal-500));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .content-card > p:first-of-type { margin-bottom: 24px; }
+
+    .content-card h2 {
+      font-size: 18px; font-weight: 600; margin-top: 32px; margin-bottom: 12px;
+      color: var(--emerald-400);
+    }
+    [data-theme="light"] .content-card h2 { color: var(--emerald-600); }
+
+    .content-card h3 {
+      font-size: 16px; font-weight: 600; margin-top: 24px; margin-bottom: 8px;
+      color: var(--slate-100);
+    }
+    [data-theme="light"] .content-card h3 { color: var(--text-primary); }
+
+    .content-card p { margin: 10px 0; color: var(--slate-300); }
+    [data-theme="light"] .content-card p { color: var(--text-secondary); }
+
+    .contact-card {
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.15);
+      border-radius: 14px; padding: 20px; margin: 16px 0;
+    }
+    [data-theme="light"] .contact-card {
+      background: rgba(16,185,129,0.06);
+      border-color: rgba(16,185,129,0.15);
+    }
+    .contact-card strong {
+      color: var(--emerald-400); display: block; margin-bottom: 8px; font-size: 16px;
+    }
+    [data-theme="light"] .contact-card strong { color: var(--emerald-600); }
+    .contact-card p { margin: 4px 0; }
+
+    .footer {
+      text-align: center; padding: 32px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--slate-500); font-size: 14px;
+    }
+    [data-theme="light"] .footer { border-top-color: var(--border-light); color: var(--text-muted); }
+    .footer-links { display: flex; gap: 24px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+    .footer-links a { color: var(--slate-400); }
+    .footer-links a:hover { color: var(--emerald-400); }
+    [data-theme="light"] .footer-links a { color: var(--text-muted); }
+    [data-theme="light"] .footer-links a:hover { color: var(--emerald-600); }
+
+    @media (max-width: 640px) {
+      .content-card { margin: 24px 16px; padding: 28px 20px; }
+      .header { padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <a href="/" class="logo">
+    <div class="logo-icon">C</div>
+    <div class="logo-text">СмИТ Биллинг</div>
+  </a>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Переключить тему" aria-label="Переключить тему">&#9788;</button>
+</header>
+
+<main class="content-card">
+  <h1>Служба поддержки</h1>
+  <p>Мы готовы помочь вам с любыми вопросами, связанными с приложением «СмИТ Биллинг» и услугами интернет-провайдера СмИТ.</p>
+
+  <h2>Как связаться с нами</h2>
+
+  <div class="contact-card">
+    <strong>Техническая поддержка</strong>
+    <p>Email: <a href="mailto:support@smit34.ru">support@smit34.ru</a></p>
+    <p>Телефон: <a href="tel:+78442000000">8 (8442) 00-00-00</a></p>
+    <p>Режим работы: ежедневно с 8:00 до 22:00 (МСК)</p>
+  </div>
+
+  <div class="contact-card">
+    <strong>Обращение через приложение</strong>
+    <p>Самый удобный способ — создайте обращение прямо в приложении:</p>
+    <p>Поддержка &rarr; + Новое обращение</p>
+    <p>Вы получите ответ от оператора в чате приложения и push-уведомление.</p>
+  </div>
+
+  <h2>Частые вопросы</h2>
+
+  <h3>Как войти в приложение?</h3>
+  <p>Используйте номер договора и пароль от личного кабинета. Также доступен вход через ВКонтакте и Telegram.</p>
+
+  <h3>Как оплатить интернет?</h3>
+  <p>На главном экране нажмите «Пополнить», выберите сумму и оплатите банковской картой через ЮKassa.</p>
+
+  <h3>Что такое обещанный платёж?</h3>
+  <p>Если на счёте закончились средства, вы можете активировать обещанный платёж и продолжить пользоваться интернетом. Услуга доступна на вкладке «Финансы».</p>
+
+  <h3>Как настроить вход по Face ID / Touch ID?</h3>
+  <p>Перейдите в Профиль &rarr; Безопасность &rarr; включите «Вход по биометрии».</p>
+
+  <h3>Как заблокировать услуги на время отпуска?</h3>
+  <p>Перейдите в Профиль &rarr; Безопасность &rarr; «Добровольная блокировка». Начисления будут приостановлены на указанный период.</p>
+
+  <h3>Не приходят push-уведомления</h3>
+  <p>Проверьте, что уведомления разрешены в настройках iOS: Настройки &rarr; Уведомления &rarr; СмИТ Биллинг &rarr; включите «Допуск уведомлений».</p>
+
+  <h3>Как удалить аккаунт?</h3>
+  <p>Для удаления аккаунта и всех связанных данных обратитесь в техническую поддержку по email <a href="mailto:support@smit34.ru">support@smit34.ru</a> с указанием номера договора.</p>
+
+  <h2>Обратная связь</h2>
+  <p>Если у вас есть предложения по улучшению приложения, напишите нам на <a href="mailto:support@smit34.ru">support@smit34.ru</a> с темой «Предложение по приложению». Мы читаем каждое письмо.</p>
+</main>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="/">Главная</a>
+    <a href="privacy.html">Конфиденциальность</a>
+    <a href="support.html">Поддержка</a>
+    <a href="copyright.html">Авторские права</a>
+  </div>
+  <p>&copy; 2026 ООО «СмИТ». Все права защищены.</p>
+</footer>
+
+<script>
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+}
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+})();
+</script>
+</body>
+</html>
