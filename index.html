@@ -1680,7 +1680,24 @@
 #modules,#understand,#pricing,#podcast{border-top:1px solid rgba(255,255,255,.05)}
 [data-theme="light"] #modules,[data-theme="light"] #understand,[data-theme="light"] #pricing,[data-theme="light"] #podcast{border-top:1px solid rgba(0,0,0,.06)}
 </style>
-<style>@media (max-width:1160px){.header-nav{display:none!important}.mobile-toggle{display:flex!important}}</style></head>
+<style>@media (max-width:1160px){.header-nav{display:none!important}.mobile-toggle{display:flex!important}}</style>
+<style>
+.pp{display:flex;align-items:center;gap:16px}
+.pp-btn{flex:none;width:56px;height:56px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,var(--emerald-500,#10b981),var(--teal-400,#2dd4bf));color:#04140d;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(16,185,129,.35);transition:transform .15s}
+.pp-btn:hover{transform:scale(1.06)}
+.pp-btn svg{width:22px;height:22px;margin-left:0}
+.pp-ico-play{margin-left:3px}
+.pp-main{flex:1;min-width:0}
+.pp-bar{height:8px;border-radius:6px;background:rgba(255,255,255,.12);cursor:pointer;overflow:hidden}
+.pp-fill{height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--emerald-500,#10b981),var(--teal-400,#2dd4bf))}
+.pp-time{display:flex;justify-content:space-between;font-size:.8rem;opacity:.65;margin-top:9px;font-variant-numeric:tabular-nums}
+.pp-dl{flex:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:.7;border:1px solid rgba(255,255,255,.14);text-decoration:none;color:inherit}
+.pp-dl:hover{opacity:1;border-color:rgba(16,185,129,.5)}
+.pp-dl svg{width:18px;height:18px}
+[data-theme="light"] .pp-bar{background:rgba(0,0,0,.1)}
+[data-theme="light"] .pp-dl{border-color:rgba(0,0,0,.14)}
+</style>
+</head>
 <body>
 
 <div class="hero-gradient-bg"></div>
@@ -2327,10 +2344,18 @@
     <h2 class="section-title reveal reveal-delay-1">Подкаст о платформе</h2>
     <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto 32px">Как СмИТ Биллинг превращает телеком в единый механизм &mdash; аудиообзор возможностей за несколько минут.</p>
     <div class="reveal reveal-delay-2" style="max-width:640px;margin:0 auto;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.22);border-radius:16px;padding:26px">
-      <audio class="lp-audio" controls preload="none">
-        <source src="/podcast_smit_billing.m4a" type="audio/mp4">
-        Ваш браузер не поддерживает аудио. <a href="/podcast_smit_billing.m4a" download>Скачать подкаст</a>.
-      </audio>
+      <div class="pp" id="pp">
+        <button class="pp-btn" id="pp-btn" type="button" aria-label="Воспроизвести">
+          <svg class="pp-ico-play" viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20 7 4"/></svg>
+          <svg class="pp-ico-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        </button>
+        <div class="pp-main">
+          <div class="pp-bar" id="pp-bar"><div class="pp-fill" id="pp-fill"></div></div>
+          <div class="pp-time"><span id="pp-cur">0:00</span><span id="pp-dur">--:--</span></div>
+        </div>
+        <a class="pp-dl" href="/podcast_smit_billing.m4a" download title="Скачать подкаст" aria-label="Скачать подкаст"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 4 5-4M5 20h14"/></svg></a>
+        <audio id="pp-audio" preload="none"><source src="/podcast_smit_billing.m4a" type="audio/mp4"></audio>
+      </div>
       <p style="margin:14px 0 0;font-size:.9rem;opacity:.7;text-align:center">СмИТ Биллинг превращает телеком в единый механизм &middot; аудиообзор</p>
     </div>
   </div>
@@ -2674,5 +2699,21 @@
 })();
 </script>
 
+<script>
+(function(){
+  var a=document.getElementById('pp-audio'); if(!a) return;
+  var btn=document.getElementById('pp-btn'),bar=document.getElementById('pp-bar'),fill=document.getElementById('pp-fill'),
+      cur=document.getElementById('pp-cur'),dur=document.getElementById('pp-dur'),
+      ip=document.querySelector('#pp .pp-ico-play'),ipa=document.querySelector('#pp .pp-ico-pause');
+  function fmt(t){if(!isFinite(t))return '--:--';t=Math.max(0,t|0);var m=(t/60)|0,s=t%60;return m+':'+(s<10?'0':'')+s;}
+  btn.addEventListener('click',function(){ if(a.paused){a.play();}else{a.pause();} });
+  a.addEventListener('play',function(){ip.style.display='none';ipa.style.display='';btn.setAttribute('aria-label','Пауза');});
+  a.addEventListener('pause',function(){ip.style.display='';ipa.style.display='none';btn.setAttribute('aria-label','Воспроизвести');});
+  a.addEventListener('loadedmetadata',function(){dur.textContent=fmt(a.duration);});
+  a.addEventListener('timeupdate',function(){var p=a.duration?a.currentTime/a.duration:0;fill.style.width=(p*100)+'%';cur.textContent=fmt(a.currentTime);});
+  a.addEventListener('ended',function(){ip.style.display='';ipa.style.display='none';fill.style.width='0';cur.textContent='0:00';});
+  bar.addEventListener('click',function(e){var r=bar.getBoundingClientRect();var p=(e.clientX-r.left)/r.width;if(a.duration&&isFinite(a.duration)){a.currentTime=p*a.duration;}});
+})();
+</script>
 </body>
 </html>
