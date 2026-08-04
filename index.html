@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>СмИТ Биллинг 1.5 — Биллинговая система для операторов связи</title>
+  <title>СмИТ Биллинг 3.5 — Биллинговая система для операторов связи</title>
   <meta name="description" content="Современная биллинговая платформа для интернет-провайдеров. Python, Django, PostgreSQL, Docker. Управление абонентами, тарифами, платежами, RADIUS, СОРМ. Мобильное приложение, ЛК, AI-агент (голос и телефон), своя Поддержка и CRM, видеонаблюдение и IPTV.">
-  <meta property="og:title" content="СмИТ Биллинг 1.5 — Биллинговая система для операторов связи">
+  <meta property="og:title" content="СмИТ Биллинг 3.5 — Биллинговая система для операторов связи">
   <meta property="og:description" content="Современная биллинговая платформа для интернет-провайдеров. Python, Django, PostgreSQL, Docker. Мобильное приложение iOS/Android, ЛК, AI-агент, своя Поддержка и CRM, видеонаблюдение и IPTV.">
   <meta property="og:image" content="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/ogimagekey.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://billing.smit34.ru/">
-  <meta property="og:site_name" content="СмИТ Биллинг 1.5">
+  <meta property="og:site_name" content="СмИТ Биллинг 3.5">
   <meta property="og:locale" content="ru_RU">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="СмИТ Биллинг 1.5 — Биллинговая система для операторов связи">
+  <meta name="twitter:title" content="СмИТ Биллинг 3.5 — Биллинговая система для операторов связи">
   <meta name="twitter:description" content="Современная биллинговая платформа для интернет-провайдеров. Python, Django, PostgreSQL, Docker. Мобильное приложение, ЛК, AI-чат.">
   <meta name="twitter:image" content="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/ogimagekey.jpg">
   <meta name="theme-color" content="#10b981">
@@ -1612,6 +1612,14 @@
       .gallery-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
+
+<style>
+.feature-icon svg{width:28px;height:28px}
+.tech-card .tech-icon svg{width:40px;height:40px;stroke-width:1.7;color:#10b981}
+.fi-green{color:#10b981}.fi-blue{color:#6366f1}.fi-purple{color:#a855f7}
+.fi-amber{color:#f59e0b}.fi-rose{color:#f43f5e}.fi-cyan{color:#06b6d4}
+.lp-audio{width:100%;margin-top:4px}
+</style>
 </head>
 <body>
 
@@ -1622,7 +1630,7 @@
 <header class="header">
   <a href="#" class="header-logo">
     <div class="header-logo-icon">C</div>
-    <div class="header-logo-text">СмИТ Биллинг<span>1.5</span></div>
+    <div class="header-logo-text">СмИТ Биллинг<span>3.5</span></div>
   </a>
   <nav class="header-nav">
     <a href="#features">Возможности</a>
@@ -1632,6 +1640,7 @@
     <a href="#pricing">Тарифы</a>
     <a href="#api">API</a>
     <a href="#demo">Демо</a>
+    <a href="#podcast">Подкаст</a>
     <a href="https://docs.billing.smit34.ru" class="btn-header" target="_blank">Документация</a>
   </nav>
   <div class="header-actions" style="display:flex;align-items:center;gap:8px">
@@ -1654,7 +1663,7 @@
   <a href="#api" class="mobile-link">API</a>
   <a href="#demo" class="mobile-link">Демо</a>
   <a href="#" class="mobile-link" id="mobile-open-video">&#9654; Видео</a>
-  <a href="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/smitbillig.pdf" class="mobile-link" download>&#8615; Презентация</a>
+  <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="mobile-link" download>&#8615; Презентация</a>
   <a href="https://docs.billing.smit34.ru" target="_blank" class="mobile-link">Документация</a>
   <a href="mailto:sales@smit34.ru" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
 </div>
@@ -1663,13 +1672,13 @@
 <section class="hero">
   <div class="container">
     <div class="hero-content">
-      <div class="hero-badge">СмИТ Биллинг 1.5 — Build 100</div>
+      <div class="hero-badge">СмИТ Биллинг 3.5 — Build 1847</div>
       <h1>Современный <span class="gradient-text">биллинг</span> для операторов связи</h1>
       <p class="hero-desc">Управление абонентами, тарификация, платежи, RADIUS-авторизация, СОРМ-3, мобильное приложение и AI-агент (голос и телефон) в единой системе. Плюс видеонаблюдение, IPTV, телефония, склад и CRM. Развёртывание за 15 минут через Docker.</p>
       <div class="hero-buttons">
         <a href="mailto:sales@smit34.ru" class="btn-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Запросить демо</a>
         <a href="#" class="btn-secondary" id="hero-open-video"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21"/></svg> Видео</a>
-        <a href="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/smitbillig.pdf" class="btn-secondary" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Презентация</a>
+        <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="btn-secondary" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Презентация</a>
       </div>
     </div>
     <div class="hero-visual">
@@ -1741,52 +1750,52 @@
 
     <div class="features-grid">
       <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon fi-green">&#128100;</div>
+        <div class="feature-icon fi-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></div>
         <h3>Управление абонентами</h3>
         <p>Древовидная структура, папки, категории. Поиск, фильтры, быстрые чипы. Массовые операции, экспорт в CSV. 13 вкладок карточки абонента.</p>
       </div>
       <div class="feature-card reveal reveal-delay-2">
-        <div class="feature-icon fi-blue">&#128176;</div>
+        <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v6M18 9v6"/></svg></div>
         <h3>Тарификация и платежи</h3>
         <p>Гибкие тарифные планы, периодические и разовые услуги. ЮKassa, обещанный платёж, автоблокировка при задолженности.</p>
       </div>
       <div class="feature-card reveal reveal-delay-3">
-        <div class="feature-icon fi-purple">&#128268;</div>
+        <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v6M15 3v6M6 9h12v2a6 6 0 0 1-12 0V9ZM12 17v4"/></svg></div>
         <h3>RADIUS-авторизация</h3>
         <p>FreeRADIUS 3.2.3 из коробки. PPPoE, IPoE, VoIP, IPTV. Единый Python-модуль с маршрутизацией по типу сервиса.</p>
       </div>
       <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon fi-amber">&#128200;</div>
+        <div class="feature-icon fi-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/></svg></div>
         <h3>Аналитика и отчёты</h3>
         <p>Dashboard с метриками, динамика, топ тарифов. PayLog с 419K+ записей. 29 SQL-отчётов, экспорт в XLSX/CSV/DBF.</p>
       </div>
       <div class="feature-card reveal reveal-delay-2">
-        <div class="feature-icon fi-rose">&#128274;</div>
+        <div class="feature-icon fi-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><rect x="9.5" y="11" width="5" height="4.5" rx="1"/></svg></div>
         <h3>СОРМ-3</h3>
         <p>13 отчётов в формате СОРМ-3: абоненты, платежи, IP-план, шлюзы. Правильные имена полей, разделитель `;`, экспорт по расписанию.</p>
       </div>
       <div class="feature-card reveal reveal-delay-3">
-        <div class="feature-icon fi-cyan">&#128231;</div>
+        <div class="feature-icon fi-cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6ZM10 20a2 2 0 0 0 4 0"/></svg></div>
         <h3>Уведомления</h3>
         <p>SMS (Android-шлюз или агрегатор), Email, Telegram, ВКонтакте, Push. Автонапоминания о задолженности, шаблоны с переменными.</p>
       </div>
       <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon fi-purple">&#129302;</div>
+        <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="2"/><path d="M12 8V5M9 3h6"/><circle cx="9" cy="13" r="1.1"/><circle cx="15" cy="13" r="1.1"/><path d="M2 12v3M22 12v3"/></svg></div>
         <h3>AI-агент</h3>
         <p>Нейросеть на 7 каналах: ЛК, приложение, email, виджет, голос и реальный телефон, подсказка оператору. Мульти-провайдер (Claude / GPT / Gemini / Grok / Yandex), подключён к биллингу.</p>
       </div>
       <div class="feature-card reveal reveal-delay-2">
-        <div class="feature-icon fi-blue">&#128250;</div>
+        <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 3l4 4 4-4"/></svg></div>
         <h3>Доп. услуги — новая выручка</h3>
         <p>Видеонаблюдение «под ключ», IPTV, домофония, IP-телефония (Asterisk), запись и расшифровка звонков. Всё на одной платформе.</p>
       </div>
       <div class="feature-card reveal reveal-delay-3">
-        <div class="feature-icon fi-green">&#128179;</div>
+        <div class="feature-icon fi-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div>
         <h3>Автоматизация и склад</h3>
         <p>Автообработка банковских выписок (зачисление, счёт, акт). Склад ТМЦ со штрихкодами и подотчётом монтажников. Конструктор лендингов, карта сети.</p>
       </div>
       <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon fi-amber">&#127970;</div>
+        <div class="feature-icon fi-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M10 21v-3h4v3"/></svg></div>
         <h3>Своя Поддержка и CRM</h3>
         <p>Тикеты из почты, Telegram, ВКонтакте, SMS и звонков; воронки продаж, Salesbot, наряды монтажникам. Мультиорганизация и white-label.</p>
       </div>
@@ -1810,47 +1819,47 @@
 
     <div class="gallery-grid">
       <div class="gallery-item reveal reveal-delay-1" data-cat="admin">
-        <img src="https://docs.billing.smit34.ru/img/new_dashboard.png" alt="Dashboard" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/dashboard.png" alt="Dashboard" loading="lazy">
         <div class="gallery-label">Dashboard — ключевые метрики</div>
       </div>
       <div class="gallery-item reveal reveal-delay-2" data-cat="admin">
-        <img src="https://docs.billing.smit34.ru/img/new_abonents_list.png" alt="Список абонентов" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/abonents.png" alt="Список абонентов" loading="lazy">
         <div class="gallery-label">Абоненты — дерево, поиск, фильтры</div>
       </div>
       <div class="gallery-item reveal reveal-delay-3" data-cat="admin">
-        <img src="https://docs.billing.smit34.ru/img/v100/abonent_card.png" alt="Карточка абонента" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/abonent_card.png" alt="Карточка абонента" loading="lazy">
         <div class="gallery-label">Карточка абонента — 13 вкладок</div>
       </div>
       <div class="gallery-item reveal reveal-delay-1" data-cat="admin">
-        <img src="https://docs.billing.smit34.ru/img/new_debtors.png" alt="Должники" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/debtors.png" alt="Должники" loading="lazy">
         <div class="gallery-label">Должники — автоблокировка</div>
       </div>
       <div class="gallery-item reveal reveal-delay-2" data-cat="admin">
-        <img src="https://docs.billing.smit34.ru/img/v100/tarifs_list.png" alt="Тарифы" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/tarifs.png" alt="Тарифы" loading="lazy">
         <div class="gallery-label">Тарифы и услуги</div>
       </div>
       <div class="gallery-item reveal reveal-delay-3" data-cat="admin">
-        <img src="https://docs.billing.smit34.ru/img/v100/abonent_ops.png" alt="Операции абонента" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/finops.png" alt="Операции абонента" loading="lazy">
         <div class="gallery-label">Операции — фильтры, CSV, редактирование</div>
       </div>
       <div class="gallery-item reveal reveal-delay-1" data-cat="reports">
-        <img src="https://docs.billing.smit34.ru/img/v100/reports_dashboard.png" alt="Дашборд отчётов" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/reports_dashboard.png" alt="Дашборд отчётов" loading="lazy">
         <div class="gallery-label">Дашборд — графики, периоды</div>
       </div>
       <div class="gallery-item reveal reveal-delay-2" data-cat="reports">
-        <img src="https://docs.billing.smit34.ru/img/v100/reports_paylog.png" alt="Финансовый журнал" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/paylog.png" alt="Финансовый журнал" loading="lazy">
         <div class="gallery-label">Финансовый журнал — 419K+ записей</div>
       </div>
       <div class="gallery-item reveal reveal-delay-3" data-cat="reports">
-        <img src="https://docs.billing.smit34.ru/img/v100/reports_custom.png" alt="Свои отчёты" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/custom_reports.png" alt="Свои отчёты" loading="lazy">
         <div class="gallery-label">SQL-отчёты — запуск, экспорт</div>
       </div>
       <div class="gallery-item reveal reveal-delay-1" data-cat="reports">
-        <img src="https://docs.billing.smit34.ru/img/v100/dev_reports.png" alt="Dev Reports" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/dev_reports.png" alt="Dev Reports" loading="lazy">
         <div class="gallery-label">Dev Reports — документация, логи</div>
       </div>
       <div class="gallery-item reveal reveal-delay-2" data-cat="settings">
-        <img src="https://docs.billing.smit34.ru/img/new_payment_settings.png" alt="Платёжные системы" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/payment.png" alt="Платёжные системы" loading="lazy">
         <div class="gallery-label">Настройки платёжных систем</div>
       </div>
       <div class="gallery-item reveal reveal-delay-3" data-cat="settings">
@@ -1862,15 +1871,15 @@
         <div class="gallery-label">AI-агент — 7 каналов</div>
       </div>
       <div class="gallery-item reveal reveal-delay-2" data-cat="settings">
-        <img src="https://docs.billing.smit34.ru/img/v100/iptv_mappings.png" alt="IPTV маппинг" loading="lazy">
-        <div class="gallery-label">IPTV — маппинг пакетов</div>
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/integrations.png" alt="IPTV маппинг" loading="lazy">
+        <div class="gallery-label">Интеграции — платежи, IPTV, AI</div>
       </div>
       <div class="gallery-item reveal reveal-delay-3" data-cat="settings">
-        <img src="https://docs.billing.smit34.ru/img/new_backup.png" alt="Бэкап" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/backup.png" alt="Бэкап" loading="lazy">
         <div class="gallery-label">Система резервного копирования</div>
       </div>
       <div class="gallery-item reveal reveal-delay-1" data-cat="admin">
-        <img src="https://docs.billing.smit34.ru/img/v100/homes_list.png" alt="Адреса" loading="lazy">
+        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/homes.png" alt="Адреса" loading="lazy">
         <div class="gallery-label">Адреса — поиск, район, подключение</div>
       </div>
     </div>
@@ -1892,32 +1901,32 @@
 
     <div class="features-grid">
       <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon fi-green">&#128241;</div>
+        <div class="feature-icon fi-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg></div>
         <h3>Мобильное приложение</h3>
         <p>iOS и Android. Баланс, оплата, тарифы, история операций, обещанный платёж, добровольная блокировка. Push-уведомления о балансе и задолженности.</p>
       </div>
       <div class="feature-card reveal reveal-delay-2">
-        <div class="feature-icon fi-blue">&#128187;</div>
+        <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="11" rx="1"/><path d="M2 20h20"/></svg></div>
         <h3>Личный кабинет</h3>
         <p>Веб-интерфейс для абонентов. Оплата через ЮKassa, смена тарифа, тикеты в поддержку, добровольная блокировка, обещанный платёж.</p>
       </div>
       <div class="feature-card reveal reveal-delay-3">
-        <div class="feature-icon fi-purple">&#129302;</div>
+        <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="2"/><path d="M12 8V5M9 3h6"/><circle cx="9" cy="13" r="1.1"/><circle cx="15" cy="13" r="1.1"/><path d="M2 12v3M22 12v3"/></svg></div>
         <h3>AI-ассистент</h3>
         <p>Встроенный AI-агент (мульти-провайдер) в ЛК, приложении и голосом. Мгновенные ответы по базе знаний, доступ к балансу и тарифу, честная эскалация оператору.</p>
       </div>
       <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon fi-amber">&#128176;</div>
+        <div class="feature-icon fi-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v6M18 9v6"/></svg></div>
         <h3>Онлайн-оплата</h3>
         <p>ЮKassa (HTTP + REST API v3), СБП. Обещанный платёж в один клик, динамический лимит = стоимость тарифа. Webhook-обработка в реальном времени.</p>
       </div>
       <div class="feature-card reveal reveal-delay-2">
-        <div class="feature-icon fi-rose">&#128172;</div>
+        <div class="feature-icon fi-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v10H8l-4 4V5Z"/></svg></div>
         <h3>Поддержка и CRM</h3>
         <p>Собственный модуль поддержки: тикеты из ЛК и приложения, чат с оператором, статусы. Плюс полноценная CRM с воронками и Salesbot внутри биллинга.</p>
       </div>
       <div class="feature-card reveal reveal-delay-3">
-        <div class="feature-icon fi-cyan">&#128276;</div>
+        <div class="feature-icon fi-cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6ZM10 20a2 2 0 0 0 4 0"/></svg></div>
         <h3>Уведомления</h3>
         <p>Push (FCM/APNS), SMS (Android-шлюз или SMSAero), Email, Telegram, ВКонтакте. Низкий баланс, истекающий обещанный платёж, ответы поддержки. Всё настраивается из админки.</p>
       </div>
@@ -1945,45 +1954,60 @@
 
     <div class="tech-grid">
       <div class="tech-card reveal reveal-delay-1">
-        <span class="tech-icon">&#128013;</span>
+        <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13 5l-2 14"/></svg></span>
         <h4>Python 3.11</h4>
         <p>Современный, типизированный, быстрый</p>
       </div>
       <div class="tech-card reveal reveal-delay-2">
-        <span class="tech-icon">&#127760;</span>
+        <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span>
         <h4>Django 4.2 LTS</h4>
         <p>Long Term Support до 2026</p>
       </div>
       <div class="tech-card reveal reveal-delay-3">
-        <span class="tech-icon">&#128451;</span>
+        <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span>
         <h4>PostgreSQL 17</h4>
         <p>Надёжность, JSON, полнотекстовый поиск</p>
       </div>
       <div class="tech-card reveal reveal-delay-4">
-        <span class="tech-icon">&#128736;</span>
+        <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></span>
         <h4>Redis 7 + Celery 5</h4>
         <p>Фоновые задачи, расписания, очереди</p>
       </div>
       <div class="tech-card reveal reveal-delay-1">
-        <span class="tech-icon">&#128225;</span>
+        <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M7 7a7 7 0 0 0 0 10M17 7a7 7 0 0 1 0 10M4.5 4.5a11 11 0 0 0 0 15M19.5 4.5a11 11 0 0 1 0 15"/></svg></span>
         <h4>FreeRADIUS 3.2</h4>
         <p>PPPoE, IPoE, VoIP, IPTV</p>
       </div>
       <div class="tech-card reveal reveal-delay-2">
-        <span class="tech-icon">&#128230;</span>
+        <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3ZM4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span>
         <h4>Docker Compose</h4>
         <p>Один файл — вся инфраструктура</p>
       </div>
       <div class="tech-card reveal reveal-delay-3">
-        <span class="tech-icon">&#128737;</span>
+        <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4"/></svg></span>
         <h4>Nginx + Gunicorn</h4>
         <p>Production-ready из коробки</p>
       </div>
       <div class="tech-card reveal reveal-delay-4">
-        <span class="tech-icon">&#127912;</span>
+        <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1 0 1.5-.8 1.5-1.5 0-1.2-1-1.5-1-2.5a1.5 1.5 0 0 1 1.5-1.5H16a5 5 0 0 0 5-5c0-4-4-7.5-9-7.5Z"/><circle cx="7.5" cy="12" r="1"/><circle cx="10" cy="8" r="1"/><circle cx="15" cy="8" r="1"/></svg></span>
         <h4>AdminLTE 3 + BS5</h4>
         <p>Адаптивный UI, тёмная тема</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Understand / Knowledge graph ==================== -->
+<section id="understand" class="tech-section">
+  <div class="container">
+    <div class="section-badge reveal">Архитектура</div>
+    <h2 class="section-title reveal reveal-delay-1">Прозрачная архитектура &mdash; граф знаний</h2>
+    <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto 28px">Интерактивная карта всей системы: 11 логических слоёв, режимы &laquo;Обзор / Обучение / Погружение&raquo;, семантический поиск и 13-шаговый тур. Никакого &laquo;чёрного ящика&raquo; &mdash; быстрый ввод команды и лёгкое сопровождение.</p>
+    <div style="text-align:center" class="reveal reveal-delay-2">
+      <a href="https://docs.billing.smit34.ru/understand/" target="_blank" rel="noopener" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="8" r="2.5"/><circle cx="9" cy="18" r="2.5"/><path d="M8 7l8 1.4M8.6 8.2l1 8"/></svg>
+        Открыть граф знаний
+      </a>
     </div>
   </div>
 </section>
@@ -2119,11 +2143,27 @@
         <h3>Видеопрезентация</h3>
         <p>Обзор интерфейса и ключевых функций</p>
       </button>
-      <a href="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/smitbillig.pdf" download class="demo-btn reveal reveal-delay-2">
+      <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" download class="demo-btn reveal reveal-delay-2">
         <div class="demo-icon">&#128196;</div>
         <h3>Скачать презентацию</h3>
         <p>PDF, описание возможностей</p>
       </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Podcast ==================== -->
+<section id="podcast">
+  <div class="container">
+    <div class="section-badge reveal">Аудио</div>
+    <h2 class="section-title reveal reveal-delay-1">Подкаст о платформе</h2>
+    <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto 32px">Как СмИТ Биллинг превращает телеком в единый механизм &mdash; аудиообзор возможностей за несколько минут.</p>
+    <div class="reveal reveal-delay-2" style="max-width:640px;margin:0 auto;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.22);border-radius:16px;padding:26px">
+      <audio class="lp-audio" controls preload="none">
+        <source src="/podcast_smit_billing.m4a" type="audio/mp4">
+        Ваш браузер не поддерживает аудио. <a href="/podcast_smit_billing.m4a" download>Скачать подкаст</a>.
+      </audio>
+      <p style="margin:14px 0 0;font-size:.9rem;opacity:.7;text-align:center">СмИТ Биллинг превращает телеком в единый механизм &middot; аудиообзор</p>
     </div>
   </div>
 </section>
@@ -2155,7 +2195,7 @@
     <div>
       <div class="footer-brand">
         <div class="footer-brand-icon">C</div>
-        <div class="footer-brand-text">СмИТ Биллинг 1.5</div>
+        <div class="footer-brand-text">СмИТ Биллинг 3.5</div>
       </div>
       <p class="footer-desc">Биллинговая платформа для операторов связи и сервис-провайдеров. Python 3.11, Django 4.2, PostgreSQL 17. Мобильное приложение iOS/Android, своя Поддержка и CRM, AI-агент.</p>
     </div>
