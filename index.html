@@ -543,6 +543,34 @@
     .faq-item .faq-a { padding: 0 22px 20px; color: var(--slate-400); font-size: 15px; line-height: 1.7; }
     [data-theme="light"] .faq-item .faq-a { color: var(--text-secondary); }
 
+    /* ---- Hero product screenshot (browser-framed) ---- */
+    .hero-visual-card { overflow: hidden; }
+    .hero-shot {
+      display: block; width: calc(100% + 64px);
+      margin: 14px -32px -32px; height: auto;
+      max-height: 380px; object-fit: cover; object-position: top center;
+      border-top: 1px solid rgba(255, 255, 255, .06);
+    }
+    [data-theme="light"] .hero-shot { border-top-color: rgba(0, 0, 0, .06); }
+
+    /* ---- Sticky demo CTA ---- */
+    .sticky-cta {
+      position: fixed; right: 24px; bottom: 24px; z-index: 90;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 22px; border-radius: 14px; font-weight: 700; font-size: 15px; color: #fff;
+      background: linear-gradient(135deg, var(--emerald-500), var(--teal-500));
+      box-shadow: 0 12px 30px rgba(16, 185, 129, .42);
+      transform: translateY(120px); opacity: 0; pointer-events: none;
+      transition: transform .35s cubic-bezier(.22, 1, .36, 1), opacity .35s, filter .15s;
+    }
+    .sticky-cta.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    .sticky-cta:hover { filter: brightness(1.06); }
+    .sticky-cta svg { width: 18px; height: 18px; }
+    @media (max-width: 600px) {
+      .sticky-cta { left: 16px; right: 16px; bottom: 16px; justify-content: center; padding: 15px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .sticky-cta { transition: opacity .2s; } }
+
     /* ---- Hero ---- */
     .hero {
       min-height: 100vh;
@@ -1951,30 +1979,7 @@
           <div class="mock-dot yellow"></div>
           <div class="mock-dot green"></div>
         </div>
-        <div class="mock-row">
-          <div class="mock-avatar a1"></div>
-          <div class="mock-name">Иванов И.И. <small>Договор #12345</small></div>
-          <div class="mock-balance positive">+2 450 &#8381;</div>
-          <div class="mock-status on"></div>
-        </div>
-        <div class="mock-row">
-          <div class="mock-avatar a2"></div>
-          <div class="mock-name">Петрова А.С. <small>Договор #12346</small></div>
-          <div class="mock-balance positive">+890 &#8381;</div>
-          <div class="mock-status on"></div>
-        </div>
-        <div class="mock-row">
-          <div class="mock-avatar a3"></div>
-          <div class="mock-name">ООО "Альфа" <small>Договор #50001</small></div>
-          <div class="mock-balance negative">-350 &#8381;</div>
-          <div class="mock-status off"></div>
-        </div>
-        <div class="mock-row">
-          <div class="mock-avatar a4"></div>
-          <div class="mock-name">Сидоров К.В. <small>Договор #12348</small></div>
-          <div class="mock-balance positive">+1 200 &#8381;</div>
-          <div class="mock-status on"></div>
-        </div>
+        <img class="hero-shot" src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/dashboard.png" alt="Дашборд СмИТ Биллинг — сводка по абонентам, финансам и NAS" loading="lazy">
       </div>
     </div>
   </div>
@@ -3062,6 +3067,24 @@
   }
   svg+='<path class="gr-spiral" d="'+spiral.trim()+'"/></svg>';
   el.innerHTML=svg;
+})();
+</script>
+
+<!-- Sticky demo CTA -->
+<a href="mailto:uspeshnyy@billing.smit34.ru" class="sticky-cta" id="sticky-cta">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+  Запросить демо
+</a>
+<script>
+(function(){
+  var cta = document.getElementById('sticky-cta');
+  if (!cta) return;
+  function upd(){
+    if (window.scrollY > window.innerHeight * 0.7) cta.classList.add('show');
+    else cta.classList.remove('show');
+  }
+  window.addEventListener('scroll', upd, { passive: true });
+  upd();
 })();
 </script>
 </body>
