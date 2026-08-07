@@ -1504,6 +1504,34 @@
     }
     [data-theme="light"] .stat-label { color: var(--text-secondary); }
 
+    /* ---- Stat cards (count-up + icon + sparkline, variant B) ---- */
+    .stats-bar .container { gap: 22px; }
+    .stat-item {
+      position: relative; text-align: left;
+      padding: 22px 22px 18px; border-radius: 18px;
+      background: rgba(30, 41, 59, .45); border: 1px solid rgba(255, 255, 255, .07);
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+    .stat-item:hover { transform: translateY(-4px); border-color: rgba(52, 211, 153, .35); box-shadow: 0 14px 34px rgba(0, 0, 0, .25); }
+    [data-theme="light"] .stat-item { background: var(--bg-card); border-color: var(--bg-card-border); }
+    [data-theme="light"] .stat-item:hover { box-shadow: 0 14px 34px rgba(0, 0, 0, .08); }
+    .stat-icon {
+      width: 40px; height: 40px; border-radius: 11px; margin-bottom: 14px;
+      display: flex; align-items: center; justify-content: center; color: var(--emerald-400);
+      background: linear-gradient(135deg, rgba(16, 185, 129, .16), rgba(20, 184, 166, .10));
+      border: 1px solid rgba(52, 211, 153, .22);
+    }
+    .stat-icon svg { width: 21px; height: 21px; }
+    .stat-item .stat-value { font-size: 2.35rem; line-height: 1.05; }
+    .stat-item .stat-label { font-size: .92rem; margin-top: 6px; }
+    .stat-spark { display: flex; align-items: flex-end; gap: 3px; height: 26px; margin-top: 16px; opacity: .55; }
+    .stat-spark i { flex: 1; min-height: 2px; border-radius: 2px 2px 0 0; display: block;
+      background: linear-gradient(180deg, var(--emerald-400), rgba(20, 184, 166, .25)); }
+    @media (max-width: 600px) {
+      .stat-item { padding: 18px 16px 14px; }
+      .stat-item .stat-value { font-size: 2rem; }
+    }
+
     /* ---- Light theme: Cards ---- */
     [data-theme="light"] .section-subtitle { color: var(--text-secondary); }
     [data-theme="light"] .feature-card {
@@ -2007,20 +2035,28 @@
 <div class="stats-bar">
   <div class="container">
     <div class="stat-item reveal">
-      <div class="stat-value">5 500+</div>
+      <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+      <div class="stat-value" data-count="5500" data-suffix="+" data-group="1">0</div>
       <div class="stat-label">Абонентов на платформе</div>
+      <div class="stat-spark"><i style="height:30%"></i><i style="height:45%"></i><i style="height:40%"></i><i style="height:58%"></i><i style="height:52%"></i><i style="height:74%"></i><i style="height:90%"></i></div>
     </div>
     <div class="stat-item reveal reveal-delay-1">
-      <div class="stat-value">135</div>
+      <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
+      <div class="stat-value" data-count="135">0</div>
       <div class="stat-label">Моделей данных</div>
+      <div class="stat-spark"><i style="height:50%"></i><i style="height:42%"></i><i style="height:60%"></i><i style="height:54%"></i><i style="height:70%"></i><i style="height:64%"></i><i style="height:84%"></i></div>
     </div>
     <div class="stat-item reveal reveal-delay-2">
+      <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></div>
       <div class="stat-value">24/7</div>
       <div class="stat-label">Автоматизация</div>
+      <div class="stat-spark"><i style="height:70%"></i><i style="height:80%"></i><i style="height:72%"></i><i style="height:85%"></i><i style="height:78%"></i><i style="height:90%"></i><i style="height:82%"></i></div>
     </div>
     <div class="stat-item reveal reveal-delay-3">
-      <div class="stat-value">15 мин</div>
+      <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <div class="stat-value" data-count="15" data-suffix=" мин">0</div>
       <div class="stat-label">Развёртывание</div>
+      <div class="stat-spark"><i style="height:90%"></i><i style="height:72%"></i><i style="height:56%"></i><i style="height:46%"></i><i style="height:36%"></i><i style="height:28%"></i><i style="height:20%"></i></div>
     </div>
   </div>
 </div>
@@ -3188,6 +3224,48 @@
   });
   resize();
   requestAnimationFrame(frame);
+})();
+</script>
+<script>
+/* Stats count-up on scroll (variant B) */
+(function(){
+  var bar = document.querySelector('.stats-bar');
+  if (!bar) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function group(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+  function finalText(el){
+    var t = parseFloat(el.getAttribute('data-count'));
+    var g = el.getAttribute('data-group') === '1';
+    return (g ? group(t) : Math.round(t).toString()) + (el.getAttribute('data-suffix') || '');
+  }
+  function animate(el){
+    var target = parseFloat(el.getAttribute('data-count'));
+    var g = el.getAttribute('data-group') === '1';
+    var suffix = el.getAttribute('data-suffix') || '';
+    var dur = 1400, t0 = null;
+    function step(ts){
+      if (t0 === null) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur);
+      var e = 1 - Math.pow(1 - p, 3);
+      var v = target * e;
+      el.textContent = (g ? group(v) : Math.round(v).toString()) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  function run(){
+    var els = bar.querySelectorAll('.stat-value[data-count]');
+    for (var i = 0; i < els.length; i++) {
+      if (reduce) els[i].textContent = finalText(els[i]);
+      else animate(els[i]);
+    }
+  }
+  if ('IntersectionObserver' in window) {
+    var o = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) { run(); o.disconnect(); } });
+    }, { threshold: 0.4 });
+    o.observe(bar);
+  } else { run(); }
 })();
 </script>
 </body>
