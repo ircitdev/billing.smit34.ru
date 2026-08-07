@@ -2010,6 +2010,32 @@
       cursor: pointer;
     }
     .lightbox.active { display: flex; }
+
+    /* ---- Screenshots showcase (variant A: framed + thumbs) ---- */
+    .shot-showcase { margin-top: 36px; }
+    .shot-window { position: relative; max-width: 1000px; margin: 0 auto; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,.09); background: #0b1220; box-shadow: 0 30px 70px rgba(0,0,0,.4); }
+    [data-theme="light"] .shot-window { border-color: rgba(0,0,0,.1); box-shadow: 0 30px 70px rgba(0,0,0,.12); }
+    .shot-chrome { display: flex; align-items: center; gap: 8px; padding: 11px 14px; background: rgba(2,6,23,.6); border-bottom: 1px solid rgba(255,255,255,.06); }
+    .shot-chrome > span { width: 11px; height: 11px; border-radius: 50%; }
+    .shot-chrome > span:nth-child(1){ background:#ff5f57 } .shot-chrome > span:nth-child(2){ background:#febc2e } .shot-chrome > span:nth-child(3){ background:#28c840 }
+    .shot-url { flex: 1; margin-left: 10px; height: 24px; display: flex; align-items: center; gap: 7px; padding: 0 12px; border-radius: 7px; background: rgba(255,255,255,.06); color: var(--slate-400); font-size: 12.5px; }
+    .shot-stage { position: relative; aspect-ratio: 16 / 10; background: #0b1220; overflow: hidden; }
+    .shot-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; opacity: 0; transition: opacity .45s; cursor: zoom-in; }
+    .shot-img.active { opacity: 1; }
+    .shot-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer; background: rgba(2,6,23,.55); color: #fff; font-size: 24px; line-height: 1; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .2s, background .2s; z-index: 3; }
+    .shot-window:hover .shot-nav, .shot-window:hover .shot-expand { opacity: 1; }
+    .shot-nav:hover, .shot-expand:hover { background: var(--emerald-600); }
+    .shot-nav.prev { left: 12px; } .shot-nav.next { right: 12px; }
+    .shot-expand { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border-radius: 9px; border: none; cursor: pointer; background: rgba(2,6,23,.55); color: #fff; display: flex; align-items: center; justify-content: center; z-index: 3; opacity: 0; transition: opacity .2s, background .2s; }
+    .shot-caption { text-align: center; margin-top: 18px; color: var(--slate-300); font-size: 15px; font-weight: 600; }
+    [data-theme="light"] .shot-caption { color: var(--text-secondary); }
+    .shot-thumbs { display: flex; gap: 10px; overflow-x: auto; padding: 16px 4px 6px; margin-top: 6px; scroll-snap-type: x proximity; }
+    .shot-thumb { flex: 0 0 auto; width: 120px; height: 72px; border-radius: 9px; overflow: hidden; border: 2px solid transparent; background: #0b1220; cursor: pointer; padding: 0; opacity: .6; transition: opacity .2s, border-color .2s; scroll-snap-align: center; }
+    .shot-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+    .shot-thumb.active { border-color: var(--emerald-400); opacity: 1; }
+    .shot-thumb:hover { opacity: 1; }
+    @media (max-width: 640px) { .shot-thumb { width: 96px; height: 58px; } .shot-nav { display: none; } }
+    @media (prefers-reduced-motion: reduce) { .shot-img { transition: none; } }
     .lightbox img {
       max-width: 92vw;
       max-height: 90vh;
@@ -2495,71 +2521,19 @@
       <button data-filter="settings">Настройки</button>
     </div>
 
-    <div class="gallery-grid">
-      <div class="gallery-item reveal reveal-delay-1" data-cat="admin">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/dashboard.png" alt="Dashboard" loading="lazy">
-        <div class="gallery-label">Dashboard — ключевые метрики</div>
+    <div class="shot-showcase reveal reveal-delay-2">
+      <div class="shot-window">
+        <div class="shot-chrome"><span></span><span></span><span></span><div class="shot-url"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> app.smit34.ru/admin</div></div>
+        <div class="shot-stage">
+          <img class="shot-img" id="shotImgA" alt="">
+          <img class="shot-img" id="shotImgB" alt="">
+          <button class="shot-nav prev" id="shotPrev" aria-label="Предыдущий">&#8249;</button>
+          <button class="shot-nav next" id="shotNext" aria-label="Следующий">&#8250;</button>
+          <button class="shot-expand" id="shotExpand" aria-label="На весь экран"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
+        </div>
       </div>
-      <div class="gallery-item reveal reveal-delay-2" data-cat="admin">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/abonents.png" alt="Список абонентов" loading="lazy">
-        <div class="gallery-label">Абоненты — дерево, поиск, фильтры</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-3" data-cat="admin">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/abonent_card.png" alt="Карточка абонента" loading="lazy">
-        <div class="gallery-label">Карточка абонента — 13 вкладок</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-1" data-cat="admin">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/debtors.png" alt="Должники" loading="lazy">
-        <div class="gallery-label">Должники — автоблокировка</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-2" data-cat="admin">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/tarifs.png" alt="Тарифы" loading="lazy">
-        <div class="gallery-label">Тарифы и услуги</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-3" data-cat="admin">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/finops.png" alt="Операции абонента" loading="lazy">
-        <div class="gallery-label">Операции — фильтры, CSV, редактирование</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-1" data-cat="reports">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/reports_dashboard.png" alt="Дашборд отчётов" loading="lazy">
-        <div class="gallery-label">Дашборд — графики, периоды</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-2" data-cat="reports">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/paylog.png" alt="Финансовый журнал" loading="lazy">
-        <div class="gallery-label">Финансовый журнал — 419K+ записей</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-3" data-cat="reports">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/custom_reports.png" alt="Свои отчёты" loading="lazy">
-        <div class="gallery-label">SQL-отчёты — запуск, экспорт</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-1" data-cat="reports">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/dev_reports.png" alt="Dev Reports" loading="lazy">
-        <div class="gallery-label">Dev Reports — документация, логи</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-2" data-cat="settings">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/payment.png" alt="Платёжные системы" loading="lazy">
-        <div class="gallery-label">Настройки платёжных систем</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-3" data-cat="settings">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/crm_v1846/crm_kanban.png" alt="CRM" loading="lazy">
-        <div class="gallery-label">CRM — воронки сделок</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-1" data-cat="settings">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/ai_v1846/ai_hub.png" alt="AI-агент" loading="lazy">
-        <div class="gallery-label">AI-агент — 7 каналов</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-2" data-cat="settings">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/integrations.png" alt="IPTV маппинг" loading="lazy">
-        <div class="gallery-label">Интеграции — платежи, IPTV, AI</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-3" data-cat="settings">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/backup.png" alt="Бэкап" loading="lazy">
-        <div class="gallery-label">Система резервного копирования</div>
-      </div>
-      <div class="gallery-item reveal reveal-delay-1" data-cat="admin">
-        <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/homes.png" alt="Адреса" loading="lazy">
-        <div class="gallery-label">Адреса — поиск, район, подключение</div>
-      </div>
+      <div class="shot-caption" id="shotCaption"></div>
+      <div class="shot-thumbs" id="shotThumbs"></div>
     </div>
   </div>
 </section>
@@ -3161,35 +3135,67 @@
 <!-- Gallery filter + lightbox -->
 <script>
 (function(){
-  // Filter
+  var SHOTS = [{"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/dashboard.png", "label": "Dashboard — ключевые метрики", "cat": "admin"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/abonents.png", "label": "Абоненты — дерево, поиск, фильтры", "cat": "admin"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/abonent_card.png", "label": "Карточка абонента — 13 вкладок", "cat": "admin"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/debtors.png", "label": "Должники — автоблокировка", "cat": "admin"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/tarifs.png", "label": "Тарифы и услуги", "cat": "admin"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/finops.png", "label": "Операции — фильтры, CSV, редактирование", "cat": "admin"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/reports_dashboard.png", "label": "Дашборд — графики, периоды", "cat": "reports"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/paylog.png", "label": "Финансовый журнал — 419K+ записей", "cat": "reports"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/custom_reports.png", "label": "SQL-отчёты — запуск, экспорт", "cat": "reports"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/dev_reports.png", "label": "Dev Reports — документация, логи", "cat": "reports"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/payment.png", "label": "Настройки платёжных систем", "cat": "settings"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/crm_v1846/crm_kanban.png", "label": "CRM — воронки сделок", "cat": "settings"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/ai_v1846/ai_hub.png", "label": "AI-агент — 7 каналов", "cat": "settings"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/integrations.png", "label": "Интеграции — платежи, IPTV, AI", "cat": "settings"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/backup.png", "label": "Система резервного копирования", "cat": "settings"}, {"src": "https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/homes.png", "label": "Адреса — поиск, район, подключение", "cat": "admin"}];
+  var A = document.getElementById('shotImgA'), B = document.getElementById('shotImgB');
+  var thumbsEl = document.getElementById('shotThumbs'), cap = document.getElementById('shotCaption');
   var btns = document.querySelectorAll('.gallery-filter button');
-  var items = document.querySelectorAll('.gallery-item');
-  btns.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      btns.forEach(function(b){ b.classList.remove('active'); });
-      btn.classList.add('active');
-      var f = btn.getAttribute('data-filter');
-      items.forEach(function(item){
-        if(f === 'all' || item.getAttribute('data-cat') === f){
-          item.style.display = '';
-        } else {
-          item.style.display = 'none';
-        }
-      });
+  var lb = document.getElementById('lightbox'), lbImg = lb ? lb.querySelector('img') : null;
+  if (!A || !thumbsEl) return;
+  var list = SHOTS.slice(), cur = 0, front = A, back = B, timer = null, playing = false;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function renderThumbs(){
+    thumbsEl.innerHTML = '';
+    list.forEach(function(s, i){
+      var t = document.createElement('button');
+      t.className = 'shot-thumb' + (i === cur ? ' active' : '');
+      var im = document.createElement('img'); im.src = s.src; im.loading = 'lazy'; im.alt = '';
+      t.appendChild(im);
+      t.addEventListener('click', function(){ show(i); if (playing) schedule(); });
+      thumbsEl.appendChild(t);
     });
-  });
-  // Lightbox
-  var lb = document.getElementById('lightbox');
-  if(lb){
-    var lbImg = lb.querySelector('img');
-    items.forEach(function(item){
-      item.addEventListener('click', function(){
-        lbImg.src = item.querySelector('img').src;
-        lb.classList.add('active');
-      });
-    });
-    lb.addEventListener('click', function(){ lb.classList.remove('active'); });
   }
+  function setActiveThumb(){
+    var ts = thumbsEl.children;
+    for (var i = 0; i < ts.length; i++) ts[i].classList.toggle('active', i === cur);
+    if (ts[cur]) ts[cur].scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+  }
+  function show(i){
+    cur = (i + list.length) % list.length;
+    var s = list[cur];
+    back.onload = function(){ front.classList.remove('active'); back.classList.add('active'); var tmp = front; front = back; back = tmp; };
+    back.src = s.src;
+    if (back.complete) back.onload();
+    cap.textContent = s.label;
+    setActiveThumb();
+  }
+  function next(){ show(cur + 1); }
+  function schedule(){ clearTimeout(timer); if (reduce) return; timer = setTimeout(function(){ next(); schedule(); }, 5000); }
+  function play(){ if (playing) return; playing = true; schedule(); }
+  function stop(){ playing = false; clearTimeout(timer); }
+  function filter(f){
+    list = (f === 'all') ? SHOTS.slice() : SHOTS.filter(function(s){ return s.cat === f; });
+    if (!list.length) list = SHOTS.slice();
+    cur = 0; renderThumbs();
+    front.classList.remove('active'); back.classList.remove('active');
+    front.src = list[0].src; front.classList.add('active'); cap.textContent = list[0].label;
+    setActiveThumb();
+    if (playing) schedule();
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ btns.forEach(function(x){ x.classList.remove('active'); }); b.classList.add('active'); filter(b.getAttribute('data-filter')); }); });
+  var pv = document.getElementById('shotPrev'), nx = document.getElementById('shotNext'), ex = document.getElementById('shotExpand');
+  if (pv) pv.addEventListener('click', function(){ show(cur - 1); if (playing) schedule(); });
+  if (nx) nx.addEventListener('click', function(){ show(cur + 1); if (playing) schedule(); });
+  function openLB(){ if (lb && lbImg) { lbImg.src = list[cur].src; lb.classList.add('active'); } }
+  if (ex) ex.addEventListener('click', openLB);
+  document.querySelector('.shot-stage').addEventListener('click', function(e){ if (e.target.classList.contains('shot-img')) openLB(); });
+  if (lb) lb.addEventListener('click', function(){ lb.classList.remove('active'); });
+  renderThumbs();
+  front.src = list[0].src; front.classList.add('active'); cap.textContent = list[0].label;
+  var host = document.querySelector('.shot-showcase');
+  if ('IntersectionObserver' in window && host) {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting ? play() : stop(); }); }, { threshold: 0.25 });
+    io.observe(host);
+  } else { play(); }
 })();
 </script>
 
