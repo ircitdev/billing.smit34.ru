@@ -1241,6 +1241,11 @@
     .faq-empty { grid-column: 1 / -1; text-align: center; color: var(--slate-500); padding: 20px; display: none; }
     @media (max-width: 720px) { .faq { grid-template-columns: 1fr; } }
 
+    /* ---- Center headers: FAQ / Podcast / Understand ---- */
+    #faq .section-badge, #podcast .section-badge, #understand .section-badge { display: table; margin-left: auto; margin-right: auto; }
+    #faq .section-title, #podcast .section-title, #understand .section-title,
+    #faq .section-subtitle, #podcast .section-subtitle, #understand .section-subtitle { text-align: center; margin-left: auto; margin-right: auto; }
+
     .api-code pre {
       padding: 20px;
       font-family: 'Consolas', 'Monaco', monospace;
@@ -3031,6 +3036,38 @@
       <details class="faq-item reveal">
         <summary>Что с поддержкой клиентов и AI?</summary>
         <div class="faq-a">Своя Поддержка и CRM: тикеты и каналы — почта, VK, Telegram, SMS. AI-агент отвечает в 7 каналах плюс голос и телефон, работает на нескольких провайдерах (Claude / GPT / Gemini и др.) с эскалацией на оператора.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Сколько стоит и как формируется цена?</summary>
+        <div class="faq-a">Лицензия по составу модулей: 4 готовых тарифа (Старт / Pro / Бизнес / Enterprise) или индивидуальный набор. Ядро, обновления и базовая поддержка включены. При оплате за год — 2 месяца в подарок (−17%). Цены без НДС (УСН).</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Какие требования к серверу?</summary>
+        <div class="faq-a">Один сервер (VPS или выделенный) под Linux: от 4 ядер, 8 ГБ RAM, SSD — для типового оператора. Всё работает в Docker, без микросервисного зоопарка. Производительность масштабируется потоками gunicorn и разнесением Celery-очередей.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Как быстро развернуть систему?</summary>
+        <div class="faq-a">Около 15 минут: один <code>docker compose up</code> поднимает PostgreSQL 17, Redis, web (gunicorn), FreeRADIUS и Celery. Перенос данных с текущей системы — отдельным этапом, с проверкой на копии базы.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Какое оборудование и NAS поддерживаются?</summary>
+        <div class="faq-a">Любое с RADIUS — MikroTik, Cisco, Juniper и другие. FreeRADIUS 3.2: PPPoE / IPoE / VoIP / IPTV, учёт сессий, шейпер скорости из тарифа, CoA-разрыв и автоблокировка по балансу.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Можно работать под своим брендом (white-label)?</summary>
+        <div class="faq-a">Да. Меняются имя продукта, логотип, favicon, акцентные цвета админки и ЛК, страница входа и письма. Подходит реселлерам и крупным операторам, в том числе в связке с мультиорганизацией.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Как обновляется система?</summary>
+        <div class="faq-a">Обновления и патчи входят в лицензию. Модули и виджеты умеют автоматически обновляться с сервера лицензий (по желанию — вручную кнопкой). Django 4.2 LTS с поддержкой безопасности.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Можно вести несколько юрлиц в одной системе?</summary>
+        <div class="faq-a">Да, мультиорганизация: раздельные реквизиты, домены ЛК, платёжные кассы, почта, Telegram и брендинг на каждую компанию. Данные и персонал изолированы по организациям.</div>
+      </details>
+      <details class="faq-item reveal">
+        <summary>Что с резервным копированием?</summary>
+        <div class="faq-a">Встроенный модуль бэкапов: база (pg_dump), файлы, полный self-contained Docker-пакет со скриптом восстановления. Расписание, хранение N копий и выгрузка в облако (GCS) — из админки.</div>
       </details>
     </div>
   </div>
