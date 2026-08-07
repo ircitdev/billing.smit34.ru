@@ -1120,6 +1120,25 @@
     .method.post { background: rgba(59,130,246,0.15); color: #60a5fa; }
     .method.delete { background: rgba(239,68,68,0.15); color: #f87171; }
 
+    /* ---- API explorer (variant C: tabs + typing + copy) ---- */
+    .api-explorer { display: flex; flex-direction: column; }
+    .api-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .api-tab { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); color: var(--slate-300); font-size: 13.5px; font-weight: 600; cursor: pointer; transition: border-color .2s, background .2s, color .2s; }
+    .api-tab:hover { border-color: rgba(52,211,153,.3); }
+    .api-tab.active { background: rgba(30,41,59,.6); border-color: rgba(52,211,153,.4); color: #fff; }
+    [data-theme="light"] .api-tab { background: var(--bg-card); color: var(--slate-600); border-color: var(--bg-card-border); }
+    [data-theme="light"] .api-tab.active { border-color: rgba(16,185,129,.4); color: var(--text-primary); }
+    .api-tab .method { padding: 1px 7px; border-radius: 5px; font-weight: 800; font-size: .6rem; text-transform: uppercase; }
+    .api-code-header #apiPath { color: var(--slate-300); font-family: 'Consolas','Monaco',monospace; }
+    .api-copy { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); background: transparent; color: var(--slate-400); font-size: 12px; font-weight: 600; cursor: pointer; transition: color .2s, border-color .2s; }
+    .api-copy:hover { color: var(--emerald-400); border-color: rgba(52,211,153,.4); }
+    .api-copy.copied { color: var(--emerald-400); border-color: var(--emerald-400); }
+    .api-code pre { min-height: 208px; }
+    .api-code .bool { color: #c084fc; }
+    .api-cursor { display: inline-block; width: 7px; height: 1.05em; background: var(--emerald-400); vertical-align: text-bottom; animation: apiBlink 1s step-end infinite; margin-left: 1px; }
+    @keyframes apiBlink { 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .api-cursor { animation: none; } }
+
     .api-code pre {
       padding: 20px;
       font-family: 'Consolas', 'Monaco', monospace;
@@ -2733,21 +2752,22 @@
     <p class="section-subtitle reveal reveal-delay-2">REST, SOAP, webhook. Интеграция с любой внешней системой за минуты.</p>
 
     <div class="api-demo">
-      <div class="api-code reveal reveal-delay-1">
-        <div class="api-code-header">
-          <span class="method get">GET</span>
-          /rest_api/v2/Abonents/5552/
-        </div>
-        <pre>{
-  <span class="key">"id"</span>: <span class="num">5552</span>,
-  <span class="key">"name"</span>: <span class="str">"Иванов Иван Иванович"</span>,
-  <span class="key">"contract_number"</span>: <span class="str">"12345"</span>,
-  <span class="key">"tarif"</span>: <span class="num">131</span>,
-  <span class="key">"enabled"</span>: <span class="num">true</span>,
-  <span class="key">"email"</span>: <span class="str">"ivanov@example.com"</span>,
-  <span class="key">"balance"</span>: <span class="str">"2450.00"</span>
-}</pre>
+      <div class="api-explorer reveal reveal-delay-1">
+      <div class="api-tabs">
+        <button class="api-tab active" data-ep="0" type="button"><span class="method get">GET</span> Абонент</button>
+        <button class="api-tab" data-ep="1" type="button"><span class="method post">POST</span> Платёж</button>
+        <button class="api-tab" data-ep="2" type="button"><span class="method post">POST</span> Обещанный платёж</button>
+        <button class="api-tab" data-ep="3" type="button"><span class="method get">GET</span> Операции</button>
       </div>
+      <div class="api-code">
+        <div class="api-code-header">
+          <span class="method get" id="apiMethod">GET</span>
+          <code id="apiPath">/rest_api/v2/Abonents/5552/</code>
+          <button class="api-copy" id="apiCopy" type="button" aria-label="Копировать код"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> <span>Копировать</span></button>
+        </div>
+        <pre id="apiPre"></pre>
+      </div>
+    </div>
 
       <div class="api-features">
         <div class="api-feature reveal reveal-delay-1">
@@ -3524,6 +3544,54 @@
     }, { threshold: 0.3 });
     io.observe(root);
   } else { play(); }
+})();
+</script>
+<script>
+/* API explorer: endpoint tabs + typing + copy */
+(function(){
+  var EP = [{"m": "GET", "mc": "get", "path": "/rest_api/v2/Abonents/5552/", "label": "Абонент", "code": "{\n  \"id\": 5552,\n  \"name\": \"Иванов Иван Иванович\",\n  \"contract_number\": \"12345\",\n  \"tarif\": 131,\n  \"enabled\": true,\n  \"email\": \"ivanov@example.com\",\n  \"balance\": \"2450.00\"\n}"}, {"m": "POST", "mc": "post", "path": "/lk/payments/webhook/", "label": "Платёж", "code": "{\n  \"event\": \"payment.succeeded\",\n  \"contract\": \"12345\",\n  \"amount\": \"600.00\",\n  \"transaction_id\": \"2f8a1c9e\",\n  \"source\": \"yookassa\",\n  \"status\": \"credited\"\n}"}, {"m": "POST", "mc": "post", "path": "/rest_api/v2/promise_pay/5552/", "label": "Обещанный платёж", "code": "{\n  \"abonent\": 5552,\n  \"days\": 5,\n  \"daily\": \"30.00\",\n  \"limit\": \"600.00\",\n  \"activated\": true,\n  \"expires\": \"2026-08-12\"\n}"}, {"m": "GET", "mc": "get", "path": "/rest_api/v2/FinanceOperations/?abonent=5552", "label": "Операции", "code": "{\n  \"count\": 106,\n  \"results\": [\n    { \"op_type\": 3, \"summa\": \"-600.00\", \"date\": \"2026-08-03\" },\n    { \"op_type\": 1, \"summa\": \"+600.00\", \"date\": \"2026-08-01\" }\n  ]\n}"}];
+  var pre = document.getElementById('apiPre'), mEl = document.getElementById('apiMethod'), pEl = document.getElementById('apiPath');
+  var tabs = document.querySelectorAll('.api-tab'), copyBtn = document.getElementById('apiCopy');
+  if (!pre) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var curCode = '', timer = null;
+  function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function highlight(code){
+    var h = esc(code);
+    h = h.replace(/"([^"]*)"(\s*:)/g, '<span class="key">"$1"</span>$2');
+    h = h.replace(/(:\s*)"([^"]*)"/g, '$1<span class="str">"$2"</span>');
+    h = h.replace(/(:\s*)(-?\d+\.?\d*)/g, '$1<span class="num">$2</span>');
+    h = h.replace(/\b(true|false|null)\b/g, '<span class="bool">$1</span>');
+    return h;
+  }
+  function typeCode(code){
+    clearTimeout(timer); curCode = code;
+    if (reduce) { pre.innerHTML = highlight(code); return; }
+    var i = 0;
+    (function step(){
+      i++;
+      pre.innerHTML = esc(code.slice(0, i)) + '<span class="api-cursor"></span>';
+      if (i < code.length) timer = setTimeout(step, 8);
+      else pre.innerHTML = highlight(code);
+    })();
+  }
+  function select(i){
+    tabs.forEach(function(t,k){ t.classList.toggle('active', k === i); });
+    mEl.className = 'method ' + EP[i].mc; mEl.textContent = EP[i].m; pEl.textContent = EP[i].path;
+    typeCode(EP[i].code);
+  }
+  tabs.forEach(function(t,i){ t.addEventListener('click', function(){ select(i); }); });
+  if (copyBtn) copyBtn.addEventListener('click', function(){
+    if (navigator.clipboard) navigator.clipboard.writeText(curCode);
+    copyBtn.classList.add('copied'); copyBtn.querySelector('span').textContent = 'Скопировано';
+    setTimeout(function(){ copyBtn.classList.remove('copied'); copyBtn.querySelector('span').textContent = 'Копировать'; }, 1600);
+  });
+  var host = document.querySelector('.api-explorer'), started = false;
+  function start(){ if (started) return; started = true; select(0); }
+  if ('IntersectionObserver' in window && host) {
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { start(); io.disconnect(); } }); }, { threshold: 0.3 });
+    io.observe(host);
+  } else start();
 })();
 </script>
 </body>
