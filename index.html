@@ -1170,6 +1170,10 @@
     }
     @media (prefers-reduced-motion: reduce) { .wire::before { animation: none; top: 45%; } }
 
+    .arch-sub { text-align: center; font-size: 1.2rem; font-weight: 700; margin: 54px 0 0; color: var(--slate-100); }
+    [data-theme="light"] .arch-sub { color: var(--text-primary); }
+    .arch-sub + .arch-diagram { margin-top: 22px; }
+
     .api-code pre {
       padding: 20px;
       font-family: 'Consolas', 'Monaco', monospace;
@@ -2655,8 +2659,8 @@
 <section id="tech" class="tech-section">
   <div class="container">
     <div class="section-badge reveal">Технологии</div>
-    <h2 class="section-title reveal reveal-delay-1">Надёжный стек</h2>
-    <p class="section-subtitle reveal reveal-delay-2">Проверенные enterprise-решения. Открытые стандарты. Простое обслуживание.</p>
+    <h2 class="section-title reveal reveal-delay-1">Стек и архитектура</h2>
+    <p class="section-subtitle reveal reveal-delay-2">Проверенные enterprise-решения и открытые стандарты, собранные в контейнеризованный монолит — один сервер, один <code>docker compose up</code>.</p>
 
     <div class="tech-grid">
       <div class="tech-card reveal reveal-delay-1">
@@ -2700,17 +2704,9 @@
         <p>Адаптивный UI, тёмная тема</p>
       </div>
     </div>
-  </div>
-</section>
 
 
-<!-- ==================== Architecture ==================== -->
-<section id="architecture" class="tech-section">
-  <div class="container">
-    <div class="section-badge reveal">Под капотом</div>
-    <h2 class="section-title reveal reveal-delay-1">Архитектура</h2>
-    <p class="section-subtitle reveal reveal-delay-2">Контейнеризованный монолит на проверенном open-source стеке. Один сервер, один <code>docker compose up</code> — без микросервисного зоопарка.</p>
-
+    <h3 class="arch-sub reveal reveal-delay-1">Как это собрано</h3>
     <div class="arch-diagram reveal reveal-delay-2" aria-hidden="true">
       <div class="arch-cap">Клиенты и внешние системы</div>
       <div class="arch-layer">
@@ -2742,8 +2738,11 @@
         </div>
       </div>
     </div>
+
   </div>
 </section>
+
+
 
 <!-- ==================== Understand / Knowledge graph ==================== -->
 <section id="understand" class="tech-section">
