@@ -571,6 +571,23 @@
     }
     @media (prefers-reduced-motion: reduce) { .sticky-cta { transition: opacity .2s; } }
 
+    /* ---- Hero WebGL shader background (variant C) ---- */
+    .hero-shader {
+      position: absolute; inset: 0; z-index: 0;
+      width: 100%; height: 100%; display: block; pointer-events: none;
+      opacity: .42;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.4) 44%, #000 74%);
+      mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.4) 44%, #000 74%);
+    }
+    [data-theme="light"] .hero-shader { opacity: .30; }
+    @media (max-width: 900px) {
+      .hero-shader {
+        opacity: .30;
+        -webkit-mask-image: radial-gradient(130% 85% at 72% 26%, #000 38%, transparent 100%);
+        mask-image: radial-gradient(130% 85% at 72% 26%, #000 38%, transparent 100%);
+      }
+    }
+
     /* ---- Hero ---- */
     .hero {
       min-height: 100vh;
@@ -1958,6 +1975,7 @@
 
 <!-- ==================== Hero ==================== -->
 <section class="hero">
+  <canvas class="hero-shader" aria-hidden="true"></canvas>
   <div class="hero-golden" aria-hidden="true"></div>
   <div class="container">
     <div class="hero-content">
@@ -3085,6 +3103,91 @@
   }
   window.addEventListener('scroll', upd, { passive: true });
   upd();
+})();
+</script>
+<script>
+/* Hero WebGL flowing-gradient shader (variant C) — self-contained, no libs */
+(function(){
+  var canvas = document.querySelector('.hero-shader');
+  if (!canvas) return;
+  var gl = null;
+  try { gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl'); } catch(e){}
+  if (!gl) { canvas.style.display = 'none'; return; }
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var vs = 'attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }';
+  var fs = [
+    'precision highp float;',
+    'uniform vec2 u_res; uniform float u_time;',
+    'float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }',
+    'float noise(vec2 p){ vec2 i=floor(p), f=fract(p); vec2 u=f*f*(3.0-2.0*f);',
+    '  return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x), mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x), u.y); }',
+    'float fbm(vec2 p){ float v=0.0, a=0.5; for(int i=0;i<4;i++){ v+=a*noise(p); p*=2.0; a*=0.5; } return v; }',
+    'void main(){',
+    '  vec2 uv = gl_FragCoord.xy / u_res.xy;',
+    '  vec2 p = vec2(uv.x*(u_res.x/u_res.y), uv.y) * 2.4;',
+    '  float t = u_time * 0.05;',
+    '  vec2 q = vec2(fbm(p + t), fbm(p + vec2(5.2,1.3) - t));',
+    '  vec2 r = vec2(fbm(p + q*1.7 + vec2(1.7,9.2) + t*0.6), fbm(p + q*1.7 + vec2(8.3,2.8) - t*0.6));',
+    '  float f = fbm(p + r*1.4);',
+    '  vec3 c1 = vec3(0.063,0.725,0.506); vec3 c2 = vec3(0.078,0.722,0.651); vec3 c3 = vec3(0.133,0.827,0.933);',
+    '  vec3 col = mix(c1, c2, clamp(f*1.4, 0.0, 1.0));',
+    '  col = mix(col, c3, clamp(r.x*0.8, 0.0, 1.0));',
+    '  col *= 0.45 + 0.6*f;',
+    '  gl_FragColor = vec4(col, 1.0);',
+    '}'
+  ].join('\n');
+
+  function compile(type, src){ var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
+  var prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { canvas.style.display = 'none'; return; }
+  gl.useProgram(prog);
+
+  var buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  var loc = gl.getAttribLocation(prog, 'p');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  var uRes = gl.getUniformLocation(prog, 'u_res');
+  var uTime = gl.getUniformLocation(prog, 'u_time');
+
+  var scale = 0.5;
+  function resize(){
+    var w = Math.max(1, Math.floor(canvas.clientWidth * scale));
+    var h = Math.max(1, Math.floor(canvas.clientHeight * scale));
+    if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; gl.viewport(0,0,w,h); }
+  }
+  window.addEventListener('resize', resize, { passive: true });
+
+  var running = true, start = null;
+  function frame(ts){
+    if (!running) return;
+    if (start === null) start = ts;
+    resize();
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.uniform1f(uTime, (ts - start) / 1000);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  var hero = canvas.closest('.hero');
+  if ('IntersectionObserver' in window && hero) {
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { if (!running && !reduce) { running = true; requestAnimationFrame(frame); } }
+        else running = false;
+      });
+    }, { threshold: 0 }).observe(hero);
+  }
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) running = false;
+    else if (!reduce) { running = true; requestAnimationFrame(frame); }
+  });
+  resize();
+  requestAnimationFrame(frame);
 })();
 </script>
 </body>
