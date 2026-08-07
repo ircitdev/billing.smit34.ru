@@ -1566,6 +1566,26 @@
       .feature-card.bento-lg, .feature-card.bento-wide { grid-column: span 1; }
     }
 
+    /* ---- Cursor-follow spotlight on cards (21st.dev hover effects) ---- */
+    .feature-card, .tech-card { position: relative; }
+    .feature-card::after, .tech-card::after {
+      content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 1;
+      background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(52, 211, 153, .13), transparent 62%);
+      opacity: 0; transition: opacity .3s;
+    }
+    .feature-card:hover::after, .tech-card:hover::after { opacity: 1; }
+    .feature-card > *, .tech-card > * { position: relative; z-index: 2; }
+    .mod-card:hover { box-shadow: 0 16px 40px rgba(0, 0, 0, .28); }
+    [data-theme="light"] .mod-card:hover { box-shadow: 0 16px 40px rgba(0, 0, 0, .10); }
+    /* Featured pricing emphasis */
+    @media (min-width: 981px) {
+      .pricing-card.featured { transform: scale(1.04); z-index: 2; box-shadow: 0 24px 60px rgba(16, 185, 129, .20); }
+      .pricing-card.featured:hover { transform: scale(1.04) translateY(-6px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .feature-card::after, .tech-card::after { transition: none; }
+    }
+
     /* ---- Light theme: Cards ---- */
     [data-theme="light"] .section-subtitle { color: var(--text-secondary); }
     [data-theme="light"] .feature-card {
@@ -3309,6 +3329,19 @@
     }, { threshold: 0.4 });
     o.observe(bar);
   } else { run(); }
+})();
+</script>
+<script>
+/* Cursor-follow spotlight on feature/tech cards */
+(function(){
+  var sel = '.feature-card, .tech-card';
+  document.addEventListener('mousemove', function(e){
+    var card = e.target && e.target.closest ? e.target.closest(sel) : null;
+    if (!card) return;
+    var r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }, { passive: true });
 })();
 </script>
 </body>
