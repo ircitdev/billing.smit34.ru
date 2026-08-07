@@ -1649,6 +1649,30 @@
       .hiw-pane { transition: none; }
     }
 
+    /* ---- Hero ISP background (theme × viewport aware) ---- */
+    .hero-bg {
+      display: none; position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+      background-size: cover; background-position: bottom center; background-repeat: no-repeat;
+    }
+    .hero-bg::after { content: ''; position: absolute; inset: 0; }
+    /* Light desktop */
+    [data-theme="light"] .hero-bg { display: block; background-image: url('/assets/bg_light.jpg'); }
+    [data-theme="light"] .hero-shader { display: none !important; }
+    [data-theme="light"] .hero-golden svg { opacity: .07; }
+    [data-theme="light"] .hero-bg::after {
+      background:
+        linear-gradient(90deg, rgba(248, 250, 252, .92) 0%, rgba(248, 250, 252, .42) 42%, rgba(248, 250, 252, 0) 68%),
+        linear-gradient(180deg, rgba(248, 250, 252, .5) 0%, rgba(248, 250, 252, 0) 32%);
+    }
+    /* Mobile: static image both themes, no WebGL shader */
+    @media (max-width: 768px) {
+      .hero-bg { display: block; background-image: url('/assets/bg_mobile.jpg'); }
+      [data-theme="light"] .hero-bg { background-image: url('/assets/bg_light_mobile.jpg'); }
+      .hero-shader { display: none !important; }
+      .hero-bg::after { background: linear-gradient(180deg, rgba(2, 6, 23, .55) 0%, rgba(2, 6, 23, 0) 38%); }
+      [data-theme="light"] .hero-bg::after { background: linear-gradient(180deg, rgba(248, 250, 252, .55) 0%, rgba(248, 250, 252, 0) 38%); }
+    }
+
     /* ---- Light theme: Cards ---- */
     [data-theme="light"] .section-subtitle { color: var(--text-secondary); }
     [data-theme="light"] .feature-card {
@@ -2121,6 +2145,7 @@
 <!-- ==================== Hero ==================== -->
 <section class="hero">
   <canvas class="hero-shader" aria-hidden="true"></canvas>
+  <div class="hero-bg" aria-hidden="true"></div>
   <div class="hero-golden" aria-hidden="true"></div>
   <div class="container">
     <div class="hero-content">
