@@ -1532,6 +1532,40 @@
       .stat-item .stat-value { font-size: 2rem; }
     }
 
+    /* ---- Features bento grid (21st.dev variant A) ---- */
+    .features-grid {
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-flow: row dense;
+      gap: 20px;
+    }
+    .feature-card.bento-lg { grid-column: span 2; grid-row: span 2; display: flex; flex-direction: column; }
+    .feature-card.bento-wide { grid-column: span 2; }
+    .feature-card.bento-lg {
+      background: linear-gradient(160deg, rgba(16, 185, 129, .12), rgba(20, 184, 166, .04)), rgba(255, 255, 255, .04);
+      border-color: rgba(52, 211, 153, .24);
+    }
+    [data-theme="light"] .feature-card.bento-lg {
+      background: linear-gradient(160deg, rgba(16, 185, 129, .10), rgba(20, 184, 166, .03)), var(--bg-card);
+    }
+    .feature-card.bento-lg h3 { font-size: 1.4rem; }
+    .feature-card.bento-lg p { font-size: .98rem; }
+    .bento-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 20px; }
+    .bento-chip {
+      font-size: 12.5px; font-weight: 600; color: var(--emerald-400);
+      padding: 5px 11px; border-radius: 8px;
+      background: rgba(16, 185, 129, .12); border: 1px solid rgba(52, 211, 153, .22);
+    }
+    [data-theme="light"] .bento-chip { color: var(--emerald-600); }
+    @media (max-width: 1100px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr) !important; }
+      .feature-card.bento-lg { grid-column: span 2; grid-row: span 1; }
+      .feature-card.bento-wide { grid-column: span 2; }
+    }
+    @media (max-width: 620px) {
+      .features-grid { grid-template-columns: 1fr !important; }
+      .feature-card.bento-lg, .feature-card.bento-wide { grid-column: span 1; }
+    }
+
     /* ---- Light theme: Cards ---- */
     [data-theme="light"] .section-subtitle { color: var(--text-secondary); }
     [data-theme="light"] .feature-card {
@@ -2086,55 +2120,64 @@
     <p class="section-subtitle reveal reveal-delay-2">Полный цикл: от подключения абонента до СОРМ-отчётности и мобильного приложения. Один интерфейс, один сервер, без лишнего.</p>
 
     <div class="features-grid">
-      <div class="feature-card reveal reveal-delay-1">
+      <div class="feature-card reveal">
         <div class="feature-icon fi-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></div>
         <h3>Управление абонентами</h3>
         <p>Древовидная структура, папки, категории. Поиск, фильтры, быстрые чипы. Массовые операции, экспорт в CSV. 13 вкладок карточки абонента.</p>
       </div>
-      <div class="feature-card reveal reveal-delay-2">
+      <div class="feature-card reveal reveal-delay-1">
         <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v6M18 9v6"/></svg></div>
         <h3>Тарификация и платежи</h3>
         <p>Гибкие тарифные планы, периодические и разовые услуги. ЮKassa, обещанный платёж, автоблокировка при задолженности.</p>
       </div>
-      <div class="feature-card reveal reveal-delay-3">
+      <div class="feature-card reveal reveal-delay-2">
         <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v6M15 3v6M6 9h12v2a6 6 0 0 1-12 0V9ZM12 17v4"/></svg></div>
         <h3>RADIUS-авторизация</h3>
         <p>FreeRADIUS 3.2.3 из коробки. PPPoE, IPoE, VoIP, IPTV. Единый Python-модуль с маршрутизацией по типу сервиса.</p>
       </div>
-      <div class="feature-card reveal reveal-delay-1">
+      <div class="feature-card reveal reveal-delay-3">
         <div class="feature-icon fi-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/></svg></div>
         <h3>Аналитика и отчёты</h3>
         <p>Dashboard с метриками, динамика, топ тарифов. PayLog с 419K+ записей. 29 SQL-отчётов, экспорт в XLSX/CSV/DBF.</p>
       </div>
-      <div class="feature-card reveal reveal-delay-2">
+      <div class="feature-card bento-lg reveal">
+        <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="2"/><path d="M12 8V5M9 3h6"/><circle cx="9" cy="13" r="1.1"/><circle cx="15" cy="13" r="1.1"/><path d="M2 12v3M22 12v3"/></svg></div>
+        <h3>AI-агент</h3>
+        <p>Нейросеть на 7 каналах: ЛК, приложение, email, виджет, голос и реальный телефон, подсказка оператору. Мульти-провайдер (Claude / GPT / Gemini / Grok / Yandex), подключён к биллингу — знает баланс, тарифы и заявки абонента, эскалирует на оператора.</p>
+        <div class="bento-chips">
+          <span class="bento-chip">ЛК</span>
+          <span class="bento-chip">Приложение</span>
+          <span class="bento-chip">Email</span>
+          <span class="bento-chip">Виджет</span>
+          <span class="bento-chip">Голос</span>
+          <span class="bento-chip">Телефон</span>
+          <span class="bento-chip">Оператору</span>
+        </div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
         <div class="feature-icon fi-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><rect x="9.5" y="11" width="5" height="4.5" rx="1"/></svg></div>
         <h3>СОРМ-3</h3>
         <p>13 отчётов в формате СОРМ-3: абоненты, платежи, IP-план, шлюзы. Правильные имена полей, разделитель `;`, экспорт по расписанию.</p>
       </div>
-      <div class="feature-card reveal reveal-delay-3">
+      <div class="feature-card reveal reveal-delay-2">
         <div class="feature-icon fi-cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6ZM10 20a2 2 0 0 0 4 0"/></svg></div>
         <h3>Уведомления</h3>
         <p>SMS (Android-шлюз или агрегатор), Email, Telegram, ВКонтакте, Push. Автонапоминания о задолженности, шаблоны с переменными.</p>
       </div>
-      <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="2"/><path d="M12 8V5M9 3h6"/><circle cx="9" cy="13" r="1.1"/><circle cx="15" cy="13" r="1.1"/><path d="M2 12v3M22 12v3"/></svg></div>
-        <h3>AI-агент</h3>
-        <p>Нейросеть на 7 каналах: ЛК, приложение, email, виджет, голос и реальный телефон, подсказка оператору. Мульти-провайдер (Claude / GPT / Gemini / Grok / Yandex), подключён к биллингу.</p>
+      <div class="feature-card bento-wide reveal">
+        <div class="feature-icon fi-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M10 21v-3h4v3"/></svg></div>
+        <h3>Своя Поддержка и CRM</h3>
+        <p>Тикеты из почты, Telegram, ВКонтакте, SMS и звонков; воронки продаж, Salesbot, наряды монтажникам. Мультиорганизация и white-label.</p>
       </div>
-      <div class="feature-card reveal reveal-delay-2">
+      <div class="feature-card bento-wide reveal reveal-delay-1">
         <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 3l4 4 4-4"/></svg></div>
         <h3>Доп. услуги — новая выручка</h3>
         <p>Видеонаблюдение «под ключ», IPTV, домофония, IP-телефония (Asterisk), запись и расшифровка звонков. Всё на одной платформе.</p>
       </div>
-      <div class="feature-card reveal reveal-delay-3">
+      <div class="feature-card bento-wide reveal reveal-delay-2">
         <div class="feature-icon fi-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div>
         <h3>Автоматизация и склад</h3>
         <p>Автообработка банковских выписок (зачисление, счёт, акт). Склад ТМЦ со штрихкодами и подотчётом монтажников. Конструктор лендингов, карта сети.</p>
-      </div>
-      <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-icon fi-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M10 21v-3h4v3"/></svg></div>
-        <h3>Своя Поддержка и CRM</h3>
-        <p>Тикеты из почты, Telegram, ВКонтакте, SMS и звонков; воронки продаж, Salesbot, наряды монтажникам. Мультиорганизация и white-label.</p>
       </div>
     </div>
   </div>
