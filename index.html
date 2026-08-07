@@ -1174,6 +1174,20 @@
     [data-theme="light"] .arch-sub { color: var(--text-primary); }
     .arch-sub + .arch-diagram { margin-top: 22px; }
 
+    /* ---- Pricing redesign (4 plans + billing toggle) ---- */
+    .pricing-toggle { display: flex; width: max-content; gap: 4px; padding: 5px; border-radius: 14px; background: rgba(30,41,59,.5); border: 1px solid rgba(255,255,255,.08); margin: 34px auto 0; }
+    [data-theme="light"] .pricing-toggle { background: var(--bg-card); border-color: var(--bg-card-border); }
+    .pt-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 20px; border-radius: 10px; border: none; background: transparent; color: var(--slate-400); font-weight: 600; font-size: 14px; cursor: pointer; transition: background .2s, color .2s; }
+    .pt-btn.active { background: linear-gradient(135deg, var(--emerald-500), var(--teal-500)); color: #fff; }
+    .pt-save { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; background: rgba(16,185,129,.15); color: var(--emerald-400); }
+    .pt-btn.active .pt-save { background: rgba(255,255,255,.22); color: #fff; }
+    .pricing-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 20px; }
+    .price-note { font-size: .82rem; color: var(--slate-500); min-height: 1.1em; margin: -10px 0 14px; }
+    .pricing-note { text-align: center; margin-top: 26px; font-size: .9rem; color: var(--slate-500); }
+    .pricing-note a { color: var(--emerald-400); }
+    @media (max-width: 1080px) { .pricing-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+    @media (max-width: 560px) { .pricing-grid { grid-template-columns: 1fr !important; max-width: 420px; margin-left: auto; margin-right: auto; } }
+
     .api-code pre {
       padding: 20px;
       font-family: 'Consolas', 'Monaco', monospace;
@@ -2747,7 +2761,7 @@
 <!-- ==================== Understand / Knowledge graph ==================== -->
 <section id="understand" class="tech-section">
   <div class="container">
-    <div class="section-badge reveal">Архитектура</div>
+    <div class="section-badge reveal">Граф знаний</div>
     <h2 class="section-title reveal reveal-delay-1">Прозрачная архитектура &mdash; граф знаний</h2>
     <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto 28px">Интерактивная карта всей системы: 11 логических слоёв, режимы &laquo;Обзор / Обучение / Погружение&raquo;, семантический поиск и 13-шаговый тур. Никакого &laquo;чёрного ящика&raquo; &mdash; быстрый ввод команды и лёгкое сопровождение.</p>
     <div style="text-align:center" class="reveal reveal-delay-2">
@@ -2765,21 +2779,17 @@
     <div class="section-badge reveal">Тарифы</div>
     <h2 class="section-title reveal reveal-delay-1">Прозрачное ценообразование</h2>
     <p class="section-subtitle reveal reveal-delay-2">Лицензия по составу модулей. Цены без НДС (УСН), обновления и базовая поддержка включены. Возможен индивидуальный набор модулей.</p>
+    <div class="pricing-toggle reveal reveal-delay-2">
+      <button class="pt-btn active" data-period="m" type="button">Помесячно</button>
+      <button class="pt-btn" data-period="y" type="button">За год <span class="pt-save">2 мес в подарок</span></button>
+    </div>
+
     <div class="pricing-grid">
-      <div class="pricing-card reveal">
-        <h3>Видеонаблюдение</h3>
-        <div class="price-desc">Для продажи видеонаблюдения</div>
-        <div class="price">7 900 <small>&#8381;/мес</small></div>
-        <div class="price-year">или 79 000 &#8381;/год</div>
-        <div class="price-mods">4 модулей включено</div>
-        <ul><li>ЛК и мобильные приложения</li><li>Видеонаблюдение</li><li>Поддержка</li><li>Документ</li></ul>
-        <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Видеонаблюдение" class="btn-pricing outline">Запросить</a>
-      </div>
       <div class="pricing-card reveal">
         <h3>Старт</h3>
         <div class="price-desc">Базовый биллинг + СОРМ</div>
-        <div class="price">9 900 <small>&#8381;/мес</small></div>
-        <div class="price-year">или 99 000 &#8381;/год</div>
+        <div class="price" data-m="9 900" data-mu="&#8381;/мес" data-y="99 000" data-yu="&#8381;/год"><span class="price-num">9 900</span> <small>&#8381;/мес</small></div>
+        <div class="price-note" data-note-m="или 99 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок">или 99 000 &#8381;/год</div>
         <div class="price-mods">4 модулей включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Документ</li></ul>
         <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Старт" class="btn-pricing outline">Запросить</a>
@@ -2787,32 +2797,32 @@
       <div class="pricing-card reveal">
         <h3>Pro</h3>
         <div class="price-desc">Полный набор для роста</div>
-        <div class="price">24 900 <small>&#8381;/мес</small></div>
-        <div class="price-year">или 249 000 &#8381;/год</div>
+        <div class="price" data-m="24 900" data-mu="&#8381;/мес" data-y="249 000" data-yu="&#8381;/год"><span class="price-num">24 900</span> <small>&#8381;/мес</small></div>
+        <div class="price-note" data-note-m="или 249 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок">или 249 000 &#8381;/год</div>
         <div class="price-mods">14 модулей включено</div>
-        <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li class="mod-more">+8 ещё</li></ul>
+        <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li><span class="mod-more">+8 модулей</span></li></ul>
         <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Pro" class="btn-pricing outline">Запросить</a>
       </div>
       <div class="pricing-card featured reveal">
         <h3>Бизнес</h3>
         <div class="price-desc">Всё для среднего оператора</div>
-        <div class="price">37 900 <small>&#8381;/мес</small></div>
-        <div class="price-year">или 379 000 &#8381;/год</div>
+        <div class="price" data-m="37 900" data-mu="&#8381;/мес" data-y="379 000" data-yu="&#8381;/год"><span class="price-num">37 900</span> <small>&#8381;/мес</small></div>
+        <div class="price-note" data-note-m="или 379 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок">или 379 000 &#8381;/год</div>
         <div class="price-mods">17 модулей включено</div>
-        <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li class="mod-more">+11 ещё</li></ul>
+        <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li><span class="mod-more">+11 модулей</span></li></ul>
         <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Бизнес" class="btn-pricing filled">Запросить</a>
       </div>
       <div class="pricing-card reveal">
         <h3>Enterprise</h3>
         <div class="price-desc">Максимум + white-label</div>
-        <div class="price">49 900 <small>&#8381;/мес</small></div>
-        <div class="price-year">или 499 000 &#8381;/год</div>
+        <div class="price" data-m="49 900" data-mu="&#8381;/мес" data-y="499 000" data-yu="&#8381;/год"><span class="price-num">49 900</span> <small>&#8381;/мес</small></div>
+        <div class="price-note" data-note-m="или 499 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок">или 499 000 &#8381;/год</div>
         <div class="price-mods">20 модулей включено</div>
-        <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li class="mod-more">+14 ещё</li></ul>
+        <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li><span class="mod-more">+14 модулей</span></li></ul>
         <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Enterprise" class="btn-pricing outline">Запросить</a>
       </div>
     </div>
-    <p style="text-align:center;margin-top:22px;font-size:.9rem;opacity:.65">Нужен свой набор модулей? <a href="mailto:uspeshnyy@billing.smit34.ru" style="color:var(--emerald-400)">Соберём индивидуальный тариф</a>.</p>
+    <p class="pricing-note reveal">Нужен свой набор модулей? <a href="mailto:uspeshnyy@billing.smit34.ru">Соберём индивидуальный тариф</a>.</p>
   </div>
 </section>
 
@@ -3664,6 +3674,25 @@
     var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { start(); io.disconnect(); } }); }, { threshold: 0.3 });
     io.observe(host);
   } else start();
+})();
+</script>
+<script>
+/* Pricing billing toggle */
+(function(){
+  var toggle = document.querySelector('.pricing-toggle');
+  if (!toggle) return;
+  var btns = toggle.querySelectorAll('.pt-btn');
+  function apply(p){
+    document.querySelectorAll('#pricing .price').forEach(function(el){
+      var num = el.querySelector('.price-num'), unit = el.querySelector('small');
+      if (num) num.textContent = el.getAttribute('data-' + p);
+      if (unit) unit.innerHTML = el.getAttribute('data-' + p + 'u');
+    });
+    document.querySelectorAll('#pricing .price-note').forEach(function(el){
+      el.innerHTML = el.getAttribute('data-note-' + p) || '';
+    });
+  }
+  btns.forEach(function(b){ b.addEventListener('click', function(){ btns.forEach(function(x){ x.classList.remove('active'); }); b.classList.add('active'); apply(b.getAttribute('data-period')); }); });
 })();
 </script>
 </body>
