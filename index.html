@@ -1586,6 +1586,69 @@
       .feature-card::after, .tech-card::after { transition: none; }
     }
 
+    /* ---- How it works: auto-advance steps + synced visual (variant C) ---- */
+    .hiw { display: grid; grid-template-columns: 1fr 1.15fr; gap: 44px; margin-top: 44px; align-items: center; }
+    .hiw-steps { display: flex; flex-direction: column; gap: 12px; }
+    .hiw-step {
+      display: flex; gap: 16px; text-align: left; width: 100%;
+      padding: 18px 20px; border-radius: 16px; cursor: pointer;
+      background: transparent; border: 1px solid transparent; color: inherit;
+      transition: background .25s, border-color .25s;
+    }
+    .hiw-step:hover { background: rgba(255, 255, 255, .03); }
+    [data-theme="light"] .hiw-step:hover { background: rgba(0, 0, 0, .02); }
+    .hiw-step.active { background: rgba(30, 41, 59, .5); border-color: rgba(52, 211, 153, .3); }
+    [data-theme="light"] .hiw-step.active { background: var(--bg-card); border-color: rgba(16, 185, 129, .3); }
+    .hiw-step-num {
+      flex: 0 0 auto; width: 38px; height: 38px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 17px; color: #fff;
+      background: rgba(255, 255, 255, .12); transition: background .25s, box-shadow .25s;
+    }
+    [data-theme="light"] .hiw-step-num { color: var(--slate-500); background: rgba(0, 0, 0, .06); }
+    .hiw-step.active .hiw-step-num {
+      color: #fff; background: linear-gradient(135deg, var(--emerald-500), var(--teal-500));
+      box-shadow: 0 8px 20px rgba(16, 185, 129, .35);
+    }
+    .hiw-step-body { min-width: 0; flex: 1; }
+    .hiw-step h3 { font-size: 1.15rem; margin-bottom: 6px; color: var(--slate-100); }
+    [data-theme="light"] .hiw-step h3 { color: var(--text-primary); }
+    .hiw-step p { color: var(--slate-400); font-size: 14.5px; }
+    [data-theme="light"] .hiw-step p { color: var(--text-secondary); }
+    .hiw-progress { height: 3px; border-radius: 3px; background: rgba(255, 255, 255, .1); margin-top: 14px; overflow: hidden; opacity: 0; transition: opacity .3s; }
+    [data-theme="light"] .hiw-progress { background: rgba(0, 0, 0, .08); }
+    .hiw-step.active .hiw-progress { opacity: 1; }
+    .hiw-progress span { display: block; height: 100%; width: 0; border-radius: 3px; background: linear-gradient(90deg, var(--emerald-400), var(--teal-400)); }
+    .hiw-step.active .hiw-progress span { animation: hiwFill 5s linear forwards; }
+    @keyframes hiwFill { from { width: 0; } to { width: 100%; } }
+    .hiw-window {
+      position: relative; border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .09); background: rgba(15, 23, 42, .7);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .3);
+    }
+    [data-theme="light"] .hiw-window { border-color: rgba(0, 0, 0, .1); box-shadow: 0 24px 60px rgba(0, 0, 0, .10); }
+    .hiw-chrome { display: flex; gap: 8px; padding: 13px 16px; background: rgba(2, 6, 23, .5); border-bottom: 1px solid rgba(255, 255, 255, .06); }
+    .hiw-chrome i { width: 11px; height: 11px; border-radius: 50%; }
+    .hiw-chrome i:nth-child(1) { background: #ff5f57; }
+    .hiw-chrome i:nth-child(2) { background: #febc2e; }
+    .hiw-chrome i:nth-child(3) { background: #28c840; }
+    .hiw-body { position: relative; height: 380px; background: #0b1220; }
+    .hiw-pane { position: absolute; inset: 0; opacity: 0; transition: opacity .5s; }
+    .hiw-pane.active { opacity: 1; }
+    .hiw-pane img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+    .hiw-term { padding: 22px 24px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace; font-size: 13.5px; line-height: 2; color: #9be7c4; height: 100%; box-sizing: border-box; }
+    .hiw-term .c-cmd { color: #e2e8f0; }
+    .hiw-term .c-ok { color: var(--emerald-400); }
+    .hiw-term .c-mut { color: #64748b; }
+    @media (max-width: 900px) {
+      .hiw { grid-template-columns: 1fr; gap: 28px; }
+      .hiw-body { height: 300px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hiw-step.active .hiw-progress span { animation: none; width: 100%; }
+      .hiw-pane { transition: none; }
+    }
+
     /* ---- Light theme: Cards ---- */
     [data-theme="light"] .section-subtitle { color: var(--text-secondary); }
     [data-theme="light"] .feature-card {
@@ -2210,23 +2273,53 @@
     <div class="section-badge reveal">Как это работает</div>
     <h2 class="section-title reveal reveal-delay-1">Запуск за три шага</h2>
     <p class="section-subtitle reveal reveal-delay-2">От чистого сервера до работающего биллинга — без интеграторов и месяцев внедрения.</p>
-    <div class="steps">
-      <div class="step reveal reveal-delay-1">
-        <div class="step-num">1</div>
-        <h3>Развернул через Docker</h3>
-        <p>Один <code>docker compose up</code> — PostgreSQL, Redis, gunicorn, FreeRADIUS и Celery поднимаются за ~15 минут.</p>
-        <svg class="step-arrow" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    <div class="hiw">
+      <div class="hiw-steps">
+        <button class="hiw-step active reveal" data-step="0" type="button">
+          <div class="hiw-step-num">1</div>
+          <div class="hiw-step-body">
+            <h3>Развернул через Docker</h3>
+            <p>Один <code>docker compose up</code> — PostgreSQL, Redis, gunicorn, FreeRADIUS и Celery поднимаются за ~15 минут.</p>
+            <div class="hiw-progress"><span></span></div>
+          </div>
+        </button>
+        <button class="hiw-step reveal reveal-delay-1" data-step="1" type="button">
+          <div class="hiw-step-num">2</div>
+          <div class="hiw-step-body">
+            <h3>Подключил инфраструктуру</h3>
+            <p>Завёл NAS и тарифы, включил приём оплат (ЮKassa / Wallet One / банк), настроил СОРМ-выгрузку и каналы поддержки.</p>
+            <div class="hiw-progress"><span></span></div>
+          </div>
+        </button>
+        <button class="hiw-step reveal reveal-delay-2" data-step="2" type="button">
+          <div class="hiw-step-num">3</div>
+          <div class="hiw-step-body">
+            <h3>Всё работает</h3>
+            <p>Абоненты авторизуются и списываются, поддержка и CRM ведут заявки, AI-агент отвечает в чате, на почте и по телефону.</p>
+            <div class="hiw-progress"><span></span></div>
+          </div>
+        </button>
       </div>
-      <div class="step reveal reveal-delay-2">
-        <div class="step-num">2</div>
-        <h3>Подключил инфраструктуру</h3>
-        <p>Завёл NAS и тарифы, включил приём оплат (ЮKassa / Wallet One / банк), настроил СОРМ-выгрузку и каналы поддержки.</p>
-        <svg class="step-arrow" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </div>
-      <div class="step reveal reveal-delay-3">
-        <div class="step-num">3</div>
-        <h3>Всё работает</h3>
-        <p>Абоненты авторизуются и списываются, поддержка и CRM ведут заявки, AI-агент отвечает в чате, на почте и по телефону.</p>
+      <div class="hiw-visual reveal reveal-delay-1">
+        <div class="hiw-window">
+          <div class="hiw-chrome"><i></i><i></i><i></i></div>
+          <div class="hiw-body">
+            <div class="hiw-pane active" data-pane="0">
+              <div class="hiw-term">
+                <div><span class="c-mut">$</span> <span class="c-cmd">docker compose up -d</span></div>
+                <div class="c-mut">[+] Running 6/6</div>
+                <div><span class="c-ok">✔</span> smit-db &nbsp;<span class="c-mut">·</span>&nbsp; PostgreSQL 17 &nbsp;<span class="c-mut">·</span>&nbsp; <span class="c-ok">Started</span></div>
+                <div><span class="c-ok">✔</span> smit-redis &nbsp;<span class="c-mut">·</span>&nbsp; Redis 7 &nbsp;<span class="c-mut">·</span>&nbsp; <span class="c-ok">Started</span></div>
+                <div><span class="c-ok">✔</span> smit-web &nbsp;<span class="c-mut">·</span>&nbsp; gunicorn &nbsp;<span class="c-mut">·</span>&nbsp; <span class="c-ok">Started</span></div>
+                <div><span class="c-ok">✔</span> smit-freeradius &nbsp;<span class="c-mut">·</span>&nbsp; FreeRADIUS &nbsp;<span class="c-mut">·</span>&nbsp; <span class="c-ok">Started</span></div>
+                <div><span class="c-ok">✔</span> smit-celery + beat &nbsp;<span class="c-mut">·</span>&nbsp; <span class="c-ok">Started</span></div>
+                <div style="margin-top:12px">Готово за <span class="c-cmd">14м 32с</span>. Биллинг на <span class="c-cmd">:8877</span> &nbsp;<span class="c-ok">✓</span></div>
+              </div>
+            </div>
+            <div class="hiw-pane" data-pane="1"><img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/tarifs.png" alt="Настройка тарифов и инфраструктуры" loading="lazy"></div>
+            <div class="hiw-pane" data-pane="2"><img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/dashboard.png" alt="Рабочий дашборд биллинга" loading="lazy"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -3342,6 +3435,37 @@
     card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
     card.style.setProperty('--my', (e.clientY - r.top) + 'px');
   }, { passive: true });
+})();
+</script>
+<script>
+/* How-it-works: auto-advance steps synced with visual panes */
+(function(){
+  var root = document.querySelector('.hiw');
+  if (!root) return;
+  var steps = [].slice.call(root.querySelectorAll('.hiw-step'));
+  var panes = [].slice.call(root.querySelectorAll('.hiw-pane'));
+  if (!steps.length) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var DUR = 5000, cur = 0, timer = null, playing = false;
+  function activate(i){
+    cur = i;
+    steps.forEach(function(s, k){ s.classList.toggle('active', k === i); });
+    panes.forEach(function(p, k){ p.classList.toggle('active', k === i); });
+    var bar = steps[i].querySelector('.hiw-progress span');
+    if (bar) { bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = ''; }
+  }
+  function schedule(){ clearTimeout(timer); timer = setTimeout(function(){ activate((cur + 1) % steps.length); schedule(); }, DUR); }
+  function play(){ if (playing || reduce) return; playing = true; schedule(); }
+  function stop(){ playing = false; clearTimeout(timer); }
+  steps.forEach(function(s, i){
+    s.addEventListener('click', function(){ activate(i); if (playing) schedule(); });
+  });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) play(); else stop(); });
+    }, { threshold: 0.3 });
+    io.observe(root);
+  } else { play(); }
 })();
 </script>
 </body>
