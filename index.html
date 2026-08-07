@@ -2842,7 +2842,7 @@
         <h3>Старт</h3>
         <div class="price-desc">Базовый биллинг + СОРМ</div>
         <div class="price" data-m="9 900" data-mu="&#8381;/мес" data-y="99 000" data-yu="&#8381;/год"><span class="price-num">9 900</span> <small>&#8381;/мес</small></div>
-        <div class="price-note" data-note-m="или 99 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок">или 99 000 &#8381;/год</div>
+        <div class="price-note" data-note-m="или 99 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок &middot; &minus;17%">или 99 000 &#8381;/год</div>
         <div class="price-mods">4 модуля включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Документ</li></ul>
         <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Старт" class="btn-pricing outline">Запросить</a>
@@ -2851,7 +2851,7 @@
         <h3>Pro</h3>
         <div class="price-desc">Полный набор для роста</div>
         <div class="price" data-m="24 900" data-mu="&#8381;/мес" data-y="249 000" data-yu="&#8381;/год"><span class="price-num">24 900</span> <small>&#8381;/мес</small></div>
-        <div class="price-note" data-note-m="или 249 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок">или 249 000 &#8381;/год</div>
+        <div class="price-note" data-note-m="или 249 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок &middot; &minus;17%">или 249 000 &#8381;/год</div>
         <div class="price-mods">14 модулей включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li><span class="mod-more">+8 модулей</span></li></ul>
         <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Pro" class="btn-pricing outline">Запросить</a>
@@ -2860,7 +2860,7 @@
         <h3>Бизнес</h3>
         <div class="price-desc">Всё для среднего оператора</div>
         <div class="price" data-m="37 900" data-mu="&#8381;/мес" data-y="379 000" data-yu="&#8381;/год"><span class="price-num">37 900</span> <small>&#8381;/мес</small></div>
-        <div class="price-note" data-note-m="или 379 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок">или 379 000 &#8381;/год</div>
+        <div class="price-note" data-note-m="или 379 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок &middot; &minus;17%">или 379 000 &#8381;/год</div>
         <div class="price-mods">17 модулей включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li><span class="mod-more">+11 модулей</span></li></ul>
         <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Бизнес" class="btn-pricing filled">Запросить</a>
@@ -2869,7 +2869,7 @@
         <h3>Enterprise</h3>
         <div class="price-desc">Максимум + white-label</div>
         <div class="price" data-m="49 900" data-mu="&#8381;/мес" data-y="499 000" data-yu="&#8381;/год"><span class="price-num">49 900</span> <small>&#8381;/мес</small></div>
-        <div class="price-note" data-note-m="или 499 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок">или 499 000 &#8381;/год</div>
+        <div class="price-note" data-note-m="или 499 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок &middot; &minus;17%">или 499 000 &#8381;/год</div>
         <div class="price-mods">20 модулей включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li><span class="mod-more">+14 модулей</span></li></ul>
         <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Enterprise" class="btn-pricing outline">Запросить</a>
@@ -3744,10 +3744,20 @@
   var toggle = document.querySelector('.pricing-toggle');
   if (!toggle) return;
   var btns = toggle.querySelectorAll('.pt-btn');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function fmt(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); }
+  function parseNum(s){ return parseInt((s || '').replace(/\D/g, ''), 10) || 0; }
+  function animateNum(el, target){
+    var from = parseNum(el.textContent);
+    if (reduce || from === target) { el.textContent = fmt(target); return; }
+    var t0 = null, dur = 560;
+    function step(ts){ if (t0 === null) t0 = ts; var p = Math.min(1, (ts - t0) / dur); var e = 1 - Math.pow(1 - p, 3); el.textContent = fmt(from + (target - from) * e); if (p < 1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
   function apply(p){
     document.querySelectorAll('#pricing .price').forEach(function(el){
       var num = el.querySelector('.price-num'), unit = el.querySelector('small');
-      if (num) num.textContent = el.getAttribute('data-' + p);
+      if (num) animateNum(num, parseNum(el.getAttribute('data-' + p)));
       if (unit) unit.innerHTML = el.getAttribute('data-' + p + 'u');
     });
     document.querySelectorAll('#pricing .price-note').forEach(function(el){
