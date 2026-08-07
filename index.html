@@ -1188,6 +1188,59 @@
     @media (max-width: 1080px) { .pricing-grid { grid-template-columns: repeat(2, 1fr) !important; } }
     @media (max-width: 560px) { .pricing-grid { grid-template-columns: 1fr !important; max-width: 420px; margin-left: auto; margin-right: auto; } }
 
+    /* ---- Demo video poster ---- */
+    .demo-showcase { display: grid; grid-template-columns: 1.7fr 1fr; gap: 24px; margin-top: 44px; align-items: stretch; }
+    .demo-poster { position: relative; padding: 0; border: none; background: none; cursor: pointer; }
+    .demo-poster-frame { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.09); box-shadow: 0 24px 60px rgba(0,0,0,.4); background: #0b1220; }
+    .dp-chrome { display: flex; gap: 7px; padding: 11px 14px; background: rgba(2,6,23,.6); border-bottom: 1px solid rgba(255,255,255,.06); }
+    .dp-chrome span { width: 10px; height: 10px; border-radius: 50%; }
+    .dp-chrome span:nth-child(1){ background:#ff5f57 } .dp-chrome span:nth-child(2){ background:#febc2e } .dp-chrome span:nth-child(3){ background:#28c840 }
+    .demo-poster img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; filter: brightness(.6); transition: filter .3s, transform .5s; }
+    .demo-poster:hover img { filter: brightness(.72); transform: scale(1.03); }
+    .dp-play { position: absolute; top: calc(50% + 18px); left: 50%; transform: translate(-50%,-50%); width: 74px; height: 74px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--emerald-500), var(--teal-500)); box-shadow: 0 12px 40px rgba(16,185,129,.5); transition: transform .25s; }
+    .demo-poster:hover .dp-play { transform: translate(-50%,-50%) scale(1.08); }
+    .dp-play svg { width: 30px; height: 30px; color: #fff; margin-left: 4px; }
+    .dp-play::before { content: ''; position: absolute; inset: -10px; border-radius: 50%; border: 2px solid rgba(52,211,153,.45); animation: dpPulse 2s ease-out infinite; }
+    @keyframes dpPulse { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.5); opacity: 0; } }
+    .dp-badge { position: absolute; bottom: 14px; left: 14px; padding: 5px 12px; border-radius: 8px; background: rgba(2,6,23,.7); color: #fff; font-size: 12.5px; font-weight: 600; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    .demo-side { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; text-align: left; padding: 30px; border-radius: 16px; background: rgba(30,41,59,.5); border: 1px solid rgba(255,255,255,.08); transition: transform .2s, border-color .2s; }
+    .demo-side:hover { transform: translateY(-3px); border-color: rgba(52,211,153,.35); }
+    [data-theme="light"] .demo-side { background: var(--bg-card); border-color: var(--bg-card-border); }
+    .demo-side .demo-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--emerald-400); background: rgba(16,185,129,.12); border: 1px solid rgba(52,211,153,.22); }
+    .demo-side .demo-icon svg { width: 24px; height: 24px; }
+    .demo-side h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--slate-100); }
+    [data-theme="light"] .demo-side h3 { color: var(--text-primary); }
+    .demo-side p { color: var(--slate-400); font-size: 14px; margin-bottom: 16px; line-height: 1.6; }
+    .demo-side-cta { color: var(--emerald-400); font-weight: 700; font-size: 14px; }
+    @media (max-width: 820px) { .demo-showcase { grid-template-columns: 1fr; } }
+
+    /* ---- Podcast equalizer ---- */
+    .pp-eq { display: flex; align-items: flex-end; justify-content: center; gap: 5px; height: 40px; margin-bottom: 20px; }
+    .pp-eq i { width: 5px; height: 22%; border-radius: 3px; background: linear-gradient(180deg, var(--emerald-400), var(--teal-500)); opacity: .45; transition: opacity .3s; }
+    .pp-eq.playing i { opacity: 1; animation: ppEq 900ms ease-in-out infinite; }
+    .pp-eq.playing i:nth-child(1){ animation-duration: 780ms; animation-delay: -.20s }
+    .pp-eq.playing i:nth-child(2){ animation-duration: 1020ms; animation-delay: -.50s }
+    .pp-eq.playing i:nth-child(3){ animation-duration: 860ms; animation-delay: -.10s }
+    .pp-eq.playing i:nth-child(4){ animation-duration: 1140ms; animation-delay: -.70s }
+    .pp-eq.playing i:nth-child(5){ animation-duration: 700ms; animation-delay: -.35s }
+    .pp-eq.playing i:nth-child(6){ animation-duration: 980ms; animation-delay: -.05s }
+    .pp-eq.playing i:nth-child(7){ animation-duration: 840ms; animation-delay: -.55s }
+    .pp-eq.playing i:nth-child(8){ animation-duration: 1080ms; animation-delay: -.25s }
+    .pp-eq.playing i:nth-child(9){ animation-duration: 760ms; animation-delay: -.60s }
+    @keyframes ppEq { 0%, 100% { height: 20%; } 50% { height: 95%; } }
+    @media (prefers-reduced-motion: reduce) { .pp-eq.playing i { animation: none; height: 55%; } .dp-play::before { animation: none; } }
+
+    /* ---- FAQ: 2 columns + search ---- */
+    .faq { max-width: 960px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-content: start; }
+    .faq-search { max-width: 520px; margin: 34px auto 0; position: relative; display: flex; align-items: center; }
+    .faq-search svg { position: absolute; left: 16px; width: 18px; height: 18px; color: var(--slate-500); pointer-events: none; }
+    .faq-search input { width: 100%; padding: 13px 16px 13px 44px; border-radius: 12px; border: 1px solid rgba(255,255,255,.1); background: rgba(30,41,59,.5); color: var(--slate-100); font-size: 15px; outline: none; transition: border-color .2s; }
+    .faq-search input:focus { border-color: rgba(52,211,153,.5); }
+    [data-theme="light"] .faq-search input { background: var(--bg-card); border-color: var(--bg-card-border); color: var(--text-primary); }
+    .faq-item.faq-hidden { display: none; }
+    .faq-empty { grid-column: 1 / -1; text-align: center; color: var(--slate-500); padding: 20px; display: none; }
+    @media (max-width: 720px) { .faq { grid-template-columns: 1fr; } }
+
     .api-code pre {
       padding: 20px;
       font-family: 'Consolas', 'Monaco', monospace;
@@ -2892,16 +2945,20 @@
     <h2 class="section-title reveal reveal-delay-1">Посмотрите в действии</h2>
     <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto">Видеопрезентация системы и PDF-документ с описанием возможностей для руководства.</p>
 
-    <div class="demo-buttons">
-      <button class="demo-btn reveal reveal-delay-1" id="open-video" type="button">
-        <div class="demo-icon"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polygon points="7 4 20 12 7 20 7 4"/></svg></div>
-        <h3>Видеопрезентация</h3>
-        <p>Обзор интерфейса и ключевых функций</p>
+    <div class="demo-showcase">
+      <button class="demo-poster reveal reveal-delay-1" id="open-video" type="button" aria-label="Смотреть видеопрезентацию">
+        <div class="demo-poster-frame">
+          <div class="dp-chrome"><span></span><span></span><span></span></div>
+          <img src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/dashboard.png" alt="Видеопрезентация СмИТ Биллинг" loading="lazy">
+          <span class="dp-play"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg></span>
+          <span class="dp-badge">Видеопрезентация · обзор интерфейса</span>
+        </div>
       </button>
-      <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" download class="demo-btn reveal reveal-delay-2">
-        <div class="demo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M7 3h7l5 5v11a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M9 13h6M9 17h6"/></svg></div>
+      <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" download class="demo-side reveal reveal-delay-2">
+        <span class="demo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M7 3h7l5 5v11a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M9 13h6M9 17h4"/></svg></span>
         <h3>Скачать презентацию</h3>
-        <p>PDF, описание возможностей</p>
+        <p>PDF с описанием возможностей платформы для руководства.</p>
+        <span class="demo-side-cta">Скачать PDF &rarr;</span>
       </a>
     </div>
   </div>
@@ -2914,6 +2971,7 @@
     <h2 class="section-title reveal reveal-delay-1">Подкаст о платформе</h2>
     <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto 32px">Как СмИТ Биллинг превращает телеком в единый механизм &mdash; аудиообзор возможностей за несколько минут.</p>
     <div class="reveal reveal-delay-2" style="max-width:640px;margin:0 auto;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.22);border-radius:16px;padding:26px">
+      <div class="pp-eq" id="pp-eq"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       <div class="pp" id="pp">
         <button class="pp-btn" id="pp-btn" type="button" aria-label="Воспроизвести">
           <svg class="pp-ico-play" viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 20 12 7 20 7 4"/></svg>
@@ -2945,6 +3003,10 @@
   <div class="container">
     <div class="section-badge reveal">Вопросы</div>
     <h2 class="section-title reveal reveal-delay-1">Частые вопросы</h2>
+    <div class="faq-search reveal reveal-delay-2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="faqSearch" placeholder="Поиск по вопросам…" aria-label="Поиск по вопросам">
+    </div>
     <div class="faq">
       <details class="faq-item reveal">
         <summary>Поддерживается ли СОРМ-3 и 152-ФЗ?</summary>
@@ -3693,6 +3755,33 @@
     });
   }
   btns.forEach(function(b){ b.addEventListener('click', function(){ btns.forEach(function(x){ x.classList.remove('active'); }); b.classList.add('active'); apply(b.getAttribute('data-period')); }); });
+})();
+</script>
+<script>
+/* Podcast equalizer + FAQ search */
+(function(){
+  var audio = document.getElementById('pp-audio'), eq = document.getElementById('pp-eq');
+  if (audio && eq) {
+    audio.addEventListener('play', function(){ eq.classList.add('playing'); });
+    audio.addEventListener('pause', function(){ eq.classList.remove('playing'); });
+    audio.addEventListener('ended', function(){ eq.classList.remove('playing'); });
+  }
+  var s = document.getElementById('faqSearch');
+  if (s) {
+    var items = document.querySelectorAll('#faq .faq-item');
+    var empty = document.createElement('div'); empty.className = 'faq-empty'; empty.textContent = 'Ничего не найдено. Напишите нам — ответим лично.';
+    var faq = document.querySelector('#faq .faq'); if (faq) faq.appendChild(empty);
+    s.addEventListener('input', function(){
+      var q = s.value.trim().toLowerCase(), shown = 0;
+      items.forEach(function(it){
+        var t = it.textContent.toLowerCase();
+        var hit = !q || t.indexOf(q) !== -1;
+        it.classList.toggle('faq-hidden', !hit);
+        if (hit) shown++;
+      });
+      empty.style.display = shown ? 'none' : 'block';
+    });
+  }
 })();
 </script>
 </body>
