@@ -2441,6 +2441,20 @@
 [data-theme="light"] .pp-bar{background:rgba(0,0,0,.1)}
 [data-theme="light"] .pp-dl{border-color:rgba(0,0,0,.14)}
 </style>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111523440', 'ym');
+
+    ym(111523440, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    window.ymGoal = function(g, p){ try { if (window.ym) ym(111523440, 'reachGoal', g, p || {}); } catch (e) {} };
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111523440" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </head>
 <body>
 
@@ -4166,9 +4180,9 @@
       }
     });
   });
-  function open(prefill){ form.hidden = false; res.hidden = true; if (prefill) { var c = form.querySelector('[name="comment"]'); if (c) c.value = prefill; } modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; setTimeout(function(){ var n = form.querySelector('[name="name"]'); if (n) n.focus(); }, 220); }
+  function open(prefill){ form.hidden = false; res.hidden = true; if (window.ymGoal) window.ymGoal('demo_open'); if (prefill) { var c = form.querySelector('[name="comment"]'); if (c) c.value = prefill; } modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; setTimeout(function(){ var n = form.querySelector('[name="name"]'); if (n) n.focus(); }, 220); }
   function close(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
-  document.querySelectorAll('[data-demo]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); var t = a.getAttribute('data-tariff'); open(t ? ('Интересует тариф: ' + t) : ''); }); });
+  document.querySelectorAll('[data-demo]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); var t = a.getAttribute('data-tariff'); if (t && window.ymGoal) window.ymGoal('tariff_request', { tariff: t }); open(t ? ('Интересует тариф: ' + t) : ''); }); });
   modal.querySelectorAll('[data-democlose]').forEach(function(el){ el.addEventListener('click', close); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
   function deviceInfo(){
@@ -4247,6 +4261,7 @@
       return fetch('/api/demo-lead', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() });
     }).then(function(r){ return r.json(); }).then(function(d){
       if (d && d.ok) {
+        if (window.ymGoal) window.ymGoal('lead');
         form.hidden = true; res.hidden = false; res.className = 'demo-result ok';
         res.innerHTML = '<div class="demo-check">\u2713</div><h4>Заявка отправлена!</h4><p>Мы свяжемся с вами в ближайшее время.</p><button type="button" class="demo-submit" id="demo-done">Закрыть</button>';
         var db = document.getElementById('demo-done'); if (db) db.addEventListener('click', close);
@@ -4290,7 +4305,7 @@
     (items || []).forEach(function(t){ var li = document.createElement('li'); li.textContent = t; el.appendChild(li); });
   }
   function open(slug){
-    var w = W[slug]; if (!w) return;
+    var w = W[slug]; if (!w) return; if (window.ymGoal) window.ymGoal('widget_open', { widget: slug });
     var col = COLORS[w.cat] || '#34d399';
     modal.querySelector('.wg-modal-box').style.setProperty('--wc', col);
     var cover = $('wgm-cover');
