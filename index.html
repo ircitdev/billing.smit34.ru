@@ -28,6 +28,7 @@
        ======================================== */
 
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css');
 
     :root {
       --emerald-400: #34d399;
@@ -96,6 +97,35 @@
     [data-theme="light"] .wg-mount { color: var(--text-secondary); }
     @media (max-width: 1000px) { .wg-flow { grid-template-columns: 1fr; } .wg-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 560px) { .wg-grid { grid-template-columns: 1fr; } }
+
+    /* ---- Widget chips with icons + modal ---- */
+    .wg-chip { display: flex; gap: 12px; align-items: center; text-align: left; width: 100%; cursor: pointer; }
+    .wg-chip .wg-ico { flex: 0 0 auto; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--wc, var(--emerald-400)); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09); }
+    [data-theme="light"] .wg-chip .wg-ico { background: rgba(0,0,0,.03); border-color: rgba(0,0,0,.08); }
+    .wg-chip .wg-ico i { font-size: 16px; line-height: 1; }
+    .wg-txt { min-width: 0; }
+    .wg-abonents { --wc: #c084fc; }
+    .wg-modal { position: fixed; inset: 0; z-index: 9998; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .wg-modal.open { display: flex; }
+    .wg-modal-backdrop { position: absolute; inset: 0; background: rgba(2,6,23,.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    .wg-modal-box { position: relative; z-index: 1; width: 100%; max-width: 480px; background: var(--slate-900, #0f172a); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: 30px; box-shadow: 0 30px 80px rgba(0,0,0,.5); transform: translateY(12px) scale(.98); opacity: 0; transition: transform .25s, opacity .25s; }
+    .wg-modal.open .wg-modal-box { transform: none; opacity: 1; }
+    [data-theme="light"] .wg-modal-box { background: #fff; border-color: rgba(0,0,0,.1); }
+    .wg-modal-close { position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 9px; border: none; background: rgba(255,255,255,.06); color: var(--slate-400); font-size: 15px; cursor: pointer; }
+    .wg-modal-close:hover { color: var(--emerald-400); }
+    [data-theme="light"] .wg-modal-close { background: rgba(0,0,0,.05); }
+    .wg-modal-head { display: flex; gap: 16px; align-items: center; margin-bottom: 18px; padding-right: 30px; }
+    .wg-modal-ico { flex: 0 0 auto; width: 56px; height: 56px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--wc, var(--emerald-400)); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); }
+    [data-theme="light"] .wg-modal-ico { background: rgba(0,0,0,.03); border-color: rgba(0,0,0,.08); }
+    .wg-modal-head h3 { font-size: 1.3rem; color: var(--slate-100); margin-bottom: 5px; }
+    [data-theme="light"] .wg-modal-head h3 { color: var(--text-primary); }
+    .wg-modal-meta { font-size: 13px; color: var(--slate-500); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .wg-modal-cat { padding: 2px 10px; border-radius: 20px; font-weight: 600; color: var(--wc, var(--emerald-400)); background: rgba(255,255,255,.05); }
+    .wg-modal-desc { color: var(--slate-300); font-size: 15px; line-height: 1.65; margin-bottom: 22px; }
+    [data-theme="light"] .wg-modal-desc { color: var(--text-secondary); }
+    .wg-modal-note { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--slate-500); padding-top: 16px; border-top: 1px solid rgba(255,255,255,.07); }
+    [data-theme="light"] .wg-modal-note { border-color: rgba(0,0,0,.07); }
+    .wg-modal-note i { color: var(--emerald-400); }
 
     /* ---- Mobile overflow fixes (API + safety) ---- */
     @media (max-width: 900px) {
@@ -2696,33 +2726,33 @@
       <button data-wfilter="crm">CRM · Продажи</button>
       <button data-wfilter="support">Поддержка</button>
       <button data-wfilter="analytics">Аналитика</button>
-      <button data-wfilter="abonent">Абоненты и ЛК</button>
+      <button data-wfilter="abonents">Абоненты и ЛК</button>
     </div>
 
     <div class="wg-grid">
-      <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>CRM и Поддержка абонента</b><small>CRM · Продажи</small></div>
-        <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>Salesbot</b><small>CRM · Продажи</small></div>
-        <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>Лента клиента</b><small>CRM · Продажи</small></div>
-        <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>Организации: сводка</b><small>CRM · Продажи</small></div>
-        <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>Рекламные кампании</b><small>CRM · Продажи</small></div>
-        <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>Рядом с адресом</b><small>CRM · Продажи</small></div>
-        <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>Сводка воронки</b><small>CRM · Продажи</small></div>
-        <div class="wg-chip wg-support reveal" data-cat="support"><span class="wg-dot"></span><b>SLA-таймер</b><small>Поддержка</small></div>
-        <div class="wg-chip wg-support reveal" data-cat="support"><span class="wg-dot"></span><b>Биллинг в тикете</b><small>Поддержка</small></div>
-        <div class="wg-chip wg-support reveal" data-cat="support"><span class="wg-dot"></span><b>Доп. поля тикета</b><small>Поддержка</small></div>
-        <div class="wg-chip wg-support reveal" data-cat="support"><span class="wg-dot"></span><b>Логи времени</b><small>Поддержка</small></div>
-        <div class="wg-chip wg-support reveal" data-cat="support"><span class="wg-dot"></span><b>Теги тикета</b><small>Поддержка</small></div>
-        <div class="wg-chip wg-analytics reveal" data-cat="analytics"><span class="wg-dot"></span><b>Активность менеджеров</b><small>Аналитика</small></div>
-        <div class="wg-chip wg-analytics reveal" data-cat="analytics"><span class="wg-dot"></span><b>Лиды по источникам</b><small>Аналитика</small></div>
-        <div class="wg-chip wg-analytics reveal" data-cat="analytics"><span class="wg-dot"></span><b>Лицензия и модули</b><small>Аналитика</small></div>
-        <div class="wg-chip wg-analytics reveal" data-cat="analytics"><span class="wg-dot"></span><b>Место и ИИ</b><small>Аналитика</small></div>
-        <div class="wg-chip wg-abonent reveal" data-cat="abonent"><span class="wg-dot"></span><b>Аудит</b><small>Абоненты и ЛК</small></div>
-        <div class="wg-chip wg-abonent reveal" data-cat="abonent"><span class="wg-dot"></span><b>Обращения</b><small>Абоненты и ЛК</small></div>
-        <div class="wg-chip wg-abonent reveal" data-cat="abonent"><span class="wg-dot"></span><b>Операции</b><small>Абоненты и ЛК</small></div>
-        <div class="wg-chip wg-abonent reveal" data-cat="abonent"><span class="wg-dot"></span><b>Сессии</b><small>Абоненты и ЛК</small></div>
-        <div class="wg-chip wg-abonent reveal" data-cat="abonent"><span class="wg-dot"></span><b>Сообщения</b><small>Абоненты и ЛК</small></div>
-        <div class="wg-chip wg-abonent reveal" data-cat="abonent"><span class="wg-dot"></span><b>Услуги и бонусы</b><small>Абоненты и ЛК</small></div>
-    </div>
+        <button class="wg-chip wg-crm reveal" type="button" data-cat="crm" data-wg="abonent-crm-summary"><span class="wg-ico"><i class="fas fa-address-card"></i></span><span class="wg-txt"><b>CRM и Поддержка абонента</b><small>CRM и продажи</small></span></button>
+        <button class="wg-chip wg-crm reveal" type="button" data-cat="crm" data-wg="salesbot-summary"><span class="wg-ico"><i class="fas fa-robot"></i></span><span class="wg-txt"><b>Salesbot</b><small>CRM и продажи</small></span></button>
+        <button class="wg-chip wg-crm reveal" type="button" data-cat="crm" data-wg="client-timeline"><span class="wg-ico"><i class="fas fa-stream"></i></span><span class="wg-txt"><b>Лента клиента</b><small>CRM и продажи</small></span></button>
+        <button class="wg-chip wg-crm reveal" type="button" data-cat="crm" data-wg="org-summary"><span class="wg-ico"><i class="fas fa-building"></i></span><span class="wg-txt"><b>Организации: сводка</b><small>CRM и продажи</small></span></button>
+        <button class="wg-chip wg-crm reveal" type="button" data-cat="crm" data-wg="campaign-performance"><span class="wg-ico"><i class="fas fa-bullhorn"></i></span><span class="wg-txt"><b>Рекламные кампании</b><small>CRM и продажи</small></span></button>
+        <button class="wg-chip wg-crm reveal" type="button" data-cat="crm" data-wg="deal-nearby"><span class="wg-ico"><i class="fas fa-map-marker-alt"></i></span><span class="wg-txt"><b>Рядом с адресом</b><small>CRM и продажи</small></span></button>
+        <button class="wg-chip wg-crm reveal" type="button" data-cat="crm" data-wg="funnel-summary"><span class="wg-ico"><i class="fas fa-chart-pie"></i></span><span class="wg-txt"><b>Сводка воронки</b><small>CRM и продажи</small></span></button>
+        <button class="wg-chip wg-support reveal" type="button" data-cat="support" data-wg="tc-sla"><span class="wg-ico"><i class="fas fa-hourglass-half"></i></span><span class="wg-txt"><b>SLA-таймер</b><small>Поддержка</small></span></button>
+        <button class="wg-chip wg-support reveal" type="button" data-cat="support" data-wg="tc-billing"><span class="wg-ico"><i class="fas fa-receipt"></i></span><span class="wg-txt"><b>Биллинг в тикете</b><small>Поддержка</small></span></button>
+        <button class="wg-chip wg-support reveal" type="button" data-cat="support" data-wg="tc-cf"><span class="wg-ico"><i class="fas fa-list-alt"></i></span><span class="wg-txt"><b>Доп. поля тикета</b><small>Поддержка</small></span></button>
+        <button class="wg-chip wg-support reveal" type="button" data-cat="support" data-wg="tc-timelog"><span class="wg-ico"><i class="fas fa-stopwatch"></i></span><span class="wg-txt"><b>Логи времени</b><small>Поддержка</small></span></button>
+        <button class="wg-chip wg-support reveal" type="button" data-cat="support" data-wg="tc-tags"><span class="wg-ico"><i class="fas fa-tags"></i></span><span class="wg-txt"><b>Теги тикета</b><small>Поддержка</small></span></button>
+        <button class="wg-chip wg-analytics reveal" type="button" data-cat="analytics" data-wg="manager-activity"><span class="wg-ico"><i class="fas fa-user-clock"></i></span><span class="wg-txt"><b>Активность менеджеров</b><small>Аналитика и отчёты</small></span></button>
+        <button class="wg-chip wg-analytics reveal" type="button" data-cat="analytics" data-wg="lead-sources-stats"><span class="wg-ico"><i class="fas fa-inbox"></i></span><span class="wg-txt"><b>Лиды по источникам</b><small>Аналитика и отчёты</small></span></button>
+        <button class="wg-chip wg-analytics reveal" type="button" data-cat="analytics" data-wg="license-status"><span class="wg-ico"><i class="fas fa-key"></i></span><span class="wg-txt"><b>Лицензия и модули</b><small>Аналитика и отчёты</small></span></button>
+        <button class="wg-chip wg-analytics reveal" type="button" data-cat="analytics" data-wg="storage-usage"><span class="wg-ico"><i class="fas fa-database"></i></span><span class="wg-txt"><b>Место и ИИ</b><small>Аналитика и отчёты</small></span></button>
+        <button class="wg-chip wg-abonents reveal" type="button" data-cat="abonents" data-wg="qc-audit"><span class="wg-ico"><i class="fas fa-history"></i></span><span class="wg-txt"><b>Аудит</b><small>Абоненты и ЛК</small></span></button>
+        <button class="wg-chip wg-abonents reveal" type="button" data-cat="abonents" data-wg="qc-helpdesk"><span class="wg-ico"><i class="fas fa-headset"></i></span><span class="wg-txt"><b>Обращения</b><small>Абоненты и ЛК</small></span></button>
+        <button class="wg-chip wg-abonents reveal" type="button" data-cat="abonents" data-wg="qc-finops"><span class="wg-ico"><i class="fas fa-file-invoice-dollar"></i></span><span class="wg-txt"><b>Операции</b><small>Абоненты и ЛК</small></span></button>
+        <button class="wg-chip wg-abonents reveal" type="button" data-cat="abonents" data-wg="qc-sessions"><span class="wg-ico"><i class="fas fa-network-wired"></i></span><span class="wg-txt"><b>Сессии</b><small>Абоненты и ЛК</small></span></button>
+        <button class="wg-chip wg-abonents reveal" type="button" data-cat="abonents" data-wg="qc-messages"><span class="wg-ico"><i class="fas fa-envelope"></i></span><span class="wg-txt"><b>Сообщения</b><small>Абоненты и ЛК</small></span></button>
+        <button class="wg-chip wg-abonents reveal" type="button" data-cat="abonents" data-wg="qc-services"><span class="wg-ico"><i class="fas fa-layer-group"></i></span><span class="wg-txt"><b>Услуги и бонусы</b><small>Абоненты и ЛК</small></span></button>
+      </div>
 
     <p class="wg-mount reveal">Монтируются в точки: <b>Дашборд</b> &middot; <b>Карточка сделки CRM</b> &middot; <b>Карточка абонента</b> &middot; <b>Тикет поддержки</b> &middot; и другие.</p>
   </div>
@@ -3936,6 +3966,49 @@
     var f = b.getAttribute('data-wfilter');
     chips.forEach(function(c){ c.classList.toggle('wg-hidden', !(f === 'all' || c.getAttribute('data-cat') === f)); });
   }); });
+})();
+</script>
+<!-- Widget modal -->
+<div class="wg-modal" id="wg-modal" aria-hidden="true">
+  <div class="wg-modal-backdrop" data-wgclose></div>
+  <div class="wg-modal-box" role="dialog" aria-modal="true" aria-labelledby="wgm-name">
+    <button class="wg-modal-close" data-wgclose type="button" aria-label="Закрыть">&#10005;</button>
+    <div class="wg-modal-head">
+      <span class="wg-modal-ico" id="wgm-ico"></span>
+      <div>
+        <h3 id="wgm-name"></h3>
+        <div class="wg-modal-meta"><span class="wg-modal-cat" id="wgm-cat"></span><span id="wgm-ver"></span></div>
+      </div>
+    </div>
+    <p class="wg-modal-desc" id="wgm-desc"></p>
+    <div class="wg-modal-note"><i class="fas fa-bolt"></i> Устанавливается из каталога в один клик, обновляется автоматически.</div>
+  </div>
+</div>
+<script>window.SMIT_WIDGETS={"abonent-crm-summary": {"name": "CRM и Поддержка абонента", "cat": "crm", "catn": "CRM и продажи", "ver": "1.0.0", "desc": "Сделки CRM и обращения в Поддержку этого абонента — одним блоком в карточке, со ссылками.", "icon": "fas fa-address-card", "img": ""}, "salesbot-summary": {"name": "Salesbot", "cat": "crm", "catn": "CRM и продажи", "ver": "1.0.0", "desc": "Работа ботов за 30 дней: диалоги, заявки, доля.", "icon": "fas fa-robot", "img": ""}, "client-timeline": {"name": "Лента клиента", "cat": "crm", "catn": "CRM и продажи", "ver": "1.0.0", "desc": "Единая хронология клиента в его карточке: обращения в Поддержку, сделки CRM, заметки, выполненные задачи и звонки — одной лентой со ссылками.", "icon": "fas fa-stream", "img": ""}, "org-summary": {"name": "Организации: сводка", "cat": "crm", "catn": "CRM и продажи", "ver": "1.0.0", "desc": "Сделки в разрезе организаций с единым бейджем компании.", "icon": "fas fa-building", "img": ""}, "campaign-performance": {"name": "Рекламные кампании", "cat": "crm", "catn": "CRM и продажи", "ver": "1.0.1", "desc": "Топ кампаний за 30 дней: заявки, сделки, выручка и окупаемость.", "icon": "fas fa-bullhorn", "img": "https://storage.googleapis.com/uspeshnyy-projects/smit/license/widgets/covers/campaign-performance-cover_c212814f.jpg"}, "deal-nearby": {"name": "Рядом с адресом", "cat": "crm", "catn": "CRM и продажи", "ver": "1.2.0", "desc": "Аргумент для продажи: подключённые абоненты в доме сделки и в радиусе 300 м, другие сделки в этом доме.", "icon": "fas fa-map-marker-alt", "img": "https://storage.googleapis.com/uspeshnyy-projects/smit/license/widgets/covers/deal-nearby_60e2a812.webp"}, "funnel-summary": {"name": "Сводка воронки", "cat": "crm", "catn": "CRM и продажи", "ver": "1.0.0", "desc": "Счётчики сделок по стадиям воронки — прямо на дашборде CRM.", "icon": "fas fa-chart-pie", "img": "https://storage.googleapis.com/uspeshnyy-projects/smit/license/widgets/covers/funnel-summary_c4f9a10b.webp"}, "tc-sla": {"name": "SLA-таймер", "cat": "support", "catn": "Поддержка", "ver": "1.0.0", "desc": "«Клиент ждёт ответа N часов» с цветовыми порогами", "icon": "fas fa-hourglass-half", "img": ""}, "tc-billing": {"name": "Биллинг в тикете", "cat": "support", "catn": "Поддержка", "ver": "1.0.0", "desc": "Баланс, тариф и статус абонента в сайдбаре тикета", "icon": "fas fa-receipt", "img": ""}, "tc-cf": {"name": "Доп. поля тикета", "cat": "support", "catn": "Поддержка", "ver": "1.0.0", "desc": "Пользовательские поля обращения", "icon": "fas fa-list-alt", "img": ""}, "tc-timelog": {"name": "Логи времени", "cat": "support", "catn": "Поддержка", "ver": "1.0.0", "desc": "Учёт времени операторов по тикету", "icon": "fas fa-stopwatch", "img": ""}, "tc-tags": {"name": "Теги тикета", "cat": "support", "catn": "Поддержка", "ver": "1.0.0", "desc": "Теги обращения с быстрым добавлением", "icon": "fas fa-tags", "img": ""}, "manager-activity": {"name": "Активность менеджеров", "cat": "analytics", "catn": "Аналитика и отчёты", "ver": "1.0.0", "desc": "Кто сколько сделал сегодня: заметки, созданные и закрытые сделки — рейтинг менеджеров на дашборде CRM.", "icon": "fas fa-user-clock", "img": ""}, "lead-sources-stats": {"name": "Лиды по источникам", "cat": "analytics", "catn": "Аналитика и отчёты", "ver": "1.1.0", "desc": "Лиды за 7/30 дней и конверсия по источникам; при мультиорганизации — чипы организаций и org-изоляция.", "icon": "fas fa-inbox", "img": ""}, "license-status": {"name": "Лицензия и модули", "cat": "analytics", "catn": "Аналитика и отчёты", "ver": "1.1.0", "desc": "Статус лицензии на дашборде: тариф, срок действия с предупреждением об истечении, включённые модули.", "icon": "fas fa-key", "img": ""}, "storage-usage": {"name": "Место и ИИ", "cat": "analytics", "catn": "Аналитика и отчёты", "ver": "1.0.0", "desc": "Занятое место клиента по категориям (видео/тикеты/звонки/бэкапы/БД) и расход на AI за месяц — на дашборде.", "icon": "fas fa-database", "img": ""}, "qc-audit": {"name": "Аудит", "cat": "abonents", "catn": "Абоненты и ЛК", "ver": "1.0.0", "desc": "Последние записи аудита абонента", "icon": "fas fa-history", "img": ""}, "qc-helpdesk": {"name": "Обращения", "cat": "abonents", "catn": "Абоненты и ЛК", "ver": "1.0.0", "desc": "Тикеты Поддержки этого абонента", "icon": "fas fa-headset", "img": ""}, "qc-finops": {"name": "Операции", "cat": "abonents", "catn": "Абоненты и ЛК", "ver": "1.0.0", "desc": "Последние финансовые операции с быстрым добавлением", "icon": "fas fa-file-invoice-dollar", "img": ""}, "qc-sessions": {"name": "Сессии", "cat": "abonents", "catn": "Абоненты и ЛК", "ver": "1.0.0", "desc": "Активные RADIUS-сессии с IP и трафиком", "icon": "fas fa-network-wired", "img": ""}, "qc-messages": {"name": "Сообщения", "cat": "abonents", "catn": "Абоненты и ЛК", "ver": "1.0.0", "desc": "Отправленные абоненту сообщения (SMS/email/push)", "icon": "fas fa-envelope", "img": ""}, "qc-services": {"name": "Услуги и бонусы", "cat": "abonents", "catn": "Абоненты и ЛК", "ver": "1.0.0", "desc": "Активные услуги, бонусные баллы, быстрое добавление", "icon": "fas fa-layer-group", "img": ""}};</script>
+<script>
+(function(){
+  var modal = document.getElementById('wg-modal');
+  if (!modal) return;
+  var W = window.SMIT_WIDGETS || {};
+  var box = { ico: document.getElementById('wgm-ico'), name: document.getElementById('wgm-name'), cat: document.getElementById('wgm-cat'), ver: document.getElementById('wgm-ver'), desc: document.getElementById('wgm-desc') };
+  var COLORS = { crm: '#34d399', support: '#60a5fa', analytics: '#fbbf24', abonents: '#c084fc' };
+  function open(slug){
+    var w = W[slug]; if (!w) return;
+    var col = COLORS[w.cat] || '#34d399';
+    box.ico.style.setProperty('--wc', col);
+    box.ico.innerHTML = '<i class="' + w.icon + '"></i>';
+    box.name.textContent = w.name;
+    box.cat.textContent = w.catn; box.cat.style.setProperty('--wc', col);
+    box.ver.textContent = 'v' + w.ver;
+    box.desc.textContent = w.desc || '';
+    modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden';
+  }
+  function close(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
+  document.querySelectorAll('#widgets .wg-chip').forEach(function(c){
+    c.addEventListener('click', function(){ open(c.getAttribute('data-wg')); });
+  });
+  modal.querySelectorAll('[data-wgclose]').forEach(function(el){ el.addEventListener('click', close); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
 })();
 </script>
 </body>
