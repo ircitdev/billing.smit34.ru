@@ -67,6 +67,7 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { overflow-x: hidden; max-width: 100%; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -1762,7 +1763,8 @@
     .hiw-pane { position: absolute; inset: 0; opacity: 0; transition: opacity .5s; }
     .hiw-pane.active { opacity: 1; }
     .hiw-pane img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
-    .hiw-term { padding: 22px 24px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace; font-size: 13.5px; line-height: 2; color: #9be7c4; height: 100%; box-sizing: border-box; }
+    .hiw-term { padding: 22px 24px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace; font-size: 13.5px; line-height: 2; color: #9be7c4; height: 100%; box-sizing: border-box; overflow-x: auto; }
+    @media (max-width: 480px) { .hiw-term { font-size: 12px; padding: 16px; } }
     .hiw-term .c-cmd { color: #e2e8f0; }
     .hiw-term .c-ok { color: var(--emerald-400); }
     .hiw-term .c-mut { color: #64748b; }
