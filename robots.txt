@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /index_backup
+Disallow: /index_prev
+
+Sitemap: https://billing.smit34.ru/sitemap.xml
