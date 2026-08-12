@@ -3075,7 +3075,7 @@
         <div class="price-note" data-note-m="или 99 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок &middot; &minus;17%">или 99 000 &#8381;/год</div>
         <div class="price-mods">4 модуля включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Документ</li></ul>
-        <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Старт" class="btn-pricing outline">Запросить</a>
+        <a href="#demo" data-demo="1" data-tariff="Старт" class="btn-pricing outline">Запросить</a>
       </div>
       <div class="pricing-card reveal">
         <h3>Pro</h3>
@@ -3084,7 +3084,7 @@
         <div class="price-note" data-note-m="или 249 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок &middot; &minus;17%">или 249 000 &#8381;/год</div>
         <div class="price-mods">14 модулей включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li><span class="mod-more">+8 модулей</span></li></ul>
-        <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Pro" class="btn-pricing outline">Запросить</a>
+        <a href="#demo" data-demo="1" data-tariff="Pro" class="btn-pricing outline">Запросить</a>
       </div>
       <div class="pricing-card featured reveal">
         <h3>Бизнес</h3>
@@ -3093,7 +3093,7 @@
         <div class="price-note" data-note-m="или 379 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок &middot; &minus;17%">или 379 000 &#8381;/год</div>
         <div class="price-mods">17 модулей включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li><span class="mod-more">+11 модулей</span></li></ul>
-        <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Бизнес" class="btn-pricing filled">Запросить</a>
+        <a href="#demo" data-demo="1" data-tariff="Бизнес" class="btn-pricing filled">Запросить</a>
       </div>
       <div class="pricing-card reveal">
         <h3>Enterprise</h3>
@@ -3102,7 +3102,7 @@
         <div class="price-note" data-note-m="или 499 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок &middot; &minus;17%">или 499 000 &#8381;/год</div>
         <div class="price-mods">20 модулей включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li><span class="mod-more">+14 модулей</span></li></ul>
-        <a href="mailto:uspeshnyy@billing.smit34.ru?subject=Тариф Enterprise" class="btn-pricing outline">Запросить</a>
+        <a href="#demo" data-demo="1" data-tariff="Enterprise" class="btn-pricing outline">Запросить</a>
       </div>
     </div>
     <p class="pricing-note reveal">Нужен свой набор модулей? <a href="mailto:uspeshnyy@billing.smit34.ru">Соберём индивидуальный тариф</a>.</p>
@@ -4147,9 +4147,9 @@
       }
     });
   });
-  function open(){ modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; setTimeout(function(){ var n = form.querySelector('[name="name"]'); if (n) n.focus(); }, 220); }
+  function open(prefill){ form.hidden = false; res.hidden = true; if (prefill) { var c = form.querySelector('[name="comment"]'); if (c) c.value = prefill; } modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; setTimeout(function(){ var n = form.querySelector('[name="name"]'); if (n) n.focus(); }, 220); }
   function close(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
-  document.querySelectorAll('[data-demo]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); open(); }); });
+  document.querySelectorAll('[data-demo]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); var t = a.getAttribute('data-tariff'); open(t ? ('Интересует тариф: ' + t) : ''); }); });
   modal.querySelectorAll('[data-democlose]').forEach(function(el){ el.addEventListener('click', close); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
   function deviceInfo(){
