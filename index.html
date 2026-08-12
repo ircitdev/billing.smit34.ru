@@ -161,6 +161,54 @@
     .wg-rm-foot { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--slate-500); padding: 14px 30px; border-top: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.02); }
     [data-theme="light"] .wg-rm-foot { border-color: rgba(0,0,0,.07); background: rgba(0,0,0,.02); }
     .wg-rm-foot i { color: var(--emerald-400); }
+
+    /* ---- Demo request modal ---- */
+    .demo-modal { position: fixed; inset: 0; z-index: 9997; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .demo-modal.open { display: flex; }
+    .demo-backdrop { position: absolute; inset: 0; background: rgba(2,6,23,.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    .demo-box { position: relative; z-index: 1; width: 100%; max-width: 460px; background: var(--slate-900, #0f172a); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: 30px; box-shadow: 0 30px 80px rgba(0,0,0,.5); transform: translateY(12px) scale(.98); opacity: 0; transition: transform .25s, opacity .25s; }
+    .demo-modal.open .demo-box { transform: none; opacity: 1; }
+    [data-theme="light"] .demo-box { background: #fff; border-color: rgba(0,0,0,.1); }
+    .demo-close { position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 9px; border: none; background: rgba(255,255,255,.06); color: var(--slate-400); font-size: 15px; cursor: pointer; z-index: 3; }
+    .demo-close:hover { color: var(--emerald-400); }
+    [data-theme="light"] .demo-close { background: rgba(0,0,0,.05); }
+    .demo-head { display: flex; gap: 14px; align-items: center; margin-bottom: 22px; padding-right: 30px; }
+    .demo-ico { flex: 0 0 auto; width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; color: var(--emerald-400); background: rgba(16,185,129,.12); border: 1px solid rgba(52,211,153,.22); }
+    .demo-ico svg { width: 23px; height: 23px; }
+    .demo-head h3 { font-size: 1.25rem; color: var(--slate-100); margin-bottom: 4px; }
+    [data-theme="light"] .demo-head h3 { color: var(--text-primary); }
+    .demo-head p { font-size: 13px; color: var(--slate-400); line-height: 1.5; }
+    .demo-form { display: grid; gap: 14px; }
+    .demo-field { display: grid; gap: 6px; }
+    .demo-field > span { font-size: 12.5px; color: var(--slate-400); font-weight: 600; }
+    .demo-field > span b { color: var(--emerald-400); }
+    .demo-field input, .demo-field textarea { width: 100%; padding: 12px 14px; border-radius: 11px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.03); color: var(--slate-100); font-size: 15px; font-family: inherit; outline: none; transition: border-color .2s; }
+    .demo-field input:focus, .demo-field textarea:focus { border-color: rgba(52,211,153,.55); }
+    [data-theme="light"] .demo-field input, [data-theme="light"] .demo-field textarea { background: #f8fafc; border-color: rgba(0,0,0,.12); color: var(--text-primary); }
+    .demo-field textarea { resize: vertical; min-height: 68px; }
+    .demo-hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; opacity: 0; }
+    .demo-submit { margin-top: 4px; padding: 14px; border-radius: 12px; border: none; cursor: pointer; font-size: 15px; font-weight: 700; color: #fff; background: linear-gradient(135deg, var(--emerald-500), var(--teal-500)); transition: transform .15s, box-shadow .2s; }
+    .demo-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(16,185,129,.35); }
+    .demo-submit:disabled { opacity: .6; cursor: default; transform: none; box-shadow: none; }
+    .demo-note { font-size: 11.5px; color: var(--slate-500); line-height: 1.5; text-align: center; margin-top: 2px; }
+    .demo-result { text-align: center; padding: 14px 0; }
+    .demo-result.ok .demo-check { width: 60px; height: 60px; margin: 0 auto 16px; border-radius: 50%; background: rgba(16,185,129,.15); color: var(--emerald-400); font-size: 30px; display: flex; align-items: center; justify-content: center; }
+    .demo-result.ok h4 { font-size: 1.2rem; color: var(--slate-100); margin-bottom: 8px; }
+    [data-theme="light"] .demo-result.ok h4 { color: var(--text-primary); }
+    .demo-result.ok p { color: var(--slate-400); font-size: 14px; margin-bottom: 20px; }
+    .demo-result.err { color: #f87171; font-size: 14px; padding: 12px; border-radius: 10px; background: rgba(248,113,113,.1); }
+
+    /* ---- Mobile: content modals become full-screen bottom slide panels ---- */
+    @media (max-width: 640px) {
+      .wg-modal, .demo-modal { padding: 0; align-items: flex-end; justify-content: stretch; }
+      .wg-modal-box, .wg-modal-box.rich, .demo-box { max-width: 100% !important; width: 100% !important; height: 100dvh; max-height: 100dvh; border-radius: 0 !important; display: flex; flex-direction: column; transform: translateY(100%); opacity: 1; transition: transform .32s ease; padding-left: 0; padding-right: 0; }
+      .wg-modal.open .wg-modal-box, .demo-modal.open .demo-box { transform: none; }
+      .wg-modal-body { max-height: none !important; flex: 1 1 auto; }
+      .demo-box { padding: 26px 22px calc(30px + env(safe-area-inset-bottom)); overflow-y: auto; }
+      .demo-head { padding-top: 6px; }
+      .wg-rm-foot { margin-top: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) { .wg-modal-box, .demo-box { transition: none; } }
     .wg-modal-box.rich .wg-modal-close { z-index: 5; background: rgba(2,6,23,.5); color: #fff; }
 
     /* ---- Mobile overflow fixes (API + safety) ---- */
@@ -2422,7 +2470,7 @@
   <a href="#" class="mobile-link" id="mobile-open-video"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px"><polygon points="7 4 20 12 7 20 7 4"/></svg> Видео</a>
   <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="mobile-link" download><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 3v12M7 11l5 4 5-4M5 20h14"/></svg> Презентация</a>
   <a href="https://docs.billing.smit34.ru" target="_blank" class="mobile-link">Документация</a>
-  <a href="mailto:uspeshnyy@billing.smit34.ru" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
+  <a data-demo="1" href="#demo" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
 </div>
 
 <!-- ==================== Hero ==================== -->
@@ -2436,7 +2484,7 @@
       <h1>Современный <span class="gradient-text">биллинг</span> для операторов связи</h1>
       <p class="hero-desc">Управление абонентами, тарификация, платежи, RADIUS-авторизация, СОРМ-3, мобильное приложение и AI-агент (голос и телефон) в единой системе. Плюс видеонаблюдение, IPTV, телефония, склад и CRM. Развёртывание за 15 минут через Docker.</p>
       <div class="hero-buttons">
-        <a href="mailto:uspeshnyy@billing.smit34.ru" class="btn-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Запросить демо</a>
+        <a data-demo="1" href="#demo" class="btn-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Запросить демо</a>
         <a href="#" class="btn-secondary" id="hero-open-video"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21"/></svg> Видео</a>
         <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="btn-secondary" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Презентация</a>
       </div>
@@ -3240,7 +3288,7 @@
     <h2 class="section-title reveal reveal-delay-1">Готовы к переходу?</h2>
     <p class="section-subtitle reveal reveal-delay-2">Мы поможем с миграцией данных из любой существующей системы: Expert Billing, Mikbill, LanBilling и других. Поддержка на всех этапах внедрения.</p>
     <div class="cta-buttons reveal reveal-delay-3">
-      <a href="mailto:uspeshnyy@billing.smit34.ru" class="btn-primary">Запросить демо</a>
+      <a data-demo="1" href="#demo" class="btn-primary">Запросить демо</a>
       <a href="https://docs.billing.smit34.ru" class="btn-secondary" target="_blank">Читать документацию</a>
     </div>
   </div>
@@ -3700,7 +3748,7 @@
 </script>
 
 <!-- Sticky demo CTA -->
-<a href="mailto:uspeshnyy@billing.smit34.ru" class="sticky-cta" id="sticky-cta">
+<a data-demo="1" href="#demo" class="sticky-cta" id="sticky-cta">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
   Запросить демо
 </a>
@@ -4002,6 +4050,74 @@
     var f = b.getAttribute('data-wfilter');
     chips.forEach(function(c){ c.classList.toggle('wg-hidden', !(f === 'all' || c.getAttribute('data-cat') === f)); });
   }); });
+})();
+</script>
+<!-- Demo request modal -->
+<div class="demo-modal" id="demo-modal" aria-hidden="true">
+  <div class="demo-backdrop" data-democlose></div>
+  <div class="demo-box" role="dialog" aria-modal="true" aria-labelledby="demo-title">
+    <button class="demo-close" data-democlose type="button" aria-label="Закрыть">&#10005;</button>
+    <div class="demo-head">
+      <span class="demo-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+      <div>
+        <h3 id="demo-title">Запросить демонстрацию</h3>
+        <p>Покажем СмИТ Биллинг на ваших задачах и ответим на вопросы.</p>
+      </div>
+    </div>
+    <form class="demo-form" id="demo-form" novalidate>
+      <label class="demo-field"><span>Ваше имя <b>*</b></span><input type="text" name="name" required autocomplete="name" placeholder="Как к вам обращаться"></label>
+      <label class="demo-field"><span>Телефон <b>*</b></span><input type="tel" name="phone" required autocomplete="tel" placeholder="+7 900 000-00-00"></label>
+      <label class="demo-field"><span>Компания</span><input type="text" name="company" autocomplete="organization" placeholder="Название (необязательно)"></label>
+      <label class="demo-field"><span>Комментарий</span><textarea name="comment" rows="3" placeholder="Что интересует? (необязательно)"></textarea></label>
+      <input type="text" name="website" class="demo-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" class="demo-submit" id="demo-submit">Отправить заявку</button>
+      <p class="demo-note">Нажимая «Отправить заявку», вы соглашаетесь на обработку персональных данных.</p>
+    </form>
+    <div class="demo-result" id="demo-result" hidden></div>
+  </div>
+</div>
+<script>
+(function(){
+  var modal = document.getElementById('demo-modal');
+  if (!modal) return;
+  var form = document.getElementById('demo-form'), res = document.getElementById('demo-result'), btn = document.getElementById('demo-submit');
+  var CHAT = '-1002910452601', THREAD = '23487';
+  function val(n){ var el = form.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; }
+  function esc(s){ return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function open(){ modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; setTimeout(function(){ var n = form.querySelector('[name="name"]'); if (n) n.focus(); }, 220); }
+  function close(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
+  document.querySelectorAll('[data-demo]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); open(); }); });
+  modal.querySelectorAll('[data-democlose]').forEach(function(el){ el.addEventListener('click', close); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (val('website')) { close(); return; }
+    var name = val('name'), phone = val('phone');
+    if (!name || !phone) { if (!name) form.querySelector('[name="name"]').focus(); else form.querySelector('[name="phone"]').focus(); return; }
+    var text = '\uD83C\uDFAF <b>Заявка на демо</b> — billing.smit34.ru\n'
+      + '\uD83D\uDC64 <b>Имя:</b> ' + esc(name) + '\n'
+      + '\uD83D\uDCDE <b>Телефон:</b> ' + esc(phone) + '\n'
+      + '\uD83C\uDFE2 <b>Компания:</b> ' + (esc(val('company')) || '—') + '\n'
+      + '\uD83D\uDCAC <b>Комментарий:</b> ' + (esc(val('comment')) || '—');
+    btn.disabled = true; btn.textContent = 'Отправляем…';
+    var body = new URLSearchParams();
+    body.set('chat_id', CHAT); body.set('message_thread_id', THREAD);
+    body.set('parse_mode', 'HTML'); body.set('disable_web_page_preview', 'true'); body.set('text', text);
+    fetch('/api/demo-lead', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() })
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (d && d.ok) {
+          form.hidden = true; res.hidden = false; res.className = 'demo-result ok';
+          res.innerHTML = '<div class="demo-check">\u2713</div><h4>Заявка отправлена!</h4><p>Мы свяжемся с вами в ближайшее время.</p><button type="button" class="demo-submit" id="demo-done">Закрыть</button>';
+          var db = document.getElementById('demo-done'); if (db) db.addEventListener('click', close);
+        } else { throw new Error((d && d.description) || 'error'); }
+      })
+      .catch(function(){
+        btn.disabled = false; btn.textContent = 'Отправить заявку';
+        res.hidden = false; res.className = 'demo-result err';
+        res.textContent = 'Не удалось отправить. Позвоните нам или напишите на почту — мы на связи.';
+      });
+  });
 })();
 </script>
 <!-- Widget modal -->
