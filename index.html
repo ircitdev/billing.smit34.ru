@@ -70,6 +70,18 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { overflow-x: hidden; max-width: 100%; }
 
+    /* ---- Custom scrollbar ---- */
+    * { scrollbar-width: thin; scrollbar-color: rgba(52,211,153,.55) transparent; }
+    ::-webkit-scrollbar { width: 11px; height: 11px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--emerald-500), var(--teal-500)); border-radius: 9px; border: 2px solid transparent; background-clip: padding-box; }
+    ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, var(--emerald-400), var(--teal-400)); background-clip: padding-box; border: 2px solid transparent; }
+    ::-webkit-scrollbar-corner { background: transparent; }
+    [data-theme="light"] * { scrollbar-color: rgba(16,185,129,.5) rgba(0,0,0,.04); }
+    [data-theme="light"] ::-webkit-scrollbar-track { background: rgba(0,0,0,.03); }
+    .shot-thumbs::-webkit-scrollbar { height: 6px; }
+    .demo-body::-webkit-scrollbar, .wg-modal-body::-webkit-scrollbar { width: 8px; }
+
     /* ---- Widgets section ---- */
     .wg-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 44px; }
     .wg-flowcard { display: flex; gap: 14px; align-items: flex-start; padding: 22px; border-radius: 16px; background: rgba(30,41,59,.45); border: 1px solid rgba(255,255,255,.07); }
@@ -3564,7 +3576,7 @@
       t.className = 'shot-thumb' + (i === cur ? ' active' : '');
       var im = document.createElement('img'); im.src = s.src; im.loading = 'lazy'; im.alt = '';
       t.appendChild(im);
-      t.addEventListener('click', function(){ show(i); if (playing) schedule(); });
+      t.addEventListener('click', function(){ show(i); stop(); });
       thumbsEl.appendChild(t);
     });
   }
@@ -3593,12 +3605,12 @@
     front.classList.remove('active'); back.classList.remove('active');
     front.src = list[0].src; front.classList.add('active'); cap.textContent = list[0].label;
     setActiveThumb();
-    if (playing) schedule();
+    stop();
   }
   btns.forEach(function(b){ b.addEventListener('click', function(){ btns.forEach(function(x){ x.classList.remove('active'); }); b.classList.add('active'); filter(b.getAttribute('data-filter')); }); });
   var pv = document.getElementById('shotPrev'), nx = document.getElementById('shotNext'), ex = document.getElementById('shotExpand');
-  if (pv) pv.addEventListener('click', function(){ show(cur - 1); if (playing) schedule(); });
-  if (nx) nx.addEventListener('click', function(){ show(cur + 1); if (playing) schedule(); });
+  if (pv) pv.addEventListener('click', function(){ show(cur - 1); stop(); });
+  if (nx) nx.addEventListener('click', function(){ show(cur + 1); stop(); });
   function openLB(){ if (lb && lbImg) { lbImg.src = list[cur].src; lb.classList.add('active'); } }
   if (ex) ex.addEventListener('click', openLB);
   document.querySelector('.shot-stage').addEventListener('click', function(e){ if (e.target.classList.contains('shot-img')) openLB(); });
@@ -3930,7 +3942,7 @@
   function play(){ if (playing || reduce) return; playing = true; schedule(); }
   function stop(){ playing = false; clearTimeout(timer); }
   steps.forEach(function(s, i){
-    s.addEventListener('click', function(){ activate(i); if (playing) schedule(); });
+    s.addEventListener('click', function(){ activate(i); stop(); });
   });
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function(entries){
@@ -4074,7 +4086,6 @@
       <label class="demo-field"><span>Email <b>*</b></span><input type="email" name="email" required autocomplete="email" placeholder="you@company.ru"></label>
       <label class="demo-field"><span>Телефон <b>*</b></span><input type="tel" name="phone" required autocomplete="tel" placeholder="+7 900 000-00-00"></label>
       <label class="demo-field"><span>ИНН компании <b>*</b></span><input type="text" name="inn" required inputmode="numeric" autocomplete="off" placeholder="10 или 12 цифр" maxlength="12"><div class="demo-inn-status" id="demo-inn-status"></div></label>
-      <label class="demo-field"><span>Компания</span><input type="text" name="company" autocomplete="organization" placeholder="Подставится по ИНН"></label>
       <label class="demo-field"><span>Комментарий</span><textarea name="comment" rows="3" placeholder="Что интересует? (необязательно)"></textarea></label>
       <input type="text" name="website" class="demo-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="demo-submit" id="demo-submit">Отправить заявку</button>
