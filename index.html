@@ -69,6 +69,34 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { overflow-x: hidden; max-width: 100%; }
 
+    /* ---- Widgets section ---- */
+    .wg-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 44px; }
+    .wg-flowcard { display: flex; gap: 14px; align-items: flex-start; padding: 22px; border-radius: 16px; background: rgba(30,41,59,.45); border: 1px solid rgba(255,255,255,.07); }
+    [data-theme="light"] .wg-flowcard { background: var(--bg-card); border-color: var(--bg-card-border); }
+    .wg-fi { flex: 0 0 auto; width: 40px; height: 40px; border-radius: 11px; display: flex; align-items: center; justify-content: center; color: var(--emerald-400); background: rgba(16,185,129,.12); border: 1px solid rgba(52,211,153,.22); }
+    .wg-fi svg { width: 20px; height: 20px; }
+    .wg-flowcard b { display: block; font-size: 15px; margin-bottom: 5px; color: var(--slate-100); }
+    [data-theme="light"] .wg-flowcard b { color: var(--text-primary); }
+    .wg-flowcard p { color: var(--slate-400); font-size: 13.5px; line-height: 1.55; }
+    [data-theme="light"] .wg-flowcard p { color: var(--text-secondary); }
+    .wg-filter { margin-top: 34px; }
+    .wg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 26px; }
+    .wg-chip { position: relative; padding: 14px 16px 14px 18px; border-radius: 12px; background: rgba(30,41,59,.4); border: 1px solid rgba(255,255,255,.06); overflow: hidden; transition: transform .2s, border-color .2s; }
+    .wg-chip::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--wc, var(--emerald-400)); }
+    .wg-chip:hover { transform: translateY(-3px); border-color: rgba(52,211,153,.3); }
+    [data-theme="light"] .wg-chip { background: var(--bg-card); border-color: var(--bg-card-border); }
+    .wg-chip b { display: block; font-size: 14px; color: var(--slate-100); line-height: 1.25; }
+    [data-theme="light"] .wg-chip b { color: var(--text-primary); }
+    .wg-chip small { color: var(--slate-500); font-size: 11.5px; }
+    .wg-dot { position: absolute; top: 15px; right: 14px; width: 8px; height: 8px; border-radius: 50%; background: var(--wc, var(--emerald-400)); }
+    .wg-crm { --wc: #34d399; } .wg-support { --wc: #60a5fa; } .wg-analytics { --wc: #fbbf24; } .wg-abonent { --wc: #c084fc; }
+    .wg-chip.wg-hidden { display: none; }
+    .wg-mount { text-align: center; margin-top: 28px; font-size: .92rem; color: var(--slate-400); }
+    .wg-mount b { color: var(--emerald-400); font-weight: 600; }
+    [data-theme="light"] .wg-mount { color: var(--text-secondary); }
+    @media (max-width: 1000px) { .wg-flow { grid-template-columns: 1fr; } .wg-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .wg-grid { grid-template-columns: 1fr; } }
+
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       color: var(--slate-50);
@@ -2636,6 +2664,57 @@
 </section>
 
 <!-- ==================== Screenshots Gallery ==================== -->
+
+<!-- ==================== Widgets ==================== -->
+<section id="widgets">
+  <div class="container">
+    <div class="section-badge reveal">Расширяемость</div>
+    <h2 class="section-title reveal reveal-delay-1">Виджеты и расширения</h2>
+    <p class="section-subtitle reveal reveal-delay-2">Дополняйте систему виджетами из каталога — как приложениями в маркетплейсе. Устанавливаются в один клик и встраиваются в дашборд, карточки и тикеты. Уже готовы десятки виджетов.</p>
+
+    <div class="wg-flow">
+      <div class="wg-flowcard reveal"><span class="wg-fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M3 9l2-5h14l2 5M9 9v12M15 9v12"/></svg></span><div><b>Каталог на сервере лицензий</b><p>Витрина виджетов с обложками, категориями и версиями.</p></div></div>
+      <div class="wg-flowcard reveal"><span class="wg-fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span><div><b>Установка в один клик</b><p>Проверка SHA-256 и манифеста, ставятся только фронт-файлы.</p></div></div>
+      <div class="wg-flowcard reveal"><span class="wg-fi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15A9 9 0 1 1 21 9"/></svg></span><div><b>Автообновление</b><p>Новая версия в каталоге — виджет обновляется сам или кнопкой.</p></div></div>
+    </div>
+
+    <div class="gallery-filter wg-filter reveal reveal-delay-2">
+      <button class="active" data-wfilter="all">Все</button>
+      <button data-wfilter="crm">CRM · Продажи</button>
+      <button data-wfilter="support">Поддержка</button>
+      <button data-wfilter="analytics">Аналитика</button>
+      <button data-wfilter="abonent">Абоненты и ЛК</button>
+    </div>
+
+    <div class="wg-grid">
+      <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>CRM и Поддержка абонента</b><small>CRM · Продажи</small></div>
+        <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>Salesbot</b><small>CRM · Продажи</small></div>
+        <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>Лента клиента</b><small>CRM · Продажи</small></div>
+        <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>Организации: сводка</b><small>CRM · Продажи</small></div>
+        <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>Рекламные кампании</b><small>CRM · Продажи</small></div>
+        <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>Рядом с адресом</b><small>CRM · Продажи</small></div>
+        <div class="wg-chip wg-crm reveal" data-cat="crm"><span class="wg-dot"></span><b>Сводка воронки</b><small>CRM · Продажи</small></div>
+        <div class="wg-chip wg-support reveal" data-cat="support"><span class="wg-dot"></span><b>SLA-таймер</b><small>Поддержка</small></div>
+        <div class="wg-chip wg-support reveal" data-cat="support"><span class="wg-dot"></span><b>Биллинг в тикете</b><small>Поддержка</small></div>
+        <div class="wg-chip wg-support reveal" data-cat="support"><span class="wg-dot"></span><b>Доп. поля тикета</b><small>Поддержка</small></div>
+        <div class="wg-chip wg-support reveal" data-cat="support"><span class="wg-dot"></span><b>Логи времени</b><small>Поддержка</small></div>
+        <div class="wg-chip wg-support reveal" data-cat="support"><span class="wg-dot"></span><b>Теги тикета</b><small>Поддержка</small></div>
+        <div class="wg-chip wg-analytics reveal" data-cat="analytics"><span class="wg-dot"></span><b>Активность менеджеров</b><small>Аналитика</small></div>
+        <div class="wg-chip wg-analytics reveal" data-cat="analytics"><span class="wg-dot"></span><b>Лиды по источникам</b><small>Аналитика</small></div>
+        <div class="wg-chip wg-analytics reveal" data-cat="analytics"><span class="wg-dot"></span><b>Лицензия и модули</b><small>Аналитика</small></div>
+        <div class="wg-chip wg-analytics reveal" data-cat="analytics"><span class="wg-dot"></span><b>Место и ИИ</b><small>Аналитика</small></div>
+        <div class="wg-chip wg-abonent reveal" data-cat="abonent"><span class="wg-dot"></span><b>Аудит</b><small>Абоненты и ЛК</small></div>
+        <div class="wg-chip wg-abonent reveal" data-cat="abonent"><span class="wg-dot"></span><b>Обращения</b><small>Абоненты и ЛК</small></div>
+        <div class="wg-chip wg-abonent reveal" data-cat="abonent"><span class="wg-dot"></span><b>Операции</b><small>Абоненты и ЛК</small></div>
+        <div class="wg-chip wg-abonent reveal" data-cat="abonent"><span class="wg-dot"></span><b>Сессии</b><small>Абоненты и ЛК</small></div>
+        <div class="wg-chip wg-abonent reveal" data-cat="abonent"><span class="wg-dot"></span><b>Сообщения</b><small>Абоненты и ЛК</small></div>
+        <div class="wg-chip wg-abonent reveal" data-cat="abonent"><span class="wg-dot"></span><b>Услуги и бонусы</b><small>Абоненты и ЛК</small></div>
+    </div>
+
+    <p class="wg-mount reveal">Монтируются в точки: <b>Дашборд</b> &middot; <b>Карточка сделки CRM</b> &middot; <b>Карточка абонента</b> &middot; <b>Тикет поддержки</b> &middot; и другие.</p>
+  </div>
+</section>
+
 <section id="screenshots">
   <div class="container">
     <div class="section-badge reveal">Интерфейс</div>
@@ -3831,6 +3910,19 @@
       empty.style.display = shown ? 'none' : 'block';
     });
   }
+})();
+</script>
+<script>
+/* Widgets category filter */
+(function(){
+  var btns = document.querySelectorAll('.wg-filter button');
+  var chips = document.querySelectorAll('#widgets .wg-chip');
+  if (!btns.length) return;
+  btns.forEach(function(b){ b.addEventListener('click', function(){
+    btns.forEach(function(x){ x.classList.remove('active'); }); b.classList.add('active');
+    var f = b.getAttribute('data-wfilter');
+    chips.forEach(function(c){ c.classList.toggle('wg-hidden', !(f === 'all' || c.getAttribute('data-cat') === f)); });
+  }); });
 })();
 </script>
 </body>
