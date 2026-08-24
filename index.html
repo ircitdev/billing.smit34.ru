@@ -1595,11 +1595,13 @@
       transform: scale(1);
     }
 
-    .video-modal-inner iframe {
+    .video-modal-inner iframe,
+    .video-modal-inner video {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
       border: none;
+      background: #000;
     }
 
     .video-modal-close {
@@ -3238,7 +3240,12 @@
 <div class="video-modal" id="video-modal">
   <div class="video-modal-inner">
     <button class="video-modal-close" id="video-modal-close">&#10005;</button>
-    <iframe id="video-iframe" src="" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    <video id="video-player" controls playsinline preload="none"
+           poster="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/video/platform-promo-poster.jpg">
+      <source src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/video/platform-promo.mp4" type="video/mp4">
+      Ваш браузер не проигрывает видео —
+      <a href="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/video/platform-promo.mp4">скачайте файл</a>.
+    </video>
   </div>
 </div>
 
@@ -3447,13 +3454,12 @@
 
   // --- Video modal ---
   var videoModal = document.getElementById('video-modal');
-  var videoIframe = document.getElementById('video-iframe');
-  var videoSrc = 'https://player.vimeo.com/video/1074227498?autoplay=1&title=0&byline=0&portrait=0';
+  var videoPlayer = document.getElementById('video-player');
 
   function openVideoModal() {
-    videoIframe.src = videoSrc;
     videoModal.classList.add('open');
     document.body.style.overflow = 'hidden';
+    if (videoPlayer) { try { videoPlayer.play(); } catch (e) {} }
   }
 
   document.getElementById('open-video').addEventListener('click', openVideoModal);
@@ -3473,7 +3479,7 @@
   function closeVideoModal() {
     videoModal.classList.remove('open');
     document.body.style.overflow = '';
-    setTimeout(function() { videoIframe.src = ''; }, 350);
+    if (videoPlayer) { try { videoPlayer.pause(); } catch (e) {} }
   }
 
   document.getElementById('video-modal-close').addEventListener('click', closeVideoModal);
