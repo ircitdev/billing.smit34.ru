@@ -724,6 +724,7 @@
       max-height: 380px; object-fit: cover; object-position: top center;
       border-top: 1px solid rgba(255, 255, 255, .06);
     }
+    video.hero-shot { max-height: none; aspect-ratio: 16/9; background: #0b1219; object-fit: contain; }
     [data-theme="light"] .hero-shot { border-top-color: rgba(0, 0, 0, .06); }
 
     /* ---- Sticky demo CTA ---- */
@@ -2501,7 +2502,6 @@
   <a href="#pricing" class="mobile-link">Тарифы</a>
   <a href="#api" class="mobile-link">API</a>
   <a href="#demo" class="mobile-link">Демо</a>
-  <a href="#" class="mobile-link" id="mobile-open-video"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px"><polygon points="7 4 20 12 7 20 7 4"/></svg> Видео</a>
   <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="mobile-link" download><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 3v12M7 11l5 4 5-4M5 20h14"/></svg> Презентация</a>
   <a href="https://docs.billing.smit34.ru" target="_blank" class="mobile-link">Документация</a>
   <a data-demo="1" href="#demo" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
@@ -2519,7 +2519,6 @@
       <p class="hero-desc">Управление абонентами, тарификация, платежи, RADIUS-авторизация, СОРМ-3, мобильное приложение и AI-агент (голос и телефон) в единой системе. Плюс видеонаблюдение, IPTV, телефония, склад и CRM. Развёртывание за 15 минут через Docker.</p>
       <div class="hero-buttons">
         <a data-demo="1" href="#demo" class="btn-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Запросить демо</a>
-        <a href="#" class="btn-secondary" id="hero-open-video"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21"/></svg> Видео</a>
         <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="btn-secondary" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Презентация</a>
       </div>
     </div>
@@ -2532,7 +2531,12 @@
           <div class="mock-dot yellow"></div>
           <div class="mock-dot green"></div>
         </div>
-        <img class="hero-shot" src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/billing_v1847/dashboard.png" alt="Дашборд СмИТ Биллинг — сводка по абонентам, финансам и NAS" loading="lazy">
+        <video class="hero-shot" id="hero-video" controls playsinline preload="none"
+               poster="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/video/platform-promo-poster.jpg">
+          <source src="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/video/platform-promo.mp4" type="video/mp4">
+          Ваш браузер не проигрывает видео —
+          <a href="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/video/platform-promo.mp4">скачайте файл</a>.
+        </video>
       </div>
     </div>
   </div>
@@ -3464,17 +3468,7 @@
 
   document.getElementById('open-video').addEventListener('click', openVideoModal);
 
-  document.getElementById('hero-open-video').addEventListener('click', function(e) {
-    e.preventDefault();
-    openVideoModal();
-  });
 
-  document.getElementById('mobile-open-video').addEventListener('click', function(e) {
-    e.preventDefault();
-    mobileMenu.classList.remove('open');
-    document.body.style.overflow = '';
-    openVideoModal();
-  });
 
   function closeVideoModal() {
     videoModal.classList.remove('open');
