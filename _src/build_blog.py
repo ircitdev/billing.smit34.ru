@@ -162,6 +162,9 @@ def read_post(path):
             k, v = line.split(':', 1)
             meta[k.strip()] = v.strip().strip('"')
     meta['slug'] = os.path.splitext(os.path.basename(path))[0]
+    if 'cover' not in meta:
+        jpg = os.path.join(BLOG_DIR, 'covers', meta['slug'] + '.jpg')
+        meta['cover'] = '/blog/covers/%s.jpg' % meta['slug'] if os.path.isfile(jpg) else ''
     meta['body'] = md_to_html(m.group(2).strip())
     for need in ('title', 'date', 'tag', 'summary'):
         if need not in meta:
@@ -184,6 +187,7 @@ HEAD = u'''<!DOCTYPE html>
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{canonical}">
 <meta property="og:site_name" content="СмИТ Биллинг">
+{ogimage}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/blog/blog.css">
 </head>
@@ -220,34 +224,54 @@ CTA = u'''<div class="bcta">
 </div>'''
 
 
+def cover_img(cover, cls):
+    """Тег обложки: пустая строка, если картинки у поста нет."""
+    if not cover:
+        return ''
+    return ('<img class="%s" src="%s" alt="" loading="lazy" width="1600" height="900">'
+            % (cls, cover))
+
+
+def og_image(cover):
+    if not cover:
+        return ''
+    return ('<meta property="og:image" content="%s%s">' % (SITE, cover) +
+            '\n<meta name="twitter:card" content="summary_large_image">')
+
+
 def post_page(p, year):
     return (HEAD.format(title=esc(p['title']) + ' — блог СмИТ Биллинг',
                         desc=esc(p['summary']),
                         canonical='%s/blog/%s' % (SITE, p['slug']),
-                        ogtype='article', blogcur=' aria-current="page"') +
+                        ogtype='article', blogcur=' aria-current="page"',
+                        ogimage=og_image(p['cover'])) +
             u'''<main class="bpost">
   <div class="container narrow">
     <a class="bback" href="/blog/">← Все статьи</a>
     <div><span class="btag">{tag}</span></div>
     <h1>{title}</h1>
     <div class="bmeta"><time datetime="{iso}">{date}</time> · {read}</div>
+    {cover}
     {body}
     {cta}
   </div>
 </main>
 '''.format(tag=esc(p['tag']), title=esc(p['title']), iso=p['date'],
            date=human_date(p['date']), read=p.get('read', '5 минут'),
+           cover=cover_img(p['cover'], 'bpost-cover'),
            body=p['body'], cta=CTA) +
             FOOT.format(year=year))
 
 
 def card(p, tag='article'):
     return u'''      <a class="bcard" href="/blog/{slug}">
+        {cover}
         <div class="bcard-meta"><span class="btag">{tag}</span><time datetime="{iso}">{date}</time></div>
         <h3>{title}</h3>
         <p>{summary}</p>
         <span class="bcard-more">Читать →</span>
       </a>'''.format(slug=p['slug'], tag=esc(p['tag']), iso=p['date'],
+                     cover=cover_img(p['cover'], 'bcard-cover'),
                      date=human_date(p['date']), title=esc(p['title']),
                      summary=esc(p['summary']))
 
@@ -257,7 +281,8 @@ def index_page(posts, year):
                         desc='Статьи о работе интернет-провайдера: биллинг, поддержка, продажи, '
                              'оборудование и автоматизация.',
                         canonical=SITE + '/blog/', ogtype='website',
-                        blogcur=' aria-current="page"') +
+                        blogcur=' aria-current="page"',
+                        ogimage=og_image(posts[0]['cover'] if posts else '')) +
             u'''<main>
   <div class="container">
     <div class="bhead">
@@ -295,6 +320,7 @@ HOME_SECTION = u'''<!-- BLOG:START -->
 <!-- BLOG:END -->'''
 
 HOME_CARD = u'''      <a class="blog-card reveal" href="/blog/{slug}">
+        {cover}
         <div class="blog-card-meta"><span class="blog-tag">{tag}</span><time datetime="{iso}">{date}</time></div>
         <h3>{title}</h3>
         <p>{summary}</p>
@@ -304,6 +330,7 @@ HOME_CARD = u'''      <a class="blog-card reveal" href="/blog/{slug}">
 
 def home_section(posts):
     cards = '\n'.join(HOME_CARD.format(slug=p['slug'], tag=esc(p['tag']), iso=p['date'],
+                                       cover=cover_img(p['cover'], 'blog-card-cover'),
                                        date=human_date(p['date']), title=esc(p['title']),
                                        summary=esc(p['summary']))
                       for p in posts[:HOME_LIMIT])

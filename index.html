@@ -734,14 +734,18 @@
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
     .blog-card {
-      display: flex; flex-direction: column; text-align: left;
+      display: flex; flex-direction: column; text-align: left; overflow: hidden;
       background: var(--bg-card); border: 1px solid var(--bg-card-border);
-      border-radius: 16px; padding: 26px; color: inherit; text-decoration: none;
+      border-radius: 16px; padding: 0 26px 26px; color: inherit; text-decoration: none;
       transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
     }
     .blog-card:hover {
       transform: translateY(-4px); border-color: rgba(16,185,129,.35);
       box-shadow: 0 20px 44px rgba(0,0,0,.28);
+    }
+    .blog-card-cover {
+      display: block; width: calc(100% + 52px); margin: 0 -26px 18px;
+      aspect-ratio: 16/9; object-fit: cover; background: #060d14;
     }
     .blog-card-meta {
       display: flex; align-items: center; gap: 10px;
@@ -3287,18 +3291,21 @@
     <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto 32px">Разборы ежедневных задач оператора связи: заявки, деньги, обращения абонентов и оборудование.</p>
     <div class="blog-grid">
       <a class="blog-card reveal" href="/blog/zayavka-ne-teryaetsya">
+        <img class="blog-card-cover" src="/blog/covers/zayavka-ne-teryaetsya.jpg" alt="" loading="lazy" width="1600" height="900">
         <div class="blog-card-meta"><span class="blog-tag">Продажи</span><time datetime="2026-08-25">25 августа 2026</time></div>
         <h3>Путь заявки: от звонка до подключения</h3>
         <p>Где заявки теряются у большинства провайдеров и как выглядит маршрут, на котором ни одна не пропадает: единый приём, воронка, наряд монтажнику и честная оценка рекламы.</p>
         <span class="blog-card-more">Читать →</span>
       </a>
       <a class="blog-card reveal" href="/blog/ai-agent-v-podderzhke">
+        <img class="blog-card-cover" src="/blog/covers/ai-agent-v-podderzhke.jpg" alt="" loading="lazy" width="1600" height="900">
         <div class="blog-card-meta"><span class="blog-tag">Поддержка</span><time datetime="2026-08-22">22 августа 2026</time></div>
         <h3>AI-агент в поддержке: что он закрывает сам, а что отдаёт человеку</h3>
         <p>Три четверти обращений закрываются без оператора — но только если агент подключён к биллингу и умеет вовремя позвать человека. Разбираем, где проходит эта граница.</p>
         <span class="blog-card-more">Читать →</span>
       </a>
       <a class="blog-card reveal" href="/blog/sklad-pod-podotchet">
+        <img class="blog-card-cover" src="/blog/covers/sklad-pod-podotchet.jpg" alt="" loading="lazy" width="1600" height="900">
         <div class="blog-card-meta"><span class="blog-tag">Оборудование</span><time datetime="2026-08-18">18 августа 2026</time></div>
         <h3>Оборудование под подотчёт: как склад перестаёт быть тетрадкой</h3>
         <p>Роутеры «где-то у монтажников», недостача, которую находят раз в год, и списание задним числом. Как выглядит учёт, при котором вещь всегда числится за кем-то одним.</p>
