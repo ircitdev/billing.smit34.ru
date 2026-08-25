@@ -276,6 +276,11 @@ a:focus-visible, button:focus-visible {
       justify-content: center;
       gap: 8px;
       pointer-events: none;
+      /* на главной скрытие описано отдельным правилом — здесь оно обязательно,
+         иначе полупрозрачный оверлей накрывает страницу и она выглядит пустой */
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .25s ease, visibility .25s ease;
     }
 .header-logo {
       display: flex;
@@ -446,3 +451,13 @@ a:focus-visible, button:focus-visible {
 /* блог начинается под фиксированной шапкой */
 body { padding-top: 64px; }
 .bhead { padding-top: 44px; }
+
+/* светлая тема: шапка светлая, как на главной */
+[data-theme="light"] .header {
+  background: var(--bg-header);
+  border-bottom-color: var(--border-light);
+}
+[data-theme="light"] .header-logo-text { color: var(--text-primary); }
+
+/* hidden у полосы фильтра не работал: display:flex его перебивал */
+.bfilter[hidden], .bempty[hidden] { display: none; }
