@@ -105,7 +105,7 @@ a:focus-visible, button:focus-visible {
   box-shadow: 0 18px 40px rgba(0, 0, 0, .25); color: inherit;
 }
 .bcard-cover {
-  display: block; width: calc(100% + 48px); margin: 0 -24px 18px;
+  display: block; width: calc(100% + 48px); height: auto; margin: 0 -24px 18px;
   aspect-ratio: 16/9; object-fit: cover; background: #060d14;
 }
 .bcard-meta { display: flex; gap: 10px; align-items: center; font-size: .8rem; color: var(--text-muted); }
@@ -120,7 +120,7 @@ a:focus-visible, button:focus-visible {
 /* ---- Статья ---- */
 .bpost { padding: 56px 0 80px; }
 .bpost-cover {
-  display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover;
+  display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover;
   border-radius: 14px; border: 1px solid var(--border-light);
   margin: 0 0 30px; background: #060d14;
 }
@@ -180,3 +180,28 @@ a:focus-visible, button:focus-visible {
   * { transition: none !important; animation: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* ---- Хештеги под статьёй ---- */
+.bhashes { display: flex; flex-wrap: wrap; gap: 8px; margin: 30px 0 4px; }
+.bhash {
+  padding: 5px 12px; border-radius: 999px; font-size: .88rem; font-weight: 500;
+  border: 1px solid var(--bg-card-border); background: var(--bg-card);
+  color: var(--text-secondary);
+}
+.bhash:hover { border-color: rgba(16,185,129,.4); color: var(--emerald-400); }
+
+/* ---- Читайте также ---- */
+.brelated { margin: 56px 0 12px; padding-top: 36px; border-top: 1px solid var(--border-light); }
+.brelated h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 20px; }
+.brel-grid {
+  display: grid; gap: 20px; padding-bottom: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+/* ---- Фильтр по тегу в списке ---- */
+.bfilter {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin: 4px 0 18px; color: var(--text-muted); font-size: .95rem;
+}
+.bfilter strong { color: var(--emerald-400); }
+.bempty { color: var(--text-muted); padding: 8px 0 60px; }

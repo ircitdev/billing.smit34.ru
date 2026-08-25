@@ -46,6 +46,22 @@ def inline(t):
     return t
 
 
+ITEM_BREAK = re.compile(r'^(#{2,3}\s|-\s|\d+\.\s|>\s|\|)')
+
+
+def item_text(lines, i, first):
+    """Пункт списка вместе с его продолжением на следующих строках.
+
+    Без этого перенос внутри пункта вываливался отдельным абзацем под списком.
+    """
+    parts = [first]
+    i += 1
+    while i < len(lines) and lines[i].strip() and not ITEM_BREAK.match(lines[i].strip()):
+        parts.append(lines[i].strip())
+        i += 1
+    return ' '.join(parts), i
+
+
 def md_to_html(md):
     out, lst, table = [], None, None
 
@@ -112,8 +128,8 @@ def md_to_html(md):
                 close_list()
                 out.append('<ol>')
                 lst = ('ol',)
-            out.append('<li>%s</li>' % inline(m.group(2)))
-            i += 1
+            text, i = item_text(lines, i, m.group(2))
+            out.append('<li>%s</li>' % inline(text))
             continue
 
         if stripped.startswith('- '):
@@ -121,8 +137,8 @@ def md_to_html(md):
                 close_list()
                 out.append('<ul>')
                 lst = ('ul',)
-            out.append('<li>%s</li>' % inline(stripped[2:]))
-            i += 1
+            text, i = item_text(lines, i, stripped[2:])
+            out.append('<li>%s</li>' % inline(text))
             continue
 
         # абзац: собираем до пустой строки
@@ -165,6 +181,7 @@ def read_post(path):
     if 'cover' not in meta:
         jpg = os.path.join(BLOG_DIR, 'covers', meta['slug'] + '.jpg')
         meta['cover'] = '/blog/covers/%s.jpg' % meta['slug'] if os.path.isfile(jpg) else ''
+    meta['tags'] = [t.strip() for t in meta.get('tags', '').split(',') if t.strip()]
     meta['body'] = md_to_html(m.group(2).strip())
     for need in ('title', 'date', 'tag', 'summary'):
         if need not in meta:
@@ -189,7 +206,7 @@ HEAD = u'''<!DOCTYPE html>
 <meta property="og:site_name" content="СмИТ Биллинг">
 {ogimage}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/blog/blog.css">
+<link rel="stylesheet" href="/blog/blog.css?v={cssver}">
 </head>
 <body>
 <header class="bh">
@@ -224,6 +241,11 @@ CTA = u'''<div class="bcta">
 </div>'''
 
 
+def css_version():
+    css = os.path.join(BLOG_DIR, 'blog.css')
+    return str(int(os.path.getmtime(css))) if os.path.isfile(css) else '1'
+
+
 def cover_img(cover, cls):
     """Тег обложки: пустая строка, если картинки у поста нет."""
     if not cover:
@@ -239,12 +261,38 @@ def og_image(cover):
             '\n<meta name="twitter:card" content="summary_large_image">')
 
 
-def post_page(p, year):
+def hashtags(tags):
+    """Хештеги под статьёй: ведут в список, отфильтрованный по тегу."""
+    if not tags:
+        return ''
+    items = ''.join('<a class="bhash" href="/blog/?tag=%s">#%s</a>'
+                    % (esc(t), esc(t.replace(' ', '_'))) for t in tags)
+    return '<div class="bhashes">%s</div>' % items
+
+
+def related(p, posts, limit=2):
+    """«Читайте также»: сначала статьи с общими тегами, потом просто свежие."""
+    mine = set(p['tags'])
+    others = [o for o in posts if o['slug'] != p['slug']]
+    others.sort(key=lambda o: (-len(mine & set(o['tags'])), o['date']), reverse=False)
+    others.sort(key=lambda o: len(mine & set(o['tags'])), reverse=True)
+    picked = others[:limit]
+    if not picked:
+        return ''
+    return (u'''  <section class="brelated">
+    <h2>Читайте также</h2>
+    <div class="brel-grid">
+%s
+    </div>
+  </section>''' % '\n'.join(card(o) for o in picked))
+
+
+def post_page(p, year, posts):
     return (HEAD.format(title=esc(p['title']) + ' — блог СмИТ Биллинг',
                         desc=esc(p['summary']),
                         canonical='%s/blog/%s' % (SITE, p['slug']),
                         ogtype='article', blogcur=' aria-current="page"',
-                        ogimage=og_image(p['cover'])) +
+                        ogimage=og_image(p['cover']), cssver=css_version()) +
             u'''<main class="bpost">
   <div class="container narrow">
     <a class="bback" href="/blog/">← Все статьи</a>
@@ -253,24 +301,30 @@ def post_page(p, year):
     <div class="bmeta"><time datetime="{iso}">{date}</time> · {read}</div>
     {cover}
     {body}
+    {hashes}
     {cta}
+  </div>
+  <div class="container">
+{rel}
   </div>
 </main>
 '''.format(tag=esc(p['tag']), title=esc(p['title']), iso=p['date'],
            date=human_date(p['date']), read=p.get('read', '5 минут'),
            cover=cover_img(p['cover'], 'bpost-cover'),
-           body=p['body'], cta=CTA) +
+           body=p['body'], hashes=hashtags(p['tags']), cta=CTA,
+           rel=related(p, posts)) +
             FOOT.format(year=year))
 
 
 def card(p, tag='article'):
-    return u'''      <a class="bcard" href="/blog/{slug}">
+    return u'''      <a class="bcard" href="/blog/{slug}" data-tags="{tags}">
         {cover}
         <div class="bcard-meta"><span class="btag">{tag}</span><time datetime="{iso}">{date}</time></div>
         <h3>{title}</h3>
         <p>{summary}</p>
         <span class="bcard-more">Читать →</span>
       </a>'''.format(slug=p['slug'], tag=esc(p['tag']), iso=p['date'],
+                     tags=esc(','.join(p['tags'])),
                      cover=cover_img(p['cover'], 'bcard-cover'),
                      date=human_date(p['date']), title=esc(p['title']),
                      summary=esc(p['summary']))
@@ -282,7 +336,7 @@ def index_page(posts, year):
                              'оборудование и автоматизация.',
                         canonical=SITE + '/blog/', ogtype='website',
                         blogcur=' aria-current="page"',
-                        ogimage=og_image(posts[0]['cover'] if posts else '')) +
+                        ogimage=og_image(posts[0]['cover'] if posts else ''), cssver=css_version()) +
             u'''<main>
   <div class="container">
     <div class="bhead">
@@ -292,11 +346,33 @@ def index_page(posts, year):
          деньги на счетах, обращения абонентов, оборудование у монтажников. Без общих слов — на том,
          как это работает в СмИТ Биллинге.</p>
     </div>
-    <div class="bgrid">
+    <div class="bfilter" id="bfilter" hidden>
+      <span>Тег:</span> <strong id="bfilter-name"></strong>
+      <a href="/blog/">показать все →</a>
+    </div>
+    <div class="bgrid" id="bgrid">
 {cards}
     </div>
+    <p class="bempty" id="bempty" hidden>По этому тегу статей пока нет.</p>
   </div>
 </main>
+<script>
+// ?tag=... — хештег из статьи фильтрует список без перезагрузки данных
+(function () {{
+  var tag = new URLSearchParams(location.search).get('tag');
+  if (!tag) return;
+  var shown = 0;
+  document.querySelectorAll('#bgrid .bcard').forEach(function (c) {{
+    var has = (c.dataset.tags || '').split(',').indexOf(tag) > -1;
+    c.hidden = !has;
+    if (has) shown++;
+  }});
+  var bar = document.getElementById('bfilter');
+  document.getElementById('bfilter-name').textContent = '#' + tag;
+  bar.hidden = false;
+  document.getElementById('bempty').hidden = shown > 0;
+}})();
+</script>
 '''.format(cards='\n'.join(card(p) for p in posts)) +
             FOOT.format(year=year))
 
@@ -381,7 +457,7 @@ def main():
         os.makedirs(BLOG_DIR)
     for p in posts:
         out = os.path.join(BLOG_DIR, p['slug'] + '.html')
-        io.open(out, 'w', encoding='utf-8').write(post_page(p, year))
+        io.open(out, 'w', encoding='utf-8').write(post_page(p, year, posts))
         print('  пост: /blog/%s' % p['slug'])
     io.open(os.path.join(BLOG_DIR, 'index.html'), 'w', encoding='utf-8').write(index_page(posts, year))
     print('  список: /blog/ (%d статей)' % len(posts))
