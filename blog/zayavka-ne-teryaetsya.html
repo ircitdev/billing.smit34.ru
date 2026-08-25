@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +14,17 @@
 <meta property="og:image" content="https://billing.smit34.ru/blog/covers/zayavka-ne-teryaetsya.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/blog/blog.css?v=1787644400">
+<link rel="stylesheet" href="/blog/blog.css?v=1787646185">
+<script>
+  // тема общая с главной: ключ billing-theme, светлая — атрибутом data-theme
+  (function () {
+    try {
+      if (localStorage.getItem('billing-theme') === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    } catch (e) {}
+  })();
+</script>
 </head>
 <body>
 <header class="bh">
@@ -26,6 +36,9 @@
       <a href="/#pricing">Тарифы</a>
       <a href="/blog/" aria-current="page">Блог</a>
       <a href="/#demo" class="bh-cta">Запросить демо</a>
+      <button class="bh-theme" id="bh-theme" type="button" aria-label="Переключить тему">
+        <span class="bh-sun">☀</span><span class="bh-moon">☾</span>
+      </button>
     </nav>
   </div>
 </header>
@@ -42,6 +55,18 @@
 <p>Первое, что нужно сделать, — свести все каналы в один поток. Звонок, сообщение из мессенджера, письмо, форма на сайте и заявка от AI-виджета попадают в общий приём. Дальше система решает, что с обращением делать: это новый клиент или уже существующий, первое обращение или повторное.</p>
 <p>Ключевая деталь — <strong>проверка дублей по телефону</strong>. Человек оставил заявку на сайте, не дождался ответа и позвонил. Без проверки это две сделки, два менеджера и два звонка клиенту с одинаковым вопросом. С проверкой — одна сделка, в которой видно оба касания. Окно контроля дублей настраивается на источнике: где-то разумно считать повтором обращение в течение суток, где-то — в течение недели.</p>
 <p>Адрес из заявки сразу разбирается и ставится на карту. Это не украшение: когда на район приходит пять заявок за неделю, их видно на карте кучкой — и монтажную бригаду можно отправить одним выездом.</p>
+<p>Весь маршрут целиком выглядит так:</p>
+<div class="bmermaid"><pre class="mermaid">flowchart LR
+  A[Звонок] --&gt; P
+  B[Мессенджер] --&gt; P
+  C[Форма на сайте] --&gt; P
+  D[Почта] --&gt; P
+  P{Единый приём&lt;br/&gt;дубль по телефону?} --&gt;|новый| N[Новый лид]
+  P --&gt;|повтор| E[Та же сделка]
+  N --&gt; T[Тариф выбран]
+  T --&gt; M[Назначен монтаж&lt;br/&gt;дата и бригада]
+  M --&gt; S[Подключено]
+  E --&gt; T</pre></div>
 <h2>Шаг 2. Воронка вместо памяти менеджера</h2>
 <p>Заявка становится сделкой и встаёт в воронку. Стадии — это не абстрактные «в работе» и «думает», а конкретные шаги вашего процесса: новый лид, тариф выбран, назначен монтаж, подключено.</p>
 <p>Что это даёт руководителю:</p>
@@ -101,6 +126,48 @@
   </section>
   </div>
 </main>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  // тема под палитру сайта; схема не должна спорить с текстом статьи
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    fontFamily: 'Inter, system-ui, sans-serif',
+    themeVariables: {
+      background: 'transparent',
+      primaryColor: '#0f2a22',
+      primaryTextColor: '#e2e8f0',
+      primaryBorderColor: '#10b981',
+      lineColor: '#2dd4bf',
+      secondaryColor: '#132030',
+      tertiaryColor: '#0b1622',
+      fontSize: '17px'
+    },
+    flowchart: { curve: 'basis', useMaxWidth: false, nodeSpacing: 34, rankSpacing: 46 }
+  });
+  // при смене темы схему нужно перерисовать: цвета зашиты в SVG
+  var root = document.documentElement;
+  new MutationObserver(function () {
+    var light = root.getAttribute('data-theme') === 'light';
+    document.querySelectorAll('pre.mermaid').forEach(function (el) {
+      if (!el.dataset.src) el.dataset.src = el.textContent;
+      el.removeAttribute('data-processed');
+      el.innerHTML = el.dataset.src;
+    });
+    mermaid.initialize({
+      startOnLoad: false, theme: 'base', fontFamily: 'Inter, system-ui, sans-serif',
+      themeVariables: light
+        ? { background: '#ffffff', primaryColor: '#e8f6f0', primaryTextColor: '#0f172a',
+            primaryBorderColor: '#0f9d76', lineColor: '#0f9d76', secondaryColor: '#f1f5f9',
+            tertiaryColor: '#f8fafc', fontSize: '17px' }
+        : { background: 'transparent', primaryColor: '#0f2a22', primaryTextColor: '#e2e8f0',
+            primaryBorderColor: '#10b981', lineColor: '#2dd4bf', secondaryColor: '#132030',
+            tertiaryColor: '#0b1622', fontSize: '17px' },
+      flowchart: { curve: 'basis', useMaxWidth: false, nodeSpacing: 34, rankSpacing: 46 }
+    });
+    mermaid.run({ querySelector: 'pre.mermaid' });
+  }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
 <footer class="bfoot">
   <div class="container">
     <span>© 2026 СмИТ Биллинг — платформа для операторов связи</span>
@@ -108,5 +175,17 @@
     <a href="https://docs.billing.smit34.ru" target="_blank" rel="noopener">Документация</a>
   </div>
 </footer>
+<script>
+  (function () {
+    var btn = document.getElementById('bh-theme');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var root = document.documentElement;
+      var light = root.getAttribute('data-theme') === 'light';
+      if (light) { root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme', 'light'); }
+      try { localStorage.setItem('billing-theme', light ? 'dark' : 'light'); } catch (e) {}
+    });
+  })();
+</script>
 </body>
 </html>

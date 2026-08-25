@@ -19,6 +19,9 @@
 }
 
 [data-theme="light"] {
+  /* на светлом фоне мятный акцент нечитаем — берём тёмную зелень */
+  --emerald-400: #047857;
+  --emerald-500: #065f46;
   --bg-body: #f8fafc;
   --bg-card: rgba(255, 255, 255, 0.75);
   --bg-card-border: rgba(0, 0, 0, 0.08);
@@ -205,3 +208,49 @@ a:focus-visible, button:focus-visible {
 }
 .bfilter strong { color: var(--emerald-400); }
 .bempty { color: var(--text-muted); padding: 8px 0 60px; }
+
+/* ---- Схемы и код ---- */
+.bmermaid {
+  margin: 26px 0 30px; padding: 22px 18px; border-radius: 14px;
+  border: 1px solid var(--bg-card-border); background: var(--bg-card);
+  overflow-x: auto;                 /* широкая схема скроллится внутри блока */
+}
+.bmermaid pre.mermaid { margin: 0; background: none; text-align: center; }
+.bmermaid svg { max-width: 100%; height: auto; }
+/* mermaid считает размер шрифта сам — возвращаем читаемый кегль */
+.bmermaid .nodeLabel, .bmermaid .edgeLabel, .bmermaid .label { font-size: 15px !important; }
+.bmermaid .edgeLabel { background: transparent !important; }
+.bcode {
+  margin: 20px 0 24px; padding: 16px 18px; border-radius: 12px;
+  background: var(--code-bg); border: 1px solid var(--border-light);
+  overflow-x: auto; font-size: .9rem; line-height: 1.55;
+}
+.bcode code { background: none; padding: 0; color: #cbd5e1; }
+
+/* ---- Переключатель темы ---- */
+.bh-theme {
+  width: 36px; height: 36px; border-radius: 10px; cursor: pointer;
+  border: 1px solid var(--bg-card-border); background: var(--bg-card);
+  color: var(--text-secondary); font-size: 1rem; line-height: 1;
+}
+.bh-theme:hover { color: var(--emerald-400); border-color: rgba(16,185,129,.35); }
+.bh-sun { display: none; }
+.bh-moon { display: inline; }
+[data-theme="light"] .bh-sun { display: inline; }
+[data-theme="light"] .bh-moon { display: none; }
+
+/* ---- Светлая тема: схемы и код читаются иначе ---- */
+[data-theme="light"] .bmermaid { background: #fff; }
+[data-theme="light"] .bmermaid .nodeLabel,
+[data-theme="light"] .bmermaid .edgeLabel,
+[data-theme="light"] .bmermaid .label { color: #0f172a !important; fill: #0f172a !important; }
+[data-theme="light"] .bcode code { color: #e2e8f0; }
+[data-theme="light"] .bcard-cover, [data-theme="light"] .bpost-cover { background: #e2e8f0; }
+
+[data-theme="light"] .bh-cta {
+  background: linear-gradient(135deg, #059669, #047857);
+  color: #ffffff !important;
+}
+[data-theme="light"] .btag,
+[data-theme="light"] .bkicker { background: rgba(4,120,87,.10); color: #047857; }
+[data-theme="light"] .bmermaid { border-color: rgba(0,0,0,.08); }

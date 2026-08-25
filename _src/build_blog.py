@@ -79,6 +79,24 @@ def md_to_html(md):
         ln = lines[i].rstrip()
         stripped = ln.strip()
 
+        # блок в тройных кавычках: mermaid-схема или обычный код
+        if stripped.startswith('```'):
+            lang = stripped[3:].strip().lower()
+            i += 1
+            block = []
+            while i < len(lines) and not lines[i].strip().startswith('```'):
+                block.append(lines[i])
+                i += 1
+            i += 1
+            close_list()
+            lst = None
+            body = '\n'.join(block)
+            if lang == 'mermaid':
+                out.append('<div class="bmermaid"><pre class="mermaid">%s</pre></div>' % esc(body))
+            else:
+                out.append('<pre class="bcode"><code>%s</code></pre>' % esc(body))
+            continue
+
         # таблица: строка с | и следующая из дефисов
         if stripped.startswith('|') and i + 1 < len(lines) and re.match(r'^\|[\s\-:|]+\|$', lines[i + 1].strip()):
             cells = [c.strip() for c in stripped.strip('|').split('|')]
@@ -192,7 +210,7 @@ def read_post(path):
 # ─────────────────────────── шаблоны ───────────────────────────
 
 HEAD = u'''<!DOCTYPE html>
-<html lang="ru" data-theme="dark">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -207,6 +225,16 @@ HEAD = u'''<!DOCTYPE html>
 {ogimage}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/blog/blog.css?v={cssver}">
+<script>
+  // тема общая с главной: ключ billing-theme, светлая — атрибутом data-theme
+  (function () {{
+    try {{
+      if (localStorage.getItem('billing-theme') === 'light') {{
+        document.documentElement.setAttribute('data-theme', 'light');
+      }}
+    }} catch (e) {{}}
+  }})();
+</script>
 </head>
 <body>
 <header class="bh">
@@ -218,6 +246,9 @@ HEAD = u'''<!DOCTYPE html>
       <a href="/#pricing">Тарифы</a>
       <a href="/blog/"{blogcur}>Блог</a>
       <a href="/#demo" class="bh-cta">Запросить демо</a>
+      <button class="bh-theme" id="bh-theme" type="button" aria-label="Переключить тему">
+        <span class="bh-sun">☀</span><span class="bh-moon">☾</span>
+      </button>
     </nav>
   </div>
 </header>
@@ -230,6 +261,18 @@ FOOT = u'''<footer class="bfoot">
     <a href="https://docs.billing.smit34.ru" target="_blank" rel="noopener">Документация</a>
   </div>
 </footer>
+<script>
+  (function () {{
+    var btn = document.getElementById('bh-theme');
+    if (!btn) return;
+    btn.addEventListener('click', function () {{
+      var root = document.documentElement;
+      var light = root.getAttribute('data-theme') === 'light';
+      if (light) {{ root.removeAttribute('data-theme'); }} else {{ root.setAttribute('data-theme', 'light'); }}
+      try {{ localStorage.setItem('billing-theme', light ? 'dark' : 'light'); }} catch (e) {{}}
+    }});
+  }})();
+</script>
 </body>
 </html>
 '''
@@ -287,6 +330,55 @@ def related(p, posts, limit=2):
   </section>''' % '\n'.join(card(o) for o in picked))
 
 
+MERMAID = u'''<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  // тема под палитру сайта; схема не должна спорить с текстом статьи
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    fontFamily: 'Inter, system-ui, sans-serif',
+    themeVariables: {
+      background: 'transparent',
+      primaryColor: '#0f2a22',
+      primaryTextColor: '#e2e8f0',
+      primaryBorderColor: '#10b981',
+      lineColor: '#2dd4bf',
+      secondaryColor: '#132030',
+      tertiaryColor: '#0b1622',
+      fontSize: '17px'
+    },
+    flowchart: { curve: 'basis', useMaxWidth: false, nodeSpacing: 34, rankSpacing: 46 }
+  });
+  // при смене темы схему нужно перерисовать: цвета зашиты в SVG
+  var root = document.documentElement;
+  new MutationObserver(function () {
+    var light = root.getAttribute('data-theme') === 'light';
+    document.querySelectorAll('pre.mermaid').forEach(function (el) {
+      if (!el.dataset.src) el.dataset.src = el.textContent;
+      el.removeAttribute('data-processed');
+      el.innerHTML = el.dataset.src;
+    });
+    mermaid.initialize({
+      startOnLoad: false, theme: 'base', fontFamily: 'Inter, system-ui, sans-serif',
+      themeVariables: light
+        ? { background: '#ffffff', primaryColor: '#e8f6f0', primaryTextColor: '#0f172a',
+            primaryBorderColor: '#0f9d76', lineColor: '#0f9d76', secondaryColor: '#f1f5f9',
+            tertiaryColor: '#f8fafc', fontSize: '17px' }
+        : { background: 'transparent', primaryColor: '#0f2a22', primaryTextColor: '#e2e8f0',
+            primaryBorderColor: '#10b981', lineColor: '#2dd4bf', secondaryColor: '#132030',
+            tertiaryColor: '#0b1622', fontSize: '17px' },
+      flowchart: { curve: 'basis', useMaxWidth: false, nodeSpacing: 34, rankSpacing: 46 }
+    });
+    mermaid.run({ querySelector: 'pre.mermaid' });
+  }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+</script>'''
+
+
+def mermaid_script(body):
+    """Библиотека подключается только к статьям, где схема действительно есть."""
+    return MERMAID if 'class="mermaid"' in body else ''
+
+
 def post_page(p, year, posts):
     return (HEAD.format(title=esc(p['title']) + ' — блог СмИТ Биллинг',
                         desc=esc(p['summary']),
@@ -308,11 +400,12 @@ def post_page(p, year, posts):
 {rel}
   </div>
 </main>
+{mermaid}
 '''.format(tag=esc(p['tag']), title=esc(p['title']), iso=p['date'],
            date=human_date(p['date']), read=p.get('read', '5 минут'),
            cover=cover_img(p['cover'], 'bpost-cover'),
            body=p['body'], hashes=hashtags(p['tags']), cta=CTA,
-           rel=related(p, posts)) +
+           rel=related(p, posts), mermaid=mermaid_script(p['body'])) +
             FOOT.format(year=year))
 
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +14,17 @@
 <meta property="og:image" content="https://billing.smit34.ru/blog/covers/zayavka-ne-teryaetsya.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/blog/blog.css?v=1787644400">
+<link rel="stylesheet" href="/blog/blog.css?v=1787646185">
+<script>
+  // тема общая с главной: ключ billing-theme, светлая — атрибутом data-theme
+  (function () {
+    try {
+      if (localStorage.getItem('billing-theme') === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    } catch (e) {}
+  })();
+</script>
 </head>
 <body>
 <header class="bh">
@@ -26,6 +36,9 @@
       <a href="/#pricing">Тарифы</a>
       <a href="/blog/" aria-current="page">Блог</a>
       <a href="/#demo" class="bh-cta">Запросить демо</a>
+      <button class="bh-theme" id="bh-theme" type="button" aria-label="Переключить тему">
+        <span class="bh-sun">☀</span><span class="bh-moon">☾</span>
+      </button>
     </nav>
   </div>
 </header>
@@ -92,5 +105,17 @@
     <a href="https://docs.billing.smit34.ru" target="_blank" rel="noopener">Документация</a>
   </div>
 </footer>
+<script>
+  (function () {
+    var btn = document.getElementById('bh-theme');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var root = document.documentElement;
+      var light = root.getAttribute('data-theme') === 'light';
+      if (light) { root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme', 'light'); }
+      try { localStorage.setItem('billing-theme', light ? 'dark' : 'light'); } catch (e) {}
+    });
+  })();
+</script>
 </body>
 </html>
