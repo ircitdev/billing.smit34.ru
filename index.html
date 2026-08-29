@@ -3918,7 +3918,11 @@
     if(plan){
       closeMod();
       var pr=document.getElementById('pricing');
-      if(pr) setTimeout(function(){ pr.scrollIntoView({behavior:'smooth', block:'start'}); }, 80);
+      if(pr) setTimeout(function(){
+        // та же точка, что и по прямой ссылке /#pricing
+        window.scrollTo({ top: pr.offsetTop, behavior: 'smooth' });
+        history.replaceState(null, '', '#pricing');
+      }, 120);
       return;
     }
     var dep=e.target.closest('.mm-dep[data-go]');
