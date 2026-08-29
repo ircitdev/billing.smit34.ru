@@ -2441,7 +2441,9 @@
 .mm-meta .mm-cat,.mm-meta .mm-dev{display:inline-flex;align-items:center;gap:5px}
 .mm-meta .mm-plans{display:inline-flex;flex-wrap:wrap;gap:5px}
 .mm-meta .mm-plan{padding:2px 9px;border-radius:20px;border:1px solid rgba(16,185,129,.35);font-size:.76rem;white-space:nowrap}
-.mm-doc{margin-left:auto;padding:6px 13px;border:1px solid rgba(16,185,129,.45);border-radius:8px;color:#10b981;text-decoration:none;font-weight:600;white-space:nowrap}
+.mm-head{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.mm-head h3{margin:0;flex:1 1 auto}
+.mm-doc{margin-left:auto;flex:0 0 auto;padding:6px 13px;border:1px solid rgba(16,185,129,.45);border-radius:8px;color:#10b981;text-decoration:none;font-weight:600;white-space:nowrap}
 .mm-doc:hover{background:#10b981;color:#fff}
 .mm-tabs{display:flex;gap:4px;flex-wrap:wrap;margin:20px 0 0;border-bottom:1px solid rgba(255,255,255,.1)}
 [data-theme="light"] .mm-tabs{border-bottom-color:rgba(0,0,0,.09)}
@@ -3744,13 +3746,16 @@
     <button class="mod-modal-close" data-close aria-label="Закрыть">&#10005;</button>
     <div class="mod-modal-cover"><img id="mm-cover" src="" alt=""><video id="mm-video" controls preload="none" playsinline style="display:none"></video></div>
     <div class="mod-modal-body">
-      <h3 id="mm-name"></h3>
+      <div class="mm-head">
+        <h3 id="mm-name"></h3>
+        <a id="mm-doc" class="mm-doc" target="_blank" rel="noopener" style="display:none">Документация</a>
+      </div>
       <div class="mm-meta">
         <span class="mm-ver" id="mm-ver"></span>
         <span class="mm-cat" id="mm-cat"></span>
         <span class="mm-dev" id="mm-dev"></span>
         <span class="mm-plans" id="mm-plans"></span>
-        <a id="mm-doc" class="mm-doc" target="_blank" rel="noopener" style="display:none">Документация</a>
+
       </div>
       <p class="mm-full" id="mm-full"></p>
 
