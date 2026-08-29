@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>СОРМ по приказу №573: что выгружать и почему выгрузка — не главное — блог СмИТ Биллинг</title>
+<meta name="description" content="Файлы формируются, расписание работает, проверка проходит — а данные внутри пустые. Разбираем, из чего состоит выгрузка и где она ломается на практике.">
+<link rel="canonical" href="https://billing.smit34.ru/blog/sorm-573">
+<meta property="og:type" content="article">
+<meta property="og:title" content="СОРМ по приказу №573: что выгружать и почему выгрузка — не главное — блог СмИТ Биллинг">
+<meta property="og:description" content="Файлы формируются, расписание работает, проверка проходит — а данные внутри пустые. Разбираем, из чего состоит выгрузка и где она ломается на практике.">
+<meta property="og:url" content="https://billing.smit34.ru/blog/sorm-573">
+<meta property="og:site_name" content="СмИТ Биллинг">
+<meta property="og:image" content="https://billing.smit34.ru/blog/covers/sorm-573.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/blog/blog.css?v=1787648090">
+<script>
+  // тема общая с главной: ключ billing-theme, светлая — атрибутом data-theme
+  (function () {
+    try {
+      var saved = localStorage.getItem('billing-theme');
+      var light = saved
+        ? saved === 'light'
+        : window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (light) document.documentElement.setAttribute('data-theme', 'light');
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<header class="header">
+  <a href="/" class="header-logo">
+    <div class="header-logo-icon">C</div>
+    <div class="header-logo-text">СмИТ Биллинг<span>3.5</span></div>
+  </a>
+  <nav class="header-nav">
+    <a href="/#features">Возможности</a>
+    <a href="/#modules">Модули</a>
+    <a href="/#lk">Приложение</a>
+    <a href="/#pricing">Тарифы</a>
+    <a href="/#api">API</a>
+    <a href="/#demo">Демо</a>
+    <a href="/blog/" aria-current="page">Блог</a>
+    <a href="https://docs.billing.smit34.ru" class="btn-header" target="_blank">Документация</a>
+  </nav>
+  <div class="header-actions" style="display:flex;align-items:center;gap:8px">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">
+      <span class="icon-sun"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M5 19l1.4-1.4M17.6 6.4L19 5"/></svg></span>
+      <span class="icon-moon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span>
+    </button>
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Меню"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  </div>
+</header>
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" id="mobile-close">&#10005;</button>
+  <a href="/#features" class="mobile-link">Возможности</a>
+  <a href="/#lk" class="mobile-link">Приложение</a>
+  <a href="/#pricing" class="mobile-link">Тарифы</a>
+  <a href="/#api" class="mobile-link">API</a>
+  <a href="/#demo" class="mobile-link">Демо</a>
+  <a href="/blog/" class="mobile-link">Блог</a>
+  <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="mobile-link" download><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 3v12M7 11l5 4 5-4M5 20h14"/></svg> Презентация</a>
+  <a href="https://docs.billing.smit34.ru" target="_blank" class="mobile-link">Документация</a>
+  <a data-demo="1" href="/#demo" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
+</div>
+
+
+<main class="bpost">
+  <div class="container narrow">
+    <a class="bback" href="/blog/">← Все статьи</a>
+    <div><span class="btag">Закон</span></div>
+    <h1>СОРМ по приказу №573: что выгружать и почему выгрузка — не главное</h1>
+    <div class="bmeta"><time datetime="2026-08-30">30 августа 2026</time> · 7 минут</div>
+    <img class="bpost-cover" src="/blog/covers/sorm-573.jpg" alt="" loading="lazy" width="1600" height="900">
+<p>Про СОРМ у операторов есть два разговора. Первый — с вендором о железе и договоре. Второй, менее заметный, — про данные: что именно провайдер обязан отдавать и в каком виде. Первый решается деньгами. Второй упирается в то, как в биллинге заполнены карточки абонентов, и решается только работой.</p>
+<p>Эта статья про второй.</p>
+
+<h2>Из чего состоит выгрузка</h2>
+<p>Формально — это набор текстовых файлов с разделителями, который регулярно уходит на сервер и содержит слепок абонентской базы: сами абоненты, их документы, адреса, услуги, учётные записи, платежи, а также справочники — типы документов, типы платежей, регионы, адресные планы, шлюзы.</p>
+<p>Каждый файл имеет фиксированный набор колонок и формат значений: адреса приводятся к структуре, IP-адреса и маски записываются в шестнадцатеричном виде, даты — в своём формате. Ошибка в одной колонке делает файл непригодным целиком.</p>
+<p>Практический вывод: <strong>ручное формирование этих файлов — тупик</strong>. Не потому что сложно, а потому что делать это нужно регулярно и без ошибок, а состав базы меняется каждый день.</p>
+
+<h2>Где выгрузка ломается на самом деле</h2>
+<p>Самая частая ситуация выглядит обманчиво благополучно: задание отработало, файлы сформированы, отправка прошла. А внутри — пустые паспортные данные у трети абонентов, адреса, записанные строкой в комментарии, и юрлица, у которых не заполнены ИНН и КПП.</p>
+<p>Причина понятна и не в биллинге: карточки заполняли годами разные люди, часть базы переехала из старой системы, где этих полей не было вовсе. Пока никто не спрашивает — незаметно.</p>
+<p>Поэтому полезнее не «кнопка выгрузки», а <strong>проверка готовности данных</strong>: сколько абонентов без паспорта, без структурированного адреса, без даты рождения, сколько юрлиц без реквизитов — с возможностью провалиться в конкретный список и раздать его на исправление. Это скучная работа на несколько недель, но она делается один раз, а дальше поддерживается проверками при заведении новых клиентов.</p>
+<div class="bmermaid"><pre class="mermaid">flowchart TD
+  A[Карточки абонентов] --&gt; B[Проверка готовности&lt;br/&gt;чего не хватает]
+  B --&gt;|списки на исправление| A
+  B --&gt; C[Формирование файлов&lt;br/&gt;по формату вендора]
+  C --&gt; D[Отправка на сервер&lt;br/&gt;по расписанию]
+  D --&gt; E[История выгрузок&lt;br/&gt;и уведомления]
+  E -.-&gt;|сбой| F[Оповещение ответственному]</pre></div>
+
+<h2>Формат — это данные, а не код</h2>
+<p>Вендоров СОРМ на рынке несколько, и набор файлов у них различается: где-то другое имя файла, где-то лишняя колонка, где-то свой разделитель. Исторически это решалось правкой кода под конкретного вендора — с очевидным следствием: смена вендора превращалась в доработку системы.</p>
+<p>Правильнее описывать формат как <em>данные</em>: перечень отчётов, имена файлов, колонки, разделитель, кодировка. Тогда поддержка нового вендора — это установка описания, а не релиз. Такие описания ставятся из каталога, у каждого есть версия, и обновление формата выглядит как обновление пакета, а не как правка исходников.</p>
+<blockquote>Здесь же уместна осторожность: автоматическое обновление таких пакетов по умолчанию лучше держать выключенным. Формат отчётности — не то место, где приятно обнаружить неожиданные изменения постфактум.</blockquote>
+
+<h2>Расписание, история и уведомления</h2>
+<p>Выгрузка настраивается один раз и дальше должна работать без участия человека — но с обратной связью. Три вещи, без которых это не работает:</p>
+<ul>
+<li><strong>Расписание.</strong> Регулярная отправка в заданное время, а не «когда вспомнили».</li>
+<li><strong>История.</strong> Что и когда ушло, сколько файлов, сколько строк, чем закончилось. При проверке это первое, что понадобится.</li>
+<li><strong>Уведомление о сбое.</strong> Не письмо в общий ящик, а сообщение конкретному ответственному. Сбой отправки, замеченный через месяц, — это уже не техническая проблема.</li>
+</ul>
+
+<h2>Несколько юрлиц</h2>
+<p>Если под платформой работают несколько операторов, у каждого своя лицензия, свой договор с вендором и своя выгрузка. Значит, конфигурация должна быть отдельной для каждого: свои реквизиты подключения, свой набор отчётов, своя история. Общая на всех выгрузка в такой конструкции не годится — данные разных операторов в одном файле не нужны никому.</p>
+
+<h2>Чего система не делает</h2>
+<p>Стоит сказать прямо, потому что ожидания здесь иногда завышены. Биллинг формирует и отправляет данные абонентского учёта в требуемом формате и помогает привести базу в порядок. Он не заменяет ни оборудование СОРМ, ни договор с вендором, ни обязанности оператора по лицензии. Это одна часть работы из нескольких — но именно та, которая иначе ложится на людей и делается вручную по ночам перед проверкой.</p>
+<p>Как устроены отчёты, проверка готовности и вендорские пакеты — в <a href="https://docs.billing.smit34.ru/pages/sorm.html" rel="noopener">документации</a>.</p>
+    <div class="bhashes"><a class="bhash" href="/blog/?tag=СОРМ">#СОРМ</a><a class="bhash" href="/blog/?tag=отчётность">#отчётность</a><a class="bhash" href="/blog/?tag=закон">#закон</a></div>
+    <div class="bcta">
+  <h3>Посмотреть платформу в работе</h3>
+  <p>Демо-доступ с реальными данными, презентация для руководства и ответы на вопросы — без обязательств.</p>
+  <a href="/#demo">Запросить демо →</a>
+</div>
+  </div>
+  <div class="container">
+  <section class="brelated">
+    <h2>Читайте также</h2>
+    <div class="brel-grid">
+      <a class="bcard" href="/blog/karta-seti" data-tags="сеть,аварии,инфраструктура">
+        <img class="bcard-cover" src="/blog/covers/karta-seti.jpg" alt="" loading="lazy" width="1600" height="900">
+        <div class="bcard-meta"><span class="btag">Сеть</span><time datetime="2026-08-29">29 августа 2026</time></div>
+        <h3>Карта сети: кто останется без интернета, если оборвётся эта трасса</h3>
+        <p>Схема сети обычно живёт в голове монтажника и в файле у одного человека. Что меняется, когда узлы, трассы и абоненты оказываются на одной карте.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
+      <a class="bcard" href="/blog/bankovskie-vypiski" data-tags="финансы,юрлица,автоматизация">
+        <img class="bcard-cover" src="/blog/covers/bankovskie-vypiski.jpg" alt="" loading="lazy" width="1600" height="900">
+        <div class="bcard-meta"><span class="btag">Деньги</span><time datetime="2026-08-27">27 августа 2026</time></div>
+        <h3>Платежи юрлиц: как перестать разбирать выписку руками</h3>
+        <p>Оплата пришла, а клиент числится должником и уходит в блокировку. Разбираем путь платежа от письма банка до зачисления и то, почему часть платежей всегда придётся смотреть глазами.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
+    </div>
+  </section>
+  </div>
+</main>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+  // Цвета схемы зашиваются в SVG при отрисовке, поэтому тему нужно знать заранее
+  // и перерисовывать схему при её смене — иначе в светлой остаётся тёмный вариант.
+  var root = document.documentElement;
+  var DARK = {
+    background: 'transparent', primaryColor: '#0f2a22', primaryTextColor: '#e2e8f0',
+    primaryBorderColor: '#10b981', lineColor: '#2dd4bf', secondaryColor: '#132030',
+    tertiaryColor: '#0b1622', mainBkg: '#0f2a22', nodeBorder: '#10b981',
+    clusterBkg: '#0b1622', titleColor: '#e2e8f0', edgeLabelBackground: '#0b1622',
+    fontSize: '17px'
+  };
+  var LIGHT = {
+    background: '#ffffff', primaryColor: '#e7f6ef', primaryTextColor: '#0f172a',
+    primaryBorderColor: '#047857', lineColor: '#047857', secondaryColor: '#f1f5f9',
+    tertiaryColor: '#f8fafc', mainBkg: '#e7f6ef', nodeBorder: '#047857',
+    clusterBkg: '#f8fafc', titleColor: '#0f172a', edgeLabelBackground: '#ffffff',
+    fontSize: '17px'
+  };
+
+  function draw() {
+    var light = root.getAttribute('data-theme') === 'light';
+    document.querySelectorAll('pre.mermaid').forEach(function (el) {
+      if (!el.dataset.src) el.dataset.src = el.textContent;
+      el.removeAttribute('data-processed');
+      el.innerHTML = el.dataset.src;
+    });
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      fontFamily: 'Inter, system-ui, sans-serif',
+      themeVariables: light ? LIGHT : DARK,
+      flowchart: { curve: 'basis', useMaxWidth: false, nodeSpacing: 34, rankSpacing: 46 }
+    });
+    mermaid.run({ querySelector: 'pre.mermaid' });
+  }
+
+  draw();
+  new MutationObserver(draw).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
+<footer class="bfoot">
+  <div class="container">
+    <span>© 2026 СмИТ Биллинг — платформа для операторов связи</span>
+    <a class="sep" href="/">На главную</a>
+    <a href="https://docs.billing.smit34.ru" target="_blank" rel="noopener">Документация</a>
+  </div>
+</footer>
+<script>
+  (function () {
+    var html = document.documentElement;
+    var toggle = document.getElementById('theme-toggle');
+    if (toggle) toggle.addEventListener('click', function () {
+      var light = html.getAttribute('data-theme') === 'light';
+      if (light) { html.removeAttribute('data-theme'); } else { html.setAttribute('data-theme', 'light'); }
+      try { localStorage.setItem('billing-theme', light ? 'dark' : 'light'); } catch (e) {}
+    });
+    try {
+      var mq = window.matchMedia('(prefers-color-scheme: light)');
+      var onSystem = function (e) {
+        var chosen = null;
+        try { chosen = localStorage.getItem('billing-theme'); } catch (err) {}
+        if (chosen) return;
+        if (e.matches) html.setAttribute('data-theme', 'light');
+        else html.removeAttribute('data-theme');
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onSystem);
+      else if (mq.addListener) mq.addListener(onSystem);
+    } catch (e) {}
+    var menu = document.getElementById('mobile-menu');
+    var open = document.getElementById('mobile-toggle');
+    var close = document.getElementById('mobile-close');
+    if (open && menu) open.addEventListener('click', function () {
+      menu.classList.add('open'); document.body.style.overflow = 'hidden';
+    });
+    function hide() { menu.classList.remove('open'); document.body.style.overflow = ''; }
+    if (close && menu) close.addEventListener('click', hide);
+    if (menu) menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', hide); });
+  })();
+</script>
+</body>
+</html>

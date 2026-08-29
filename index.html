@@ -21,6 +21,19 @@
   <meta name="theme-color" content="#10b981">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://billing.smit34.ru/">
+  <script>
+    /* Тема — до отрисовки, иначе у посетителя со светлой системой мелькнёт
+       тёмная страница. Свой выбор (billing-theme) сильнее системного. */
+    (function () {
+      try {
+        var saved = localStorage.getItem('billing-theme');
+        var light = saved
+          ? saved === 'light'
+          : window.matchMedia('(prefers-color-scheme: light)').matches;
+        if (light) document.documentElement.setAttribute('data-theme', 'light');
+      } catch (e) { /* приватный режим — остаётся тема по умолчанию */ }
+    })();
+  </script>
   <style>
     /* ========================================
        СмИТ Биллинг Landing — smit34.ru style
@@ -51,6 +64,16 @@
     }
 
     /* ---- Light theme overrides ---- */
+    /* Градиентный текст: на светлом фоне светло-зелёный градиент давал
+       контраст 1.7:1 — тот же градиент берём в тёмных тонах палитры. */
+    [data-theme="light"] .gradient-text,
+    [data-theme="light"] .hero h1 .gradient-text,
+    [data-theme="light"] .section-title,
+    [data-theme="light"] .stat-item .stat-value,
+    [data-theme="light"] .pricing-card .price {
+      background-image: linear-gradient(135deg, #047857, #0f766e);
+    }
+
     [data-theme="light"] {
       --bg-body: #f8fafc;
       --bg-card: rgba(255,255,255,0.7);
@@ -2001,13 +2024,22 @@
         linear-gradient(90deg, rgba(248, 250, 252, .92) 0%, rgba(248, 250, 252, .42) 42%, rgba(248, 250, 252, 0) 68%),
         linear-gradient(180deg, rgba(248, 250, 252, .5) 0%, rgba(248, 250, 252, 0) 32%);
     }
-    /* Mobile: static image both themes, no WebGL shader */
+    /* Мобильный — тот же первый экран, что на десктопе: в тёмной теме
+       шейдер (маска для узкого экрана задана выше, ≤900px), в светлой — та
+       же фотография. Вуаль вертикальная: текст здесь идёт во всю ширину, и
+       горизонтальный градиент десктопа его не прикрывает. */
     @media (max-width: 768px) {
-      .hero-bg { display: block; background-image: url('/assets/bg_mobile.jpg'); }
-      [data-theme="light"] .hero-bg { background-image: url('/assets/bg_light_mobile.jpg'); }
-      .hero-shader { display: none !important; }
-      .hero-bg::after { background: linear-gradient(180deg, rgba(2, 6, 23, .55) 0%, rgba(2, 6, 23, 0) 38%); }
-      [data-theme="light"] .hero-bg::after { background: linear-gradient(180deg, rgba(248, 250, 252, .55) 0%, rgba(248, 250, 252, 0) 38%); }
+      .hero-bg { display: none; }
+      .hero-shader { display: block; }
+      [data-theme="light"] .hero-bg { display: block; background-image: url('/assets/bg_light.jpg'); }
+      [data-theme="light"] .hero-shader { display: none !important; }
+      [data-theme="light"] .hero-bg::after {
+        background: linear-gradient(180deg,
+          rgba(248, 250, 252, .95) 0%,
+          rgba(248, 250, 252, .78) 44%,
+          rgba(248, 250, 252, .28) 74%,
+          rgba(248, 250, 252, 0) 100%);
+      }
     }
 
     /* ---- App mockup showcase (LK section) ---- */
@@ -2228,7 +2260,11 @@
       .header-nav { display: none; }
       .mobile-toggle { display: flex; }
       .header-actions { display: flex; align-items: center; gap: 8px; }
-      .hero h1 { font-size: 2.2rem; }
+      .hero h1 { font-size: 1.9rem; }
+      .hero-desc { font-size: 1rem; line-height: 1.6; margin-bottom: 26px; }
+      /* «Запросить демо» есть в меню и плавающей кнопкой — в первом экране
+         оставляем один призыв, чтобы не листать до самого продукта */
+      .hero-buttons .btn-primary { display: none; }
       .section-title { font-size: 2rem; }
       .features-grid { grid-template-columns: 1fr; }
       .stats-bar .container { grid-template-columns: repeat(2, 1fr); gap: 24px; }
@@ -3330,25 +3366,25 @@
     <h2 class="section-title reveal reveal-delay-1">Как устроена работа провайдера</h2>
     <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto 32px">Разборы ежедневных задач оператора связи: заявки, деньги, обращения абонентов и оборудование.</p>
     <div class="blog-grid">
-      <a class="blog-card reveal" href="/blog/zayavka-ne-teryaetsya">
-        <img class="blog-card-cover" src="/blog/covers/zayavka-ne-teryaetsya.jpg" alt="" loading="lazy" width="1600" height="900">
-        <div class="blog-card-meta"><span class="blog-tag">Продажи</span><time datetime="2026-08-25">25 августа 2026</time></div>
-        <h3>Путь заявки: от звонка до подключения</h3>
-        <p>Где заявки теряются у большинства провайдеров и как выглядит маршрут, на котором ни одна не пропадает: единый приём, воронка, наряд монтажнику и честная оценка рекламы.</p>
+      <a class="blog-card reveal" href="/blog/sorm-573">
+        <img class="blog-card-cover" src="/blog/covers/sorm-573.jpg" alt="" loading="lazy" width="1600" height="900">
+        <div class="blog-card-meta"><span class="blog-tag">Закон</span><time datetime="2026-08-30">30 августа 2026</time></div>
+        <h3>СОРМ по приказу №573: что выгружать и почему выгрузка — не главное</h3>
+        <p>Файлы формируются, расписание работает, проверка проходит — а данные внутри пустые. Разбираем, из чего состоит выгрузка и где она ломается на практике.</p>
         <span class="blog-card-more">Читать →</span>
       </a>
-      <a class="blog-card reveal" href="/blog/ai-agent-v-podderzhke">
-        <img class="blog-card-cover" src="/blog/covers/ai-agent-v-podderzhke.jpg" alt="" loading="lazy" width="1600" height="900">
-        <div class="blog-card-meta"><span class="blog-tag">Поддержка</span><time datetime="2026-08-22">22 августа 2026</time></div>
-        <h3>AI-агент в поддержке: что он закрывает сам, а что отдаёт человеку</h3>
-        <p>Три четверти обращений закрываются без оператора — но только если агент подключён к биллингу и умеет вовремя позвать человека. Разбираем, где проходит эта граница.</p>
+      <a class="blog-card reveal" href="/blog/karta-seti">
+        <img class="blog-card-cover" src="/blog/covers/karta-seti.jpg" alt="" loading="lazy" width="1600" height="900">
+        <div class="blog-card-meta"><span class="blog-tag">Сеть</span><time datetime="2026-08-29">29 августа 2026</time></div>
+        <h3>Карта сети: кто останется без интернета, если оборвётся эта трасса</h3>
+        <p>Схема сети обычно живёт в голове монтажника и в файле у одного человека. Что меняется, когда узлы, трассы и абоненты оказываются на одной карте.</p>
         <span class="blog-card-more">Читать →</span>
       </a>
-      <a class="blog-card reveal" href="/blog/sklad-pod-podotchet">
-        <img class="blog-card-cover" src="/blog/covers/sklad-pod-podotchet.jpg" alt="" loading="lazy" width="1600" height="900">
-        <div class="blog-card-meta"><span class="blog-tag">Оборудование</span><time datetime="2026-08-18">18 августа 2026</time></div>
-        <h3>Оборудование под подотчёт: как склад перестаёт быть тетрадкой</h3>
-        <p>Роутеры «где-то у монтажников», недостача, которую находят раз в год, и списание задним числом. Как выглядит учёт, при котором вещь всегда числится за кем-то одним.</p>
+      <a class="blog-card reveal" href="/blog/bankovskie-vypiski">
+        <img class="blog-card-cover" src="/blog/covers/bankovskie-vypiski.jpg" alt="" loading="lazy" width="1600" height="900">
+        <div class="blog-card-meta"><span class="blog-tag">Деньги</span><time datetime="2026-08-27">27 августа 2026</time></div>
+        <h3>Платежи юрлиц: как перестать разбирать выписку руками</h3>
+        <p>Оплата пришла, а клиент числится должником и уходит в блокировку. Разбираем путь платежа от письма банка до зачисления и то, почему часть платежей всегда придётся смотреть глазами.</p>
         <span class="blog-card-more">Читать →</span>
       </a>
     </div>
@@ -3523,24 +3559,30 @@
 <script>
 (function() {
   // --- Theme toggle ---
+  // Тема уже выставлена скриптом в <head>. Здесь — ручное переключение и
+  // слежение за системной настройкой, пока посетитель не выбрал сам.
   var html = document.documentElement;
-  var saved = localStorage.getItem('billing-theme');
-  if (saved) {
-    html.setAttribute('data-theme', saved);
+
+  function setTheme(light) {
+    if (light) html.setAttribute('data-theme', 'light');
+    else html.removeAttribute('data-theme');
   }
-  // No default = dark (no attribute)
+  function themeChoice() {
+    try { return localStorage.getItem('billing-theme'); } catch (e) { return null; }
+  }
 
   document.getElementById('theme-toggle').addEventListener('click', function() {
-    var current = html.getAttribute('data-theme');
-    var next = current === 'light' ? '' : 'light';
-    if (next) {
-      html.setAttribute('data-theme', next);
-      localStorage.setItem('billing-theme', next);
-    } else {
-      html.removeAttribute('data-theme');
-      localStorage.setItem('billing-theme', 'dark');
-    }
+    var light = html.getAttribute('data-theme') !== 'light';
+    setTheme(light);
+    try { localStorage.setItem('billing-theme', light ? 'light' : 'dark'); } catch (e) {}
   });
+
+  try {
+    var mq = window.matchMedia('(prefers-color-scheme: light)');
+    var onSystem = function (e) { if (!themeChoice()) setTheme(e.matches); };
+    if (mq.addEventListener) mq.addEventListener('change', onSystem);
+    else if (mq.addListener) mq.addListener(onSystem);  // Safari < 14
+  } catch (e) {}
 
   // --- Mobile menu ---
   var mobileMenu = document.getElementById('mobile-menu');

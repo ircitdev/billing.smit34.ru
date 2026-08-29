@@ -19,9 +19,11 @@
   // тема общая с главной: ключ billing-theme, светлая — атрибутом data-theme
   (function () {
     try {
-      if (localStorage.getItem('billing-theme') === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
+      var saved = localStorage.getItem('billing-theme');
+      var light = saved
+        ? saved === 'light'
+        : window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (light) document.documentElement.setAttribute('data-theme', 'light');
     } catch (e) {}
   })();
 </script>
@@ -209,6 +211,18 @@
       if (light) { html.removeAttribute('data-theme'); } else { html.setAttribute('data-theme', 'light'); }
       try { localStorage.setItem('billing-theme', light ? 'dark' : 'light'); } catch (e) {}
     });
+    try {
+      var mq = window.matchMedia('(prefers-color-scheme: light)');
+      var onSystem = function (e) {
+        var chosen = null;
+        try { chosen = localStorage.getItem('billing-theme'); } catch (err) {}
+        if (chosen) return;
+        if (e.matches) html.setAttribute('data-theme', 'light');
+        else html.removeAttribute('data-theme');
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onSystem);
+      else if (mq.addListener) mq.addListener(onSystem);
+    } catch (e) {}
     var menu = document.getElementById('mobile-menu');
     var open = document.getElementById('mobile-toggle');
     var close = document.getElementById('mobile-close');

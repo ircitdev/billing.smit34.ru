@@ -19,9 +19,11 @@
   // тема общая с главной: ключ billing-theme, светлая — атрибутом data-theme
   (function () {
     try {
-      if (localStorage.getItem('billing-theme') === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
+      var saved = localStorage.getItem('billing-theme');
+      var light = saved
+        ? saved === 'light'
+        : window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (light) document.documentElement.setAttribute('data-theme', 'light');
     } catch (e) {}
   })();
 </script>
@@ -78,6 +80,27 @@
       <a href="/blog/">показать все →</a>
     </div>
     <div class="bgrid" id="bgrid">
+      <a class="bcard" href="/blog/sorm-573" data-tags="СОРМ,отчётность,закон">
+        <img class="bcard-cover" src="/blog/covers/sorm-573.jpg" alt="" loading="lazy" width="1600" height="900">
+        <div class="bcard-meta"><span class="btag">Закон</span><time datetime="2026-08-30">30 августа 2026</time></div>
+        <h3>СОРМ по приказу №573: что выгружать и почему выгрузка — не главное</h3>
+        <p>Файлы формируются, расписание работает, проверка проходит — а данные внутри пустые. Разбираем, из чего состоит выгрузка и где она ломается на практике.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
+      <a class="bcard" href="/blog/karta-seti" data-tags="сеть,аварии,инфраструктура">
+        <img class="bcard-cover" src="/blog/covers/karta-seti.jpg" alt="" loading="lazy" width="1600" height="900">
+        <div class="bcard-meta"><span class="btag">Сеть</span><time datetime="2026-08-29">29 августа 2026</time></div>
+        <h3>Карта сети: кто останется без интернета, если оборвётся эта трасса</h3>
+        <p>Схема сети обычно живёт в голове монтажника и в файле у одного человека. Что меняется, когда узлы, трассы и абоненты оказываются на одной карте.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
+      <a class="bcard" href="/blog/bankovskie-vypiski" data-tags="финансы,юрлица,автоматизация">
+        <img class="bcard-cover" src="/blog/covers/bankovskie-vypiski.jpg" alt="" loading="lazy" width="1600" height="900">
+        <div class="bcard-meta"><span class="btag">Деньги</span><time datetime="2026-08-27">27 августа 2026</time></div>
+        <h3>Платежи юрлиц: как перестать разбирать выписку руками</h3>
+        <p>Оплата пришла, а клиент числится должником и уходит в блокировку. Разбираем путь платежа от письма банка до зачисления и то, почему часть платежей всегда придётся смотреть глазами.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
       <a class="bcard" href="/blog/zayavka-ne-teryaetsya" data-tags="CRM,продажи,монтаж,автоматизация">
         <img class="bcard-cover" src="/blog/covers/zayavka-ne-teryaetsya.jpg" alt="" loading="lazy" width="1600" height="900">
         <div class="bcard-meta"><span class="btag">Продажи</span><time datetime="2026-08-25">25 августа 2026</time></div>
@@ -136,6 +159,18 @@
       if (light) { html.removeAttribute('data-theme'); } else { html.setAttribute('data-theme', 'light'); }
       try { localStorage.setItem('billing-theme', light ? 'dark' : 'light'); } catch (e) {}
     });
+    try {
+      var mq = window.matchMedia('(prefers-color-scheme: light)');
+      var onSystem = function (e) {
+        var chosen = null;
+        try { chosen = localStorage.getItem('billing-theme'); } catch (err) {}
+        if (chosen) return;
+        if (e.matches) html.setAttribute('data-theme', 'light');
+        else html.removeAttribute('data-theme');
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onSystem);
+      else if (mq.addListener) mq.addListener(onSystem);
+    } catch (e) {}
     var menu = document.getElementById('mobile-menu');
     var open = document.getElementById('mobile-toggle');
     var close = document.getElementById('mobile-close');

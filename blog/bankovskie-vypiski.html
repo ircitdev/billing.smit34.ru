@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Платежи юрлиц: как перестать разбирать выписку руками — блог СмИТ Биллинг</title>
+<meta name="description" content="Оплата пришла, а клиент числится должником и уходит в блокировку. Разбираем путь платежа от письма банка до зачисления и то, почему часть платежей всегда придётся смотреть глазами.">
+<link rel="canonical" href="https://billing.smit34.ru/blog/bankovskie-vypiski">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Платежи юрлиц: как перестать разбирать выписку руками — блог СмИТ Биллинг">
+<meta property="og:description" content="Оплата пришла, а клиент числится должником и уходит в блокировку. Разбираем путь платежа от письма банка до зачисления и то, почему часть платежей всегда придётся смотреть глазами.">
+<meta property="og:url" content="https://billing.smit34.ru/blog/bankovskie-vypiski">
+<meta property="og:site_name" content="СмИТ Биллинг">
+<meta property="og:image" content="https://billing.smit34.ru/blog/covers/bankovskie-vypiski.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/blog/blog.css?v=1787648090">
+<script>
+  // тема общая с главной: ключ billing-theme, светлая — атрибутом data-theme
+  (function () {
+    try {
+      var saved = localStorage.getItem('billing-theme');
+      var light = saved
+        ? saved === 'light'
+        : window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (light) document.documentElement.setAttribute('data-theme', 'light');
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<header class="header">
+  <a href="/" class="header-logo">
+    <div class="header-logo-icon">C</div>
+    <div class="header-logo-text">СмИТ Биллинг<span>3.5</span></div>
+  </a>
+  <nav class="header-nav">
+    <a href="/#features">Возможности</a>
+    <a href="/#modules">Модули</a>
+    <a href="/#lk">Приложение</a>
+    <a href="/#pricing">Тарифы</a>
+    <a href="/#api">API</a>
+    <a href="/#demo">Демо</a>
+    <a href="/blog/" aria-current="page">Блог</a>
+    <a href="https://docs.billing.smit34.ru" class="btn-header" target="_blank">Документация</a>
+  </nav>
+  <div class="header-actions" style="display:flex;align-items:center;gap:8px">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">
+      <span class="icon-sun"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M5 19l1.4-1.4M17.6 6.4L19 5"/></svg></span>
+      <span class="icon-moon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span>
+    </button>
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Меню"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  </div>
+</header>
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" id="mobile-close">&#10005;</button>
+  <a href="/#features" class="mobile-link">Возможности</a>
+  <a href="/#lk" class="mobile-link">Приложение</a>
+  <a href="/#pricing" class="mobile-link">Тарифы</a>
+  <a href="/#api" class="mobile-link">API</a>
+  <a href="/#demo" class="mobile-link">Демо</a>
+  <a href="/blog/" class="mobile-link">Блог</a>
+  <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="mobile-link" download><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 3v12M7 11l5 4 5-4M5 20h14"/></svg> Презентация</a>
+  <a href="https://docs.billing.smit34.ru" target="_blank" class="mobile-link">Документация</a>
+  <a data-demo="1" href="/#demo" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
+</div>
+
+
+<main class="bpost">
+  <div class="container narrow">
+    <a class="bback" href="/blog/">← Все статьи</a>
+    <div><span class="btag">Деньги</span></div>
+    <h1>Платежи юрлиц: как перестать разбирать выписку руками</h1>
+    <div class="bmeta"><time datetime="2026-08-27">27 августа 2026</time> · 7 минут</div>
+    <img class="bpost-cover" src="/blog/covers/bankovskie-vypiski.jpg" alt="" loading="lazy" width="1600" height="900">
+<p>У платежей физлиц всё просто: человек платит через личный кабинет или приложение, деньги приходят с номером договора и зачисляются сами. С юрлицами иначе. Оплата приходит один раз в месяц, платёжным поручением, а в назначении может стоять что угодно — от аккуратного «Лицевой счёт 10234» до «Оплата за услуги связи по счёту 415 от 01.08».</p>
+<p>Дальше начинается ручная работа: бухгалтер открывает выписку, ищет в биллинге клиента, разносит платёж. Пока клиентов-юрлиц десяток, это пятнадцать минут в месяц. Когда их сотня — это отдельная задача, которую откладывают. А у отложенной задачи есть цена: <strong>клиент заплатил, но в системе числится должником</strong> — и автоматика штатно уводит его в блокировку.</p>
+
+<h2>Что именно ломается</h2>
+<ul>
+<li><strong>Деньги есть, но не разнесены.</strong> Платёж лежит в выписке, баланс клиента не изменился. Блокировка по отрицательному балансу срабатывает так, как её и настраивали.</li>
+<li><strong>Платёж разнесён не тому.</strong> Одинаковые названия, «ООО Ромашка» в трёх экземплярах, оплата от головной компании за филиал.</li>
+<li><strong>Документы отдельно от денег.</strong> Счёт выписали в одном месте, акт — в другом, а связи с конкретным поступлением нет.</li>
+<li><strong>Нет следа.</strong> Через полгода непонятно, кто и на каком основании привязал платёж к этому клиенту.</li>
+</ul>
+
+<h2>Путь платежа</h2>
+<p>Задача решается не «интеграцией с банком» в общем смысле, а простой цепочкой, где у каждого шага есть ответственный и журнал.</p>
+<div class="bmermaid"><pre class="mermaid">flowchart TD
+  M[Письмо банка&lt;br/&gt;выделенный ящик] --&gt; P[Разбор выписки&lt;br/&gt;формат банка]
+  P --&gt; S{Клиент найден&lt;br/&gt;однозначно?}
+  S --&gt;|да| C[Зачисление&lt;br/&gt;баланс, финоперация]
+  S --&gt;|нет| Q[Очередь разбора&lt;br/&gt;решает человек]
+  Q --&gt; C
+  C --&gt; D[Счёт и акт&lt;br/&gt;реквизиты организации]
+  D --&gt; E[Письмо клиенту]
+  C -.-&gt; U[Снятие блокировки&lt;br/&gt;если баланс вышел в плюс]</pre></div>
+<p>Разберём по шагам.</p>
+<ol>
+<li><strong>Выписка приходит письмом.</strong> Для этого заводится отдельный почтовый ящик, а список отправителей ограничивается: письма приходят только от банка или от бухгалтера, который их пересылает. Всё остальное игнорируется.</li>
+<li><strong>Разбор.</strong> Формат у каждого банка свой, поэтому парсер выбирается по домену отправителя. Каждая операция получает идентификатор, по которому повторная загрузка того же файла не создаёт дублей.</li>
+<li><strong>Сопоставление.</strong> Клиент ищется по ИНН плательщика, по номеру лицевого счёта в назначении, по номеру договора, по совпадению имени и суммы. Стратегия, которая сработала, сохраняется вместе с платежом — потом видно, на каком основании принято решение.</li>
+<li><strong>Зачисление.</strong> Баланс и финансовая операция меняются одной транзакцией; если баланс вышел в плюс, снимается блокировка по задолженности.</li>
+<li><strong>Документы.</strong> Счёт и акт формируются с реквизитами <em>той организации</em>, на чей расчётный счёт пришли деньги, нумерация ведётся отдельно для каждой. Готовые PDF уходят клиенту письмом.</li>
+</ol>
+
+<h2>Почему автоматическое зачисление выключено по умолчанию</h2>
+<p>Соблазн включить всё сразу понятен, но зачисление денег — необратимая операция, за которой тянутся начисления, снятие блокировок и, если подключена касса, фискальные чеки. Поэтому автозачисление — отдельный выключатель, и здравый порядок такой: сначала месяц смотреть, как система сопоставляет платежи, и только потом отдавать ей право проводить их самой.</p>
+<blockquote>Опыт эксплуатации подсказывает ещё одно правило: ручная команда «забрать письма сейчас» при включённом автозачислении — это не безобидная кнопка «обновить». Она запускает ту же цепочку целиком, поэтому такое действие стоит подтверждать явно.</blockquote>
+
+<h2>Очередь разбора: то, что нельзя автоматизировать</h2>
+<p>Часть платежей никогда не сопоставится сама: оплата от третьего лица, назначение без единого опознавательного признака, один ИНН на две связанные компании. Это нормально — важно, чтобы такие платежи не пропадали, а собирались в одном месте с понятным следующим действием.</p>
+<p>В очереди разбора у оператора под рукой:</p>
+<ul>
+<li><strong>поиск по ФИО, договору, телефону, e-mail, ИНН</strong> — с телефоном, найденным по последним цифрам, потому что записан он у всех по-разному;</li>
+<li><strong>подсказки из назначения</strong> — номера, встречающиеся в тексте платежа, предлагаются кнопками (годы вроде «2026» из них отфильтрованы, иначе первым предложением всегда был бы год);</li>
+<li><strong>реквизиты по ИНН из ФНС</strong> — если плательщика нет в базе, его название и адрес подтягиваются по ИНН, и по очищенному названию можно искать дальше;</li>
+<li><strong>флаги расхождений</strong> — нечёткое сопоставление, один ИНН у разных клиентов, несовпадение имени плательщика с именем клиента. Такие строки подсвечиваются и исключаются из массового подтверждения: соглашаться с ними скопом нельзя.</li>
+</ul>
+
+<h2>След остаётся всегда</h2>
+<p>Каждое действие пишется в журнал: приём письма, повторный разбор, ручная привязка (с суммой, плательщиком и клиентом), выпуск документов, изменение настроек, включая сам выключатель автозачисления. Это не бюрократия — это единственный способ через полгода ответить на вопрос «почему этот платёж у этого клиента».</p>
+<p>В карточке клиента появляется вкладка с его банковскими платежами и выписанными документами: видно, что пришло, когда, на какую сумму, какой финансовой операцией зачислено и какой счёт с актом выписан.</p>
+
+<h2>Мультиорганизация: чьи реквизиты в счёте</h2>
+<p>Если под одной платформой работает несколько юрлиц, критично, чтобы документ уходил с правильными реквизитами. Организация определяется по расчётному счёту получателя из выписки, и дальше она тянется по всей цепочке: в операцию, в счёт, в акт, в нумерацию. Иначе клиент одной компании получает счёт с реквизитами другой — ошибка, которую замечают быстро и обсуждают долго.</p>
+
+<h2>Как понять, что стало лучше</h2>
+<p>Считать стоит не «сколько платежей система разнесла сама», а две другие величины: <strong>сколько денег висит неразнесёнными прямо сейчас</strong> и <strong>сколько времени платёж живёт от поступления до зачисления</strong>. Первая цифра — это клиенты, которые уже заплатили и всё ещё считаются должниками. Вторая показывает, успевает ли разбор за поступлениями.</p>
+<p>Хороший показатель — когда очередь разбора пустеет к концу дня, а в ней остаются только платежи с реальными вопросами. Подробности по настройке — в <a href="https://docs.billing.smit34.ru/pages/settings.html#bank-statements" rel="noopener">документации</a>.</p>
+    <div class="bhashes"><a class="bhash" href="/blog/?tag=финансы">#финансы</a><a class="bhash" href="/blog/?tag=юрлица">#юрлица</a><a class="bhash" href="/blog/?tag=автоматизация">#автоматизация</a></div>
+    <div class="bcta">
+  <h3>Посмотреть платформу в работе</h3>
+  <p>Демо-доступ с реальными данными, презентация для руководства и ответы на вопросы — без обязательств.</p>
+  <a href="/#demo">Запросить демо →</a>
+</div>
+  </div>
+  <div class="container">
+  <section class="brelated">
+    <h2>Читайте также</h2>
+    <div class="brel-grid">
+      <a class="bcard" href="/blog/sorm-573" data-tags="СОРМ,отчётность,закон">
+        <img class="bcard-cover" src="/blog/covers/sorm-573.jpg" alt="" loading="lazy" width="1600" height="900">
+        <div class="bcard-meta"><span class="btag">Закон</span><time datetime="2026-08-30">30 августа 2026</time></div>
+        <h3>СОРМ по приказу №573: что выгружать и почему выгрузка — не главное</h3>
+        <p>Файлы формируются, расписание работает, проверка проходит — а данные внутри пустые. Разбираем, из чего состоит выгрузка и где она ломается на практике.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
+      <a class="bcard" href="/blog/karta-seti" data-tags="сеть,аварии,инфраструктура">
+        <img class="bcard-cover" src="/blog/covers/karta-seti.jpg" alt="" loading="lazy" width="1600" height="900">
+        <div class="bcard-meta"><span class="btag">Сеть</span><time datetime="2026-08-29">29 августа 2026</time></div>
+        <h3>Карта сети: кто останется без интернета, если оборвётся эта трасса</h3>
+        <p>Схема сети обычно живёт в голове монтажника и в файле у одного человека. Что меняется, когда узлы, трассы и абоненты оказываются на одной карте.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
+    </div>
+  </section>
+  </div>
+</main>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+  // Цвета схемы зашиваются в SVG при отрисовке, поэтому тему нужно знать заранее
+  // и перерисовывать схему при её смене — иначе в светлой остаётся тёмный вариант.
+  var root = document.documentElement;
+  var DARK = {
+    background: 'transparent', primaryColor: '#0f2a22', primaryTextColor: '#e2e8f0',
+    primaryBorderColor: '#10b981', lineColor: '#2dd4bf', secondaryColor: '#132030',
+    tertiaryColor: '#0b1622', mainBkg: '#0f2a22', nodeBorder: '#10b981',
+    clusterBkg: '#0b1622', titleColor: '#e2e8f0', edgeLabelBackground: '#0b1622',
+    fontSize: '17px'
+  };
+  var LIGHT = {
+    background: '#ffffff', primaryColor: '#e7f6ef', primaryTextColor: '#0f172a',
+    primaryBorderColor: '#047857', lineColor: '#047857', secondaryColor: '#f1f5f9',
+    tertiaryColor: '#f8fafc', mainBkg: '#e7f6ef', nodeBorder: '#047857',
+    clusterBkg: '#f8fafc', titleColor: '#0f172a', edgeLabelBackground: '#ffffff',
+    fontSize: '17px'
+  };
+
+  function draw() {
+    var light = root.getAttribute('data-theme') === 'light';
+    document.querySelectorAll('pre.mermaid').forEach(function (el) {
+      if (!el.dataset.src) el.dataset.src = el.textContent;
+      el.removeAttribute('data-processed');
+      el.innerHTML = el.dataset.src;
+    });
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      fontFamily: 'Inter, system-ui, sans-serif',
+      themeVariables: light ? LIGHT : DARK,
+      flowchart: { curve: 'basis', useMaxWidth: false, nodeSpacing: 34, rankSpacing: 46 }
+    });
+    mermaid.run({ querySelector: 'pre.mermaid' });
+  }
+
+  draw();
+  new MutationObserver(draw).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
+<footer class="bfoot">
+  <div class="container">
+    <span>© 2026 СмИТ Биллинг — платформа для операторов связи</span>
+    <a class="sep" href="/">На главную</a>
+    <a href="https://docs.billing.smit34.ru" target="_blank" rel="noopener">Документация</a>
+  </div>
+</footer>
+<script>
+  (function () {
+    var html = document.documentElement;
+    var toggle = document.getElementById('theme-toggle');
+    if (toggle) toggle.addEventListener('click', function () {
+      var light = html.getAttribute('data-theme') === 'light';
+      if (light) { html.removeAttribute('data-theme'); } else { html.setAttribute('data-theme', 'light'); }
+      try { localStorage.setItem('billing-theme', light ? 'dark' : 'light'); } catch (e) {}
+    });
+    try {
+      var mq = window.matchMedia('(prefers-color-scheme: light)');
+      var onSystem = function (e) {
+        var chosen = null;
+        try { chosen = localStorage.getItem('billing-theme'); } catch (err) {}
+        if (chosen) return;
+        if (e.matches) html.setAttribute('data-theme', 'light');
+        else html.removeAttribute('data-theme');
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onSystem);
+      else if (mq.addListener) mq.addListener(onSystem);
+    } catch (e) {}
+    var menu = document.getElementById('mobile-menu');
+    var open = document.getElementById('mobile-toggle');
+    var close = document.getElementById('mobile-close');
+    if (open && menu) open.addEventListener('click', function () {
+      menu.classList.add('open'); document.body.style.overflow = 'hidden';
+    });
+    function hide() { menu.classList.remove('open'); document.body.style.overflow = ''; }
+    if (close && menu) close.addEventListener('click', hide);
+    if (menu) menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', hide); });
+  })();
+</script>
+</body>
+</html>
