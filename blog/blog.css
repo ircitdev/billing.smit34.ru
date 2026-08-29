@@ -1,3 +1,6 @@
+/* Обёртка обложки не должна участвовать в раскладке карточки:
+   у самой картинки отрицательные поля во всю её ширину. */
+picture { display: contents; }
 /* Блог billing.smit34.ru — те же токены, что на главной, но без её тяжёлой вёрстки. */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 

@@ -72,7 +72,7 @@
     <div><span class="btag">Продажи</span></div>
     <h1>Путь заявки: от звонка до подключения</h1>
     <div class="bmeta"><time datetime="2026-08-25">25 августа 2026</time> · 6 минут</div>
-    <img class="bpost-cover" src="/blog/covers/zayavka-ne-teryaetsya.jpg" alt="" loading="lazy" width="1600" height="900">
+    <picture><source data-cover srcset="/blog/covers/zayavka-ne-teryaetsya-light.jpg" media="(prefers-color-scheme: light)"><img class="bpost-cover" src="/blog/covers/zayavka-ne-teryaetsya.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
     <p>Спросите у любого небольшого оператора, сколько заявок он потерял в прошлом месяце. Точного ответа не будет. Не потому что учёт плохой, а потому что заявки приходят в пять разных мест: звонок на мобильный менеджеру, сообщение в мессенджер, форма на сайте, письмо на общий ящик и «мне сосед сказал, позвоните». Каждый канал живёт своей жизнью, и «потерялась» обычно значит «никто не помнит, чья она была».</p>
 <p>Разберём маршрут, на котором заявка не теряется — по шагам, как он устроен в СмИТ Биллинге.</p>
 <h2>Шаг 1. Один вход вместо пяти</h2>
@@ -133,14 +133,14 @@
     <h2>Читайте также</h2>
     <div class="brel-grid">
       <a class="bcard" href="/blog/sklad-pod-podotchet" data-tags="склад,оборудование,монтаж">
-        <img class="bcard-cover" src="/blog/covers/sklad-pod-podotchet.jpg" alt="" loading="lazy" width="1600" height="900">
+        <picture><source data-cover srcset="/blog/covers/sklad-pod-podotchet-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/sklad-pod-podotchet.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
         <div class="bcard-meta"><span class="btag">Оборудование</span><time datetime="2026-08-18">18 августа 2026</time></div>
         <h3>Оборудование под подотчёт: как склад перестаёт быть тетрадкой</h3>
         <p>Роутеры «где-то у монтажников», недостача, которую находят раз в год, и списание задним числом. Как выглядит учёт, при котором вещь всегда числится за кем-то одним.</p>
         <span class="bcard-more">Читать →</span>
       </a>
       <a class="bcard" href="/blog/ai-agent-v-podderzhke" data-tags="AI,поддержка,автоматизация">
-        <img class="bcard-cover" src="/blog/covers/ai-agent-v-podderzhke.jpg" alt="" loading="lazy" width="1600" height="900">
+        <picture><source data-cover srcset="/blog/covers/ai-agent-v-podderzhke-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/ai-agent-v-podderzhke.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
         <div class="bcard-meta"><span class="btag">Поддержка</span><time datetime="2026-08-22">22 августа 2026</time></div>
         <h3>AI-агент в поддержке: что он закрывает сам, а что отдаёт человеку</h3>
         <p>Три четверти обращений закрываются без оператора — но только если агент подключён к биллингу и умеет вовремя позвать человека. Разбираем, где проходит эта граница.</p>
@@ -201,20 +201,41 @@
 <script>
   (function () {
     var html = document.documentElement;
-    var toggle = document.getElementById('theme-toggle');
-    if (toggle) toggle.addEventListener('click', function () {
-      var light = html.getAttribute('data-theme') === 'light';
-      if (light) { html.removeAttribute('data-theme'); } else { html.setAttribute('data-theme', 'light'); }
-      try { localStorage.setItem('billing-theme', light ? 'dark' : 'light'); } catch (e) {}
+    var themeToggle = document.getElementById('theme-toggle');
+    // Три состояния: как в системе → светлая → тёмная. Без третьего однажды
+    // нажатый переключатель навсегда перекрывал бы системную настройку.
+    var THEME_MODES = ['system', 'light', 'dark'];
+    var THEME_LABEL = {
+      system: 'Тема: как в системе', light: 'Тема: светлая', dark: 'Тема: тёмная'
+    };
+    function themeMode() {
+      try {
+        var v = localStorage.getItem('billing-theme');
+        return v === 'light' || v === 'dark' ? v : 'system';
+      } catch (e) { return 'system'; }
+    }
+    function applyThemeMode(m) {
+      var light = m === 'light' || (m === 'system' &&
+        window.matchMedia('(prefers-color-scheme: light)').matches);
+      if (light) html.setAttribute('data-theme', 'light');
+      else html.removeAttribute('data-theme');
+      try {
+        if (m === 'system') localStorage.removeItem('billing-theme');
+        else localStorage.setItem('billing-theme', m);
+      } catch (e) {}
+      if (themeToggle) {
+        themeToggle.title = THEME_LABEL[m];
+        themeToggle.setAttribute('aria-label', THEME_LABEL[m] + ' (нажмите, чтобы сменить)');
+      }
+    }
+    applyThemeMode(themeMode());
+    if (themeToggle) themeToggle.addEventListener('click', function () {
+      applyThemeMode(THEME_MODES[(THEME_MODES.indexOf(themeMode()) + 1) % 3]);
     });
     try {
       var mq = window.matchMedia('(prefers-color-scheme: light)');
-      var onSystem = function (e) {
-        var chosen = null;
-        try { chosen = localStorage.getItem('billing-theme'); } catch (err) {}
-        if (chosen) return;
-        if (e.matches) html.setAttribute('data-theme', 'light');
-        else html.removeAttribute('data-theme');
+      var onSystem = function () {
+        if (themeMode() === 'system') applyThemeMode('system');
       };
       if (mq.addEventListener) mq.addEventListener('change', onSystem);
       else if (mq.addListener) mq.addListener(onSystem);
@@ -228,6 +249,24 @@
     function hide() { menu.classList.remove('open'); document.body.style.overflow = ''; }
     if (close && menu) close.addEventListener('click', hide);
     if (menu) menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', hide); });
+  })();
+</script>
+<script>
+  // Тему, выбранную вручную, медиа-запрос в <picture> не видит — переключаем
+  // источник обложек сами. Наблюдатель ловит и клик по переключателю, и
+  // смену системной настройки.
+  (function () {
+    var html = document.documentElement;
+    function sync() {
+      var light = html.getAttribute('data-theme') === 'light';
+      document.querySelectorAll('source[data-cover]').forEach(function (s) {
+        s.media = light ? 'all' : 'not all';
+      });
+    }
+    sync();
+    new MutationObserver(sync).observe(html, {
+      attributes: true, attributeFilter: ['data-theme']
+    });
   })();
 </script>
 </body>

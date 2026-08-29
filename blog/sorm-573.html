@@ -72,7 +72,7 @@
     <div><span class="btag">Закон</span></div>
     <h1>СОРМ по приказу №573: что выгружать и почему выгрузка — не главное</h1>
     <div class="bmeta"><time datetime="2026-08-30">30 августа 2026</time> · 7 минут</div>
-    <img class="bpost-cover" src="/blog/covers/sorm-573.jpg" alt="" loading="lazy" width="1600" height="900">
+    <picture><source data-cover srcset="/blog/covers/sorm-573-light.jpg" media="(prefers-color-scheme: light)"><img class="bpost-cover" src="/blog/covers/sorm-573.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
 <p>Про СОРМ у операторов есть два разговора. Первый — с вендором о железе и договоре. Второй, менее заметный, — про данные: что именно провайдер обязан отдавать и в каком виде. Первый решается деньгами. Второй упирается в то, как в биллинге заполнены карточки абонентов, и решается только работой.</p>
 <p>Эта статья про второй.</p>
 
@@ -124,14 +124,14 @@
     <h2>Читайте также</h2>
     <div class="brel-grid">
       <a class="bcard" href="/blog/karta-seti" data-tags="сеть,аварии,инфраструктура">
-        <img class="bcard-cover" src="/blog/covers/karta-seti.jpg" alt="" loading="lazy" width="1600" height="900">
+        <picture><source data-cover srcset="/blog/covers/karta-seti-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/karta-seti.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
         <div class="bcard-meta"><span class="btag">Сеть</span><time datetime="2026-08-29">29 августа 2026</time></div>
         <h3>Карта сети: кто останется без интернета, если оборвётся эта трасса</h3>
         <p>Схема сети обычно живёт в голове монтажника и в файле у одного человека. Что меняется, когда узлы, трассы и абоненты оказываются на одной карте.</p>
         <span class="bcard-more">Читать →</span>
       </a>
       <a class="bcard" href="/blog/bankovskie-vypiski" data-tags="финансы,юрлица,автоматизация">
-        <img class="bcard-cover" src="/blog/covers/bankovskie-vypiski.jpg" alt="" loading="lazy" width="1600" height="900">
+        <picture><source data-cover srcset="/blog/covers/bankovskie-vypiski-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/bankovskie-vypiski.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
         <div class="bcard-meta"><span class="btag">Деньги</span><time datetime="2026-08-27">27 августа 2026</time></div>
         <h3>Платежи юрлиц: как перестать разбирать выписку руками</h3>
         <p>Оплата пришла, а клиент числится должником и уходит в блокировку. Разбираем путь платежа от письма банка до зачисления и то, почему часть платежей всегда придётся смотреть глазами.</p>
@@ -192,20 +192,41 @@
 <script>
   (function () {
     var html = document.documentElement;
-    var toggle = document.getElementById('theme-toggle');
-    if (toggle) toggle.addEventListener('click', function () {
-      var light = html.getAttribute('data-theme') === 'light';
-      if (light) { html.removeAttribute('data-theme'); } else { html.setAttribute('data-theme', 'light'); }
-      try { localStorage.setItem('billing-theme', light ? 'dark' : 'light'); } catch (e) {}
+    var themeToggle = document.getElementById('theme-toggle');
+    // Три состояния: как в системе → светлая → тёмная. Без третьего однажды
+    // нажатый переключатель навсегда перекрывал бы системную настройку.
+    var THEME_MODES = ['system', 'light', 'dark'];
+    var THEME_LABEL = {
+      system: 'Тема: как в системе', light: 'Тема: светлая', dark: 'Тема: тёмная'
+    };
+    function themeMode() {
+      try {
+        var v = localStorage.getItem('billing-theme');
+        return v === 'light' || v === 'dark' ? v : 'system';
+      } catch (e) { return 'system'; }
+    }
+    function applyThemeMode(m) {
+      var light = m === 'light' || (m === 'system' &&
+        window.matchMedia('(prefers-color-scheme: light)').matches);
+      if (light) html.setAttribute('data-theme', 'light');
+      else html.removeAttribute('data-theme');
+      try {
+        if (m === 'system') localStorage.removeItem('billing-theme');
+        else localStorage.setItem('billing-theme', m);
+      } catch (e) {}
+      if (themeToggle) {
+        themeToggle.title = THEME_LABEL[m];
+        themeToggle.setAttribute('aria-label', THEME_LABEL[m] + ' (нажмите, чтобы сменить)');
+      }
+    }
+    applyThemeMode(themeMode());
+    if (themeToggle) themeToggle.addEventListener('click', function () {
+      applyThemeMode(THEME_MODES[(THEME_MODES.indexOf(themeMode()) + 1) % 3]);
     });
     try {
       var mq = window.matchMedia('(prefers-color-scheme: light)');
-      var onSystem = function (e) {
-        var chosen = null;
-        try { chosen = localStorage.getItem('billing-theme'); } catch (err) {}
-        if (chosen) return;
-        if (e.matches) html.setAttribute('data-theme', 'light');
-        else html.removeAttribute('data-theme');
+      var onSystem = function () {
+        if (themeMode() === 'system') applyThemeMode('system');
       };
       if (mq.addEventListener) mq.addEventListener('change', onSystem);
       else if (mq.addListener) mq.addListener(onSystem);
@@ -219,6 +240,24 @@
     function hide() { menu.classList.remove('open'); document.body.style.overflow = ''; }
     if (close && menu) close.addEventListener('click', hide);
     if (menu) menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', hide); });
+  })();
+</script>
+<script>
+  // Тему, выбранную вручную, медиа-запрос в <picture> не видит — переключаем
+  // источник обложек сами. Наблюдатель ловит и клик по переключателю, и
+  // смену системной настройки.
+  (function () {
+    var html = document.documentElement;
+    function sync() {
+      var light = html.getAttribute('data-theme') === 'light';
+      document.querySelectorAll('source[data-cover]').forEach(function (s) {
+        s.media = light ? 'all' : 'not all';
+      });
+    }
+    sync();
+    new MutationObserver(sync).observe(html, {
+      attributes: true, attributeFilter: ['data-theme']
+    });
   })();
 </script>
 </body>
