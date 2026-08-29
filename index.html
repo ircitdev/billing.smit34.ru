@@ -815,9 +815,20 @@
       background: rgba(16, 185, 129, .22); color: #6ee7b7;
       backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
     }
-    [data-theme="light"] .blog-card h3 { color: #fff; }
+    /* В светлой теме иллюстрации почти белые: вуаль тоже светлая, а подпись
+       тёмная — на белом фоне читается лучше, чем выбеленная на затемнении. */
+    [data-theme="light"] .blog-card::after {
+      background: linear-gradient(180deg,
+        rgba(248, 250, 252, 0) 30%,
+        rgba(248, 250, 252, .72) 52%,
+        rgba(248, 250, 252, .96) 100%);
+    }
+    [data-theme="light"] .blog-card h3 { color: #0f172a; text-shadow: none; }
     [data-theme="light"] .blog-card .blog-card-meta,
-    [data-theme="light"] .blog-card .blog-card-meta time { color: rgba(255, 255, 255, .82); }
+    [data-theme="light"] .blog-card .blog-card-meta time { color: #475569; }
+    [data-theme="light"] .blog-card .blog-tag {
+      background: rgba(16, 185, 129, .14); color: #047857;
+    }
 
     @media (max-width: 640px) { .blog-section { padding: 56px 16px; } }
 
@@ -2315,6 +2326,9 @@
          иначе его дети и видео лежат в разных контейнерах и порядок между
          ними не задать. */
       .hero-content { display: contents; }
+      /* Текстовый блок растворён в сетке, поэтому её общий зазор (60px) встал
+         бы между каждой парой элементов. Расстояния задаём полями. */
+      .hero .container { row-gap: 0; }
       .hero h1 { order: 1; }
       .hero-desc { order: 2; }
       .hero-visual { order: 3; margin-top: 8px; }
@@ -2339,6 +2353,18 @@
       /* «Запросить демо» есть в меню и плавающей кнопкой — в первом экране
          оставляем один призыв, чтобы не листать до самого продукта */
       .hero-buttons .btn-primary { display: none; }
+      /* Оставшаяся кнопка — единственная в первом экране: контур и подпись
+         зелёные, иначе на светлом фоне она почти не читалась. */
+      .hero-buttons .btn-secondary {
+        background: transparent;
+        color: var(--emerald-400);
+        border: 1.5px solid var(--emerald-500);
+        box-shadow: none;
+        backdrop-filter: none; -webkit-backdrop-filter: none;
+      }
+      /* на светлом фоне светло-зелёная подпись не читается — берём тёмный тон */
+      [data-theme="light"] .hero-buttons .btn-secondary { color: var(--emerald-700); }
+      .hero-buttons .btn-secondary:hover { background: rgba(16, 185, 129, .08); }
       .section-title { font-size: 2rem; }
       .features-grid { grid-template-columns: 1fr; }
       .stats-bar .container { grid-template-columns: repeat(2, 1fr); gap: 24px; }

@@ -90,6 +90,10 @@ a:focus-visible, button:focus-visible {
 .bcard-cover {
   display: block; width: calc(100% + 48px); height: auto; margin: 0 -24px 18px;
   aspect-ratio: 16/9; object-fit: cover; background: #060d14;
+  /* карточка — флекс-колонка, и без этого картинка ужимается обратно
+     в поля; max-width снимаем, иначе общее правило для img режет вынос
+     за padding обратно до ширины контента */
+  flex-shrink: 0; max-width: none;
 }
 .bcard-meta { display: flex; gap: 10px; align-items: center; font-size: .8rem; color: var(--text-muted); }
 .btag {
@@ -129,6 +133,11 @@ a:focus-visible, button:focus-visible {
 .bpost th { color: var(--text-primary); font-weight: 600; }
 .bpost td { color: var(--text-secondary); }
 .bpost img { max-width: 100%; border-radius: 12px; border: 1px solid var(--border-light); }
+/* Обложка карточки — не иллюстрация в тексте: она вынесена за поля карточки
+   на всю её ширину, поэтому общее правило для картинок статьи её не касается. */
+.bpost .bcard-cover, .brel-grid .bcard-cover {
+  max-width: none; border: 0; border-radius: 0;
+}
 
 .bback { display: inline-block; margin-bottom: 14px; color: var(--text-muted); font-size: .92rem; }
 .bback:hover { color: var(--emerald-400); }
