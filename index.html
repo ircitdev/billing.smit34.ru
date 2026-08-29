@@ -2439,10 +2439,17 @@
 .mod-modal-body{padding:24px 28px 30px}
 .mm-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:2px 0 14px;font-size:.86rem;opacity:.8}
 .mm-meta .mm-cat,.mm-meta .mm-dev{display:inline-flex;align-items:center;gap:5px}
+.mm-meta svg{opacity:.75;flex:0 0 auto}
 .mm-meta .mm-plans{display:inline-flex;flex-wrap:wrap;gap:5px}
-.mm-meta .mm-plan{padding:2px 9px;border-radius:20px;border:1px solid rgba(16,185,129,.35);font-size:.76rem;white-space:nowrap}
+.mm-meta .mm-plan{padding:3px 11px;border-radius:20px;border:1px solid rgba(16,185,129,.35);
+  background:none;color:inherit;font:inherit;font-size:.76rem;white-space:nowrap;cursor:pointer;
+  transition:background-color .2s ease,border-color .2s ease,color .2s ease,transform .2s ease}
+.mm-meta .mm-plan:hover{background:rgba(16,185,129,.16);border-color:#10b981;color:#10b981;transform:translateY(-1px)}
+.mm-meta .mm-plan:focus-visible{outline:2px solid #10b981;outline-offset:2px}
+@media (prefers-reduced-motion: reduce){.mm-meta .mm-plan{transition:none}}
 .mm-head{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
-.mm-head h3{margin:0;flex:1 1 auto}
+.mm-head h3{margin:0;flex:0 1 auto}
+.mm-head .mm-ver{flex:0 0 auto;color:#10b981;font-size:.86rem;font-weight:600;align-self:flex-end;padding-bottom:3px}
 .mm-doc{margin-left:auto;flex:0 0 auto;padding:6px 13px;border:1px solid rgba(16,185,129,.45);border-radius:8px;color:#10b981;text-decoration:none;font-weight:600;white-space:nowrap}
 .mm-doc:hover{background:#10b981;color:#fff}
 .mm-tabs{display:flex;gap:4px;flex-wrap:wrap;margin:20px 0 0;border-bottom:1px solid rgba(255,255,255,.1)}
@@ -3748,10 +3755,10 @@
     <div class="mod-modal-body">
       <div class="mm-head">
         <h3 id="mm-name"></h3>
+        <span class="mm-ver" id="mm-ver"></span>
         <a id="mm-doc" class="mm-doc" target="_blank" rel="noopener" style="display:none">Документация</a>
       </div>
       <div class="mm-meta">
-        <span class="mm-ver" id="mm-ver"></span>
         <span class="mm-cat" id="mm-cat"></span>
         <span class="mm-dev" id="mm-dev"></span>
         <span class="mm-plans" id="mm-plans"></span>
@@ -3786,6 +3793,12 @@
   function esc(s){var d=document.createElement('div');d.textContent=s==null?'':s;return d.innerHTML;}
   function lines(s){return (s||'').split(/\r?\n/).map(function(x){return x.replace(/^[\-\u2022*]\s*/,'').trim();}).filter(Boolean);}
   function show(id,on){var e=document.getElementById(id);if(e)e.style.display=on?'':'none';}
+  var ICO_CAT = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" '
+    + 'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    + '<path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="M2 16l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> ';
+  var ICO_DEV = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" '
+    + 'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+    + '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> ';
   function setPane(name){
     var tabs = document.querySelectorAll('#mm-tabs .mm-tab');
     tabs.forEach(function(t){ t.classList.toggle('active', t.dataset.pane === name); });
@@ -3809,11 +3822,13 @@
       comms:'Связь и общение', finance:'Финансы', crm:'Продажи', gov:'Госрегулирование',
       media:'Медиа', subscriber:'Работа с клиентами', operations:'Эксплуатация', other:'Прочее'};
     var cat=document.getElementById('mm-cat');
-    cat.textContent=d.cat?(CAT_RU[d.cat]||d.cat):''; show('mm-cat',!!d.cat);
-    var dev=document.getElementById('mm-dev'); dev.textContent=d.dev?('разработчик: '+d.dev):''; show('mm-dev',!!d.dev);
+    cat.innerHTML=d.cat?(ICO_CAT + esc(CAT_RU[d.cat]||d.cat)):''; show('mm-cat',!!d.cat);
+    var dev=document.getElementById('mm-dev');
+    dev.innerHTML=d.dev?(ICO_DEV + 'разработчик: ' + esc(d.dev)):''; show('mm-dev',!!d.dev);
     var plans=d.core?['Все тарифы']:(d.plans||[]);
     document.getElementById('mm-plans').innerHTML=plans.map(function(x){
-      return '<span class="mm-plan">'+esc(x)+'</span>';}).join('');
+      return '<button type="button" class="mm-plan" data-plan="'+esc(x)+'">'
+        + esc(x) + '</button>';}).join('');
     show('mm-plans',plans.length>0);
     document.getElementById('mm-full').textContent=d.full||d.desc||'';
 
@@ -3851,9 +3866,30 @@
     setPane(first||'feat');
 
     var doc=document.getElementById('mm-doc'); if(d.doc){doc.href=d.doc;doc.style.display='';}else doc.style.display='none';
-    M.classList.add('open'); M.scrollTop=0; document.body.style.overflow='hidden';
+    M.classList.add('open'); M.scrollTop=0; lockScroll(true);
   }
-  function closeMod(){var v=document.getElementById('mm-video');if(v)v.pause();M.classList.remove('open');document.body.style.overflow='';}
+  // фиксируем страницу: overflow:hidden на body не держит — прокручивается
+  // документ целиком, а на мобильных прокрутка ещё и «протекает» под окно
+  var _scrollY = 0;
+  function lockScroll(on){
+    var b = document.body;
+    if(on){
+      _scrollY = window.scrollY || window.pageYOffset || 0;
+      b.style.position = 'fixed';
+      b.style.top = (-_scrollY) + 'px';
+      b.style.left = '0';
+      b.style.right = '0';
+      b.style.width = '100%';
+      b.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      b.style.position = ''; b.style.top = ''; b.style.left = '';
+      b.style.right = ''; b.style.width = ''; b.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      window.scrollTo(0, _scrollY);
+    }
+  }
+  function closeMod(){var v=document.getElementById('mm-video');if(v)v.pause();M.classList.remove('open');lockScroll(false);}
   // ссылка вида /#module-crm из документации открывает карточку модуля
   function openModFromHash(){
     var m = /^#module-([a-z_]+)$/.exec(location.hash || '');
@@ -3878,6 +3914,13 @@
     if(sa){document.querySelectorAll('.mod-card.mod-hidden').forEach(function(x){x.classList.remove('mod-hidden');});sa.style.display='none';return;}
     var tab=e.target.closest('#mm-tabs .mm-tab');
     if(tab){setPane(tab.dataset.pane);return;}
+    var plan=e.target.closest('.mm-plan[data-plan]');
+    if(plan){
+      closeMod();
+      var pr=document.getElementById('pricing');
+      if(pr) setTimeout(function(){ pr.scrollIntoView({behavior:'smooth', block:'start'}); }, 80);
+      return;
+    }
     var dep=e.target.closest('.mm-dep[data-go]');
     if(dep){openMod(dep.getAttribute('data-go'));return;}
     if(e.target.closest('[data-close]')){closeMod();return;}
