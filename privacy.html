@@ -247,8 +247,11 @@ function toggleTheme() {
   localStorage.setItem('theme', next);
 }
 (function() {
+  // выбранная вручную тема важнее системной; если выбора не было — берём системную
   const saved = localStorage.getItem('theme');
-  if (saved === 'light') document.documentElement.setAttribute('data-theme', 'light');
+  const light = saved ? saved === 'light'
+                      : window.matchMedia('(prefers-color-scheme: light)').matches;
+  if (light) document.documentElement.setAttribute('data-theme', 'light');
 })();
 </script>
 </body>
