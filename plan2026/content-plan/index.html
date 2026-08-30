@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Контент-план канала — СмИТ Биллинг</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --em-400: #34d399; --em-500: #10b981; --em-600: #059669; --em-700: #047857;
+  --amber-500: #f59e0b; --amber-700: #b45309; --slate-500: #64748b;
+  --bg: #f6f8fa; --card: #ffffff; --border: rgba(15,23,42,.09);
+  --text: #0f172a; --dim: #475569; --mute: #64748b;
+  --tint-green: #f1fbf6; --tint-amber: #fdf8ef; --tint-neutral: #f4f6f8;
+  --shadow: 0 1px 2px rgba(15,23,42,.04), 0 8px 24px rgba(15,23,42,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #070d14; --card: #111a24; --border: rgba(255,255,255,.09);
+    --text: #e8eef5; --dim: #a8b6c6; --mute: #7d8da0;
+    --tint-green: #0d2019; --tint-amber: #221a0c; --tint-neutral: #161f2a;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #070d14; --card: #111a24; --border: rgba(255,255,255,.09);
+  --text: #e8eef5; --dim: #a8b6c6; --mute: #7d8da0;
+  --tint-green: #0d2019; --tint-amber: #221a0c; --tint-neutral: #161f2a;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 400 15px/1.6 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--em-700); }
+:root[data-theme="dark"] a, html:not([data-theme="light"]) a { color: var(--em-400); }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) a { color: var(--em-700); } }
+.wrap { max-width: 940px; margin: 0 auto; padding: 40px 20px 72px; }
+
+header.top { margin-bottom: 28px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--em-600);
+  background: var(--tint-green); border: 1px solid rgba(16,185,129,.22);
+  padding: 5px 12px; border-radius: 999px;
+}
+h1 { font-size: 30px; line-height: 1.2; margin: 16px 0 8px; letter-spacing: -.5px; }
+.lead { color: var(--dim); margin: 0 0 6px; max-width: 640px; }
+.back { font-size: 14px; }
+
+.kpi { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 26px 0 34px; }
+.kpi div {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 14px 16px; box-shadow: var(--shadow);
+}
+.kpi b { display: block; font-size: 24px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi span { font-size: 12.5px; color: var(--mute); }
+
+h2 { font-size: 19px; margin: 34px 0 14px; }
+table { width: 100%; border-collapse: collapse; background: var(--card);
+  border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+  box-shadow: var(--shadow); }
+th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border);
+  vertical-align: top; font-size: 14.5px; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--mute); font-weight: 700; background: var(--tint-neutral); }
+tr:last-child td { border-bottom: 0; }
+td.when { white-space: nowrap; color: var(--dim); font-size: 13.5px; }
+code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px;
+  background: var(--tint-neutral); padding: 1px 6px; border-radius: 6px; }
+
+.st { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 2px 9px;
+  border-radius: 999px; white-space: nowrap; }
+.st.done { color: var(--em-700); background: var(--tint-green); }
+.st.next { color: var(--amber-700); background: var(--tint-amber); }
+:root[data-theme="dark"] .st.done, html:not([data-theme="light"]) .st.done { color: var(--em-400); }
+:root[data-theme="dark"] .st.next, html:not([data-theme="light"]) .st.next { color: #fbbf24; }
+
+.rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.rule { background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 16px 18px; box-shadow: var(--shadow); }
+.rule b { display: block; margin-bottom: 5px; }
+.rule p { margin: 0; color: var(--dim); font-size: 14px; }
+
+.how { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--em-500);
+  border-radius: 0 14px 14px 0; padding: 18px 20px; box-shadow: var(--shadow); }
+.how p { margin: 0 0 10px; }
+.how p:last-child { margin: 0; }
+pre { margin: 12px 0; padding: 12px 14px; background: var(--tint-neutral);
+  border-radius: 10px; overflow-x: auto; font-size: 13px; }
+
+footer { margin-top: 40px; color: var(--mute); font-size: 13px; }
+
+@media (max-width: 720px) {
+  .kpi { grid-template-columns: repeat(2, 1fr); }
+  .rules { grid-template-columns: 1fr; }
+  h1 { font-size: 25px; }
+  table, thead, tbody, th, td, tr { display: block; }
+  thead { display: none; }
+  tr { border-bottom: 1px solid var(--border); padding: 10px 4px; }
+  tr:last-child { border-bottom: 0; }
+  td { border: 0; padding: 3px 12px; }
+  td.when { font-weight: 600; color: var(--text); }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <span class="eyebrow">Канал разработки</span>
+  <h1>Контент-план на месяц</h1>
+  <p class="lead">Что и когда выходит в <a href="https://t.me/smitbillingdev" target="_blank" rel="noopener">t.me/smitbillingdev</a>.
+  Темп — один пост в неделю плюс заметка о сборке, когда она выходит. Больше не берём:
+  брошенный канал хуже пустого.</p>
+  <p class="back"><a href="/plan2026/roadmap/">← Исполнение плана</a></p>
+</header>
+
+<div class="kpi">
+  <div><b>3</b><span>опубликовано</span></div>
+  <div><b>5</b><span>в расписании</span></div>
+  <div><b>2</b><span>в запасе</span></div>
+  <div><b>1/нед</b><span>темп</span></div>
+</div>
+
+<h2>Опубликовано</h2>
+<table>
+  <thead><tr><th style="width:130px">Когда</th><th>Пост</th><th style="width:110px">Статус</th></tr></thead>
+  <tbody>
+    <tr><td class="when">30 августа</td><td>Закреплённый — о чём канал</td><td><span class="st done">вышел</span></td></tr>
+    <tr><td class="when">30 августа</td><td>Модуль стоял два месяца из-за одной строки — поиск возвращал не тех клиентов</td><td><span class="st done">вышел</span></td></tr>
+    <tr><td class="when">30 августа</td><td>Готовили демо для показа клиентам и нашли на нём боевые данные</td><td><span class="st done">вышел</span></td></tr>
+  </tbody>
+</table>
+
+<h2>Расписание</h2>
+<table>
+  <thead><tr><th style="width:150px">Неделя</th><th>Пост</th><th style="width:190px">Файл</th></tr></thead>
+  <tbody>
+    <tr><td class="when">1–7 сентября</td><td>Отчёт по AI показывал расход вдвое больше настоящего</td><td><code>02_tokens_double.md</code></td></tr>
+    <tr><td class="when">по факту</td><td>Заметка о сборке, если выйдет новая</td><td><code>builds/&lt;номер&gt;.md</code></td></tr>
+    <tr><td class="when">8–14 сентября</td><td>Ролик: путь денег от письма банка до чека в ОФД</td><td><code>08_video.md</code></td></tr>
+    <tr><td class="when">15–21 сентября</td><td>«94 % обращений закрыты без человека» оказалось неправдой</td><td><code>03_metric_lied.md</code></td></tr>
+    <tr><td class="when">22–28 сентября</td><td>Кассовый чек по 54-ФЗ: очередь важнее интеграции</td><td><code>06_fiscal_queue.md</code></td></tr>
+  </tbody>
+</table>
+
+<h2>В запасе, на октябрь</h2>
+<table>
+  <thead><tr><th style="width:150px">Тема</th><th>О чём</th><th style="width:190px">Файл</th></tr></thead>
+  <tbody>
+    <tr><td class="when">Промпт</td><td>База знаний занимала 60 % запроса к модели, а статья за сороковой позицией не попадала в него никогда</td><td><code>04_prompt_waste.md</code></td></tr>
+    <tr><td class="when">Карта сети</td><td>Импорт 1 089 узлов из KML и грабли вроде порядка координат</td><td><code>07_kml_import.md</code></td></tr>
+  </tbody>
+</table>
+
+<h2>Правила выбора темы</h2>
+<div class="rules">
+  <div class="rule"><b>Пост — про находку, а не про функцию</b>
+    <p>«Сделали склад» — не тема. «Инвентаризация показала недостачу, которой не было» — тема.</p></div>
+  <div class="rule"><b>Цифра обязательна и проверяема</b>
+    <p>15 381 описание, 1 089 узлов, 72,6 % — читатель должен видеть, что это не общие слова.</p></div>
+  <div class="rule"><b>Свои ошибки — можно и нужно</b>
+    <p>Пост о том, как мы считали токены вдвое, полезнее трёх постов о том, какие мы молодцы.</p></div>
+  <div class="rule"><b>Ссылка на блог — не чаще одной на три-четыре своих поста</b>
+    <p>И только там, где статья продолжает инженерную тему: выписки, карта сети, AI-агент.</p></div>
+</div>
+
+<h2>Как публикуется</h2>
+<div class="how">
+  <p>Посты лежат файлами в репозитории, а не в переписке: текст видно в истории изменений,
+  его можно поправить до отправки, и он переживает смену того, кто ведёт канал.</p>
+  <pre>manage.py tg_devlog devlog/&lt;файл&gt;.md          # предпросмотр
+manage.py tg_devlog devlog/&lt;файл&gt;.md --send   # публикация</pre>
+  <p>Заметку к сборке пишет тот, кто её делал — <code>devlog/builds/&lt;номер&gt;.md</code>.
+  Расписание раз в сутки проверяет, появилась ли она: если да — публикует и запоминает номер,
+  если нет — присылает напоминание в личку, а в канал не уходит ничего. Сочинять текст
+  по коммитам не стали: в ленту уходило бы «fix typo».</p>
+  <p><a href="/blog/avtopost-o-sborkah">Почему устроено именно так — разбор в блоге →</a></p>
+</div>
+
+<h2>Откуда брать следующие темы</h2>
+<p style="color:var(--dim)">Разборы в <code>dev_reports/Отчёты/</code> и записи в <code>CLAUDE.md</code>:
+там уже лежит материал на десяток постов — права по разделам админки, робот, звонивший про нулевой
+баланс при деньгах на счёте, потерянная привязка чата к абоненту, вендор-паки СОРМ,
+склад со сканированием без связи.</p>
+
+<footer>
+  Обновлено 30 августа 2026 · <a href="/plan2026/roadmap/">исполнение плана</a> ·
+  <a href="https://t.me/smitbillingdev" target="_blank" rel="noopener">канал</a>
+</footer>
+
+</div>
+</body>
+</html>
