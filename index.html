@@ -832,6 +832,28 @@
 
     @media (max-width: 640px) { .blog-section { padding: 56px 16px; } }
 
+
+    /* Цели касания: минимум 44px. Зону расширяем невидимым слоем, чтобы не
+       менять облик кнопок — попасть пальцем становится проще, вид тот же. */
+    @media (max-width: 768px) {
+      .theme-toggle, .mobile-toggle, .header-logo,
+      .gallery-filter button, .wg-filter button, .shot-expand, .pt-btn, .api-tab,
+      .api-copy, .pp-dl, .footer a, .footer-col a,
+      .hiw-step, .period-selector button, .fin-type-btn, .tariff-type-btn {
+        position: relative;
+      }
+      .theme-toggle::after, .mobile-toggle::after, .header-logo::after,
+      .gallery-filter button::after, .wg-filter button::after,
+      .shot-expand::after, .pt-btn::after, .api-tab::after,
+      .api-copy::after, .pp-dl::after, .footer a::after, .footer-col a::after,
+      .hiw-step::after, .period-selector button::after,
+      .fin-type-btn::after, .tariff-type-btn::after {
+        content: ''; position: absolute; top: 50%; left: 50%;
+        width: 100%; height: 100%; min-width: 44px; min-height: 44px;
+        transform: translate(-50%, -50%);
+      }
+    }
+
     /* ---- Sticky demo CTA ---- */
     .sticky-cta {
       position: fixed; right: 24px; bottom: 24px; z-index: 90;
@@ -849,6 +871,16 @@
       .sticky-cta { left: 16px; right: 16px; bottom: 16px; justify-content: center; padding: 15px; }
     }
     @media (prefers-reduced-motion: reduce) { .sticky-cta { transition: opacity .2s; } }
+    /* Бесконечное движение при запрете анимаций: фоновый градиент секции,
+       перелив в заголовке и плавающие значки первого экрана. Для людей с
+       вестибулярной чувствительностью это главный раздражитель на странице. */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-float, .gradient-text, [class*="gradient-bg"] { animation: none !important; }
+      *, *::before, *::after {
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
 
     /* ---- Hero WebGL shader background (variant C) ---- */
     .hero-shader {
@@ -2358,7 +2390,7 @@
       .hero-buttons .btn-secondary {
         background: transparent;
         color: var(--emerald-400);
-        border: 1.5px solid var(--emerald-500);
+        border: 1.5px solid var(--emerald-600);
         box-shadow: none;
         backdrop-filter: none; -webkit-backdrop-filter: none;
       }
@@ -2696,7 +2728,7 @@
       <span class="icon-sun"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M5 19l1.4-1.4M17.6 6.4L19 5"/></svg></span>
       <span class="icon-moon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span>
     </button>
-    <button class="mobile-toggle" id="mobile-toggle" aria-label="Меню"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Меню" aria-expanded="false" aria-controls="mobile-menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
   </div>
 </header>
 
@@ -2718,7 +2750,7 @@
 <section class="hero">
   <canvas class="hero-shader" aria-hidden="true"></canvas>
   <div class="hero-bg" aria-hidden="true">
-    <video class="hero-video" muted loop playsinline preload="none"></video>
+    <video class="hero-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
   </div>
   <div class="hero-golden" aria-hidden="true"></div>
   <div class="container">
@@ -3191,42 +3223,42 @@
     <div class="tech-grid">
       <div class="tech-card reveal reveal-delay-1">
         <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13 5l-2 14"/></svg></span>
-        <h4>Python 3.11</h4>
+        <h3>Python 3.11</h3>
         <p>Современный, типизированный, быстрый</p>
       </div>
       <div class="tech-card reveal reveal-delay-2">
         <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span>
-        <h4>Django 4.2 LTS</h4>
+        <h3>Django 4.2 LTS</h3>
         <p>Long Term Support до 2026</p>
       </div>
       <div class="tech-card reveal reveal-delay-3">
         <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span>
-        <h4>PostgreSQL 17</h4>
+        <h3>PostgreSQL 17</h3>
         <p>Надёжность, JSON, полнотекстовый поиск</p>
       </div>
       <div class="tech-card reveal reveal-delay-4">
         <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg></span>
-        <h4>Redis 7 + Celery 5</h4>
+        <h3>Redis 7 + Celery 5</h3>
         <p>Фоновые задачи, расписания, очереди</p>
       </div>
       <div class="tech-card reveal reveal-delay-1">
         <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M7 7a7 7 0 0 0 0 10M17 7a7 7 0 0 1 0 10M4.5 4.5a11 11 0 0 0 0 15M19.5 4.5a11 11 0 0 1 0 15"/></svg></span>
-        <h4>FreeRADIUS 3.2</h4>
+        <h3>FreeRADIUS 3.2</h3>
         <p>PPPoE, IPoE, VoIP, IPTV</p>
       </div>
       <div class="tech-card reveal reveal-delay-2">
         <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3ZM4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span>
-        <h4>Docker Compose</h4>
+        <h3>Docker Compose</h3>
         <p>Один файл — вся инфраструктура</p>
       </div>
       <div class="tech-card reveal reveal-delay-3">
         <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4"/></svg></span>
-        <h4>Nginx + Gunicorn</h4>
+        <h3>Nginx + Gunicorn</h3>
         <p>Production-ready из коробки</p>
       </div>
       <div class="tech-card reveal reveal-delay-4">
         <span class="tech-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1 0 1.5-.8 1.5-1.5 0-1.2-1-1.5-1-2.5a1.5 1.5 0 0 1 1.5-1.5H16a5 5 0 0 0 5-5c0-4-4-7.5-9-7.5Z"/><circle cx="7.5" cy="12" r="1"/><circle cx="10" cy="8" r="1"/><circle cx="15" cy="8" r="1"/></svg></span>
-        <h4>AdminLTE 3 + BS5</h4>
+        <h3>AdminLTE 3 + BS5</h3>
         <p>Адаптивный UI, тёмная тема</p>
       </div>
     </div>
@@ -3367,14 +3399,14 @@
         <div class="api-feature reveal reveal-delay-1">
           <div class="af-icon fi-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M7 3h7l5 5v11a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M9 13h6M9 17h6"/></svg></div>
           <div>
-            <h4>REST API v2</h4>
+            <h3>REST API v2</h3>
             <p>CRUD для всех 135 моделей. Фильтрация, сортировка, пагинация, выбор полей.</p>
           </div>
         </div>
         <div class="api-feature reveal reveal-delay-2">
           <div class="af-icon fi-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v6M18 9v6"/></svg></div>
           <div>
-            <h4>SOAP API (Spyne)</h4>
+            <h3>SOAP API (Spyne)</h3>
             <p>Приём платежей от банков, 1С, платёжных терминалов. WSDL-описание.</p>
           </div>
         </div>
@@ -3388,7 +3420,7 @@
         <div class="api-feature reveal reveal-delay-4">
           <div class="af-icon fi-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v6M15 3v6M6 9h12v2a6 6 0 0 1-12 0V9ZM12 17v4"/></svg></div>
           <div>
-            <h4>Webhooks и AJAX</h4>
+            <h3>Webhooks и AJAX</h3>
             <p>IP-пулы, DNS-резолв, порты коммутаторов. Асинхронные JSON-ответы.</p>
           </div>
         </div>
@@ -3614,7 +3646,7 @@
       <p class="footer-desc">Биллинговая платформа для операторов связи и сервис-провайдеров. Python 3.11, Django 4.2, PostgreSQL 17. Мобильное приложение iOS/Android, своя Поддержка и CRM, AI-агент.</p>
     </div>
     <div>
-      <h4>Продукт</h4>
+      <h3>Продукт</h3>
       <ul>
         <li><a href="#features">Возможности</a></li>
         <li><a href="#lk">Приложение</a></li>
@@ -3623,7 +3655,7 @@
       </ul>
     </div>
     <div>
-      <h4>Ресурсы</h4>
+      <h3>Ресурсы</h3>
       <ul>
         <li><a href="https://docs.billing.smit34.ru" target="_blank">Документация</a></li>
         <li><a href="https://docs.billing.smit34.ru/pages/api.html" target="_blank">API Reference</a></li>
@@ -3632,7 +3664,7 @@
       </ul>
     </div>
     <div>
-      <h4>Контакты</h4>
+      <h3>Контакты</h3>
       <ul>
         <li><a href="mailto:uspeshnyy@billing.smit34.ru">uspeshnyy@billing.smit34.ru</a></li>
         <li><a href="mailto:support@smit34.ru">support@smit34.ru</a></li>
@@ -3708,22 +3740,30 @@
 
   // --- Mobile menu ---
   var mobileMenu = document.getElementById('mobile-menu');
-  document.getElementById('mobile-toggle').addEventListener('click', function() {
+  var mobileToggle = document.getElementById('mobile-toggle');
+  mobileToggle.addEventListener('click', function() {
     mobileMenu.classList.add('open');
+    mobileToggle.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
   });
-  document.getElementById('mobile-close').addEventListener('click', function() {
+  function closeMobileMenu() {
     mobileMenu.classList.remove('open');
+    mobileToggle.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
-  });
+  }
+  document.getElementById('mobile-close').addEventListener('click', closeMobileMenu);
   // Close on link click
   var mobileLinks = mobileMenu.querySelectorAll('.mobile-link');
   for (var i = 0; i < mobileLinks.length; i++) {
-    mobileLinks[i].addEventListener('click', function() {
-      mobileMenu.classList.remove('open');
-      document.body.style.overflow = '';
-    });
+    mobileLinks[i].addEventListener('click', closeMobileMenu);
   }
+  // меню — накладка на всю страницу: Esc должен её убирать
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+      closeMobileMenu();
+      mobileToggle.focus();
+    }
+  });
 
   // --- Video modal ---
   var videoModal = document.getElementById('video-modal');
@@ -3858,6 +3898,11 @@
     list.forEach(function(s, i){
       var t = document.createElement('button');
       t.className = 'shot-thumb' + (i === cur ? ' active' : '');
+      // без имени кнопка звучит как «кнопка» — называем её экраном, который
+      // она показывает, и сообщаем, какая выбрана
+      t.type = 'button';
+      t.setAttribute('aria-label', 'Экран: ' + (s.label || ('№' + (i + 1))));
+      t.setAttribute('aria-pressed', i === cur ? 'true' : 'false');
       var im = document.createElement('img'); im.src = s.src; im.loading = 'lazy'; im.alt = '';
       t.appendChild(im);
       t.addEventListener('click', function(){ show(i); stop(); });
@@ -3866,7 +3911,10 @@
   }
   function setActiveThumb(){
     var ts = thumbsEl.children;
-    for (var i = 0; i < ts.length; i++) ts[i].classList.toggle('active', i === cur);
+    for (var i = 0; i < ts.length; i++) {
+      ts[i].classList.toggle('active', i === cur);
+      ts[i].setAttribute('aria-pressed', i === cur ? 'true' : 'false');
+    }
     if (ts[cur]) ts[cur].scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
   }
   function show(i){
@@ -3891,7 +3939,12 @@
     setActiveThumb();
     stop();
   }
-  btns.forEach(function(b){ b.addEventListener('click', function(){ btns.forEach(function(x){ x.classList.remove('active'); }); b.classList.add('active'); filter(b.getAttribute('data-filter')); }); });
+  // состояние чипа: класс виден глазами, aria-pressed — диктору
+  btns.forEach(function(b){ b.setAttribute('aria-pressed', b.classList.contains('active') ? 'true' : 'false'); });
+  btns.forEach(function(b){ b.addEventListener('click', function(){
+    btns.forEach(function(x){ x.classList.remove('active'); x.setAttribute('aria-pressed', 'false'); });
+    b.classList.add('active'); b.setAttribute('aria-pressed', 'true');
+    filter(b.getAttribute('data-filter')); }); });
   var pv = document.getElementById('shotPrev'), nx = document.getElementById('shotNext'), ex = document.getElementById('shotExpand');
   if (pv) pv.addEventListener('click', function(){ show(cur - 1); stop(); });
   if (nx) nx.addEventListener('click', function(){ show(cur + 1); stop(); });
@@ -4552,7 +4605,7 @@
       <button type="submit" class="demo-submit" id="demo-submit">Отправить заявку</button>
       <p class="demo-note">Нажимая «Отправить заявку», вы соглашаетесь на обработку персональных данных.</p>
     </form>
-    <div class="demo-result" id="demo-result" hidden></div>
+    <div class="demo-result" id="demo-result" role="status" aria-live="polite" hidden></div>
   </div>
 </div>
 <script>
@@ -4627,8 +4680,32 @@
       }
     });
   });
-  function open(prefill){ form.hidden = false; res.hidden = true; if (window.ymGoal) window.ymGoal('demo_open'); if (prefill) { var c = form.querySelector('[name="comment"]'); if (c) c.value = prefill; } modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; setTimeout(function(){ var n = form.querySelector('[name="name"]'); if (n) n.focus(); }, 220); }
-  function close(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; }
+  // Удержание фокуса внутри открытого окна: без этого Tab уводит на страницу
+  // за ним, и человек с клавиатуры продолжает ввод вслепую.
+  var trapReturn = null;
+  function trapKeys(e) {
+    if (e.key !== 'Tab') return;
+    var box = modal.querySelector('.demo-box');
+    var items = [].slice.call(box.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), textarea, select, [tabindex]:not([tabindex="-1"])'
+    )).filter(function (el) {
+      var r = el.getBoundingClientRect();
+      return r.width > 0 && r.height > 0;
+    });
+    if (!items.length) return;
+    var first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    else if (!modal.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+  }
+
+  function open(prefill){ trapReturn = document.activeElement; document.addEventListener('keydown', trapKeys); form.hidden = false; res.hidden = true; if (window.ymGoal) window.ymGoal('demo_open'); if (prefill) { var c = form.querySelector('[name="comment"]'); if (c) c.value = prefill; } modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; setTimeout(function(){ var n = form.querySelector('[name="name"]'); if (n) n.focus(); }, 220); }
+  function close(){
+    modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', trapKeys);
+    if (trapReturn && trapReturn.focus) trapReturn.focus();  // вернуть туда, откуда открыли
+  }
   document.querySelectorAll('[data-demo]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); var t = a.getAttribute('data-tariff'); if (t && window.ymGoal) window.ymGoal('tariff_request', { tariff: t }); open(t ? ('Интересует тариф: ' + t) : ''); }); });
   modal.querySelectorAll('[data-democlose]').forEach(function(el){ el.addEventListener('click', close); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && modal.classList.contains('open')) close(); });

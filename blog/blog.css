@@ -95,7 +95,28 @@ a:focus-visible, button:focus-visible {
      за padding обратно до ширины контента */
   flex-shrink: 0; max-width: none;
 }
-.bcard-meta { display: flex; gap: 10px; align-items: center; font-size: .8rem; color: var(--text-muted); }
+/* Тег и дата лежат на обложке в левом верхнем углу. Под каждым — своя
+   подложка: иллюстрации в тёмной и светлой теме разные, одна и та же
+   плашка на обеих читалась бы плохо. */
+.bcard { position: relative; }
+.bcard-meta {
+  position: absolute; top: 14px; left: 14px; z-index: 2;
+  display: flex; gap: 8px; align-items: center; font-size: .8rem;
+  color: var(--text-muted);
+}
+.bcard-meta time {
+  padding: 3px 9px; border-radius: 999px;
+  background: rgba(2, 6, 23, .62); color: #e2e8f0;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+}
+.bcard .btag { background: rgba(2, 6, 23, .62); color: #6ee7b7;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+[data-theme="light"] .bcard-meta time {
+  background: rgba(255, 255, 255, .82); color: #334155;
+}
+[data-theme="light"] .bcard .btag {
+  background: rgba(255, 255, 255, .82); color: #047857;
+}
 .btag {
   padding: 3px 10px; border-radius: 999px; font-weight: 600;
   background: rgba(16, 185, 129, .12); color: var(--emerald-400);
@@ -473,3 +494,22 @@ body { padding-top: 64px; }
 
 /* hidden у полосы фильтра не работал: display:flex его перебивал */
 .bfilter[hidden], .bempty[hidden] { display: none; }
+
+/* Цели касания: минимум 44px. Расширяем зону невидимым слоем, вид не меняем. */
+@media (max-width: 768px) {
+  .theme-toggle, .mobile-toggle, .header-logo, .bhash, .bback, .bfoot a, .bh-nav a {
+    position: relative;
+  }
+  .theme-toggle::after, .mobile-toggle::after, .header-logo::after, .bhash::after,
+  .bback::after, .bfoot a::after, .bh-nav a::after {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    width: 100%; height: 100%; min-width: 44px; min-height: 44px;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Заголовок для навигации по структуре: виден только скринридеру. */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
