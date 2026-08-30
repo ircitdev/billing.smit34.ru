@@ -854,6 +854,47 @@
       }
     }
 
+
+    /* ---- Переход с текущей системы ---- */
+    .mig-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+    .mig-card { padding: 22px; border-radius: 16px; background: var(--bg-card); border: 1px solid var(--bg-card-border); }
+    .mig-from { font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; color: var(--emerald-400); }
+    [data-theme="light"] .mig-from { color: var(--emerald-700); }
+    .mig-card p { color: var(--text-secondary); font-size: .94rem; line-height: 1.6; }
+    .mig-steps { counter-reset: mg; list-style: none; display: grid; gap: 14px; margin: 30px 0 0; padding: 0; }
+    .mig-steps li { counter-increment: mg; position: relative; padding-left: 44px; color: var(--text-secondary); line-height: 1.6; }
+    .mig-steps li::before {
+      content: counter(mg); position: absolute; left: 0; top: -2px;
+      width: 30px; height: 30px; border-radius: 9px; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .9rem; color: var(--emerald-400);
+      background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.25);
+    }
+    [data-theme="light"] .mig-steps li::before { color: var(--emerald-700); }
+    .mig-steps li b { color: var(--text-primary); }
+
+    /* ---- Калькулятор цены ---- */
+    .calc { margin: 0 auto 40px; max-width: 720px; padding: 28px; border-radius: 18px;
+            background: var(--bg-card); border: 1px solid var(--bg-card-border); }
+    .calc-head h3 { font-size: 1.25rem; margin-bottom: 6px; }
+    .calc-head p { color: var(--text-secondary); font-size: .94rem; margin-bottom: 20px; }
+    .calc-label { display: flex; justify-content: space-between; align-items: baseline;
+                  font-size: .92rem; color: var(--text-secondary); margin-bottom: 10px; }
+    .calc-out { font-size: 1.2rem; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+    #calc-range { width: 100%; accent-color: var(--emerald-500); height: 30px; }
+    .calc-result { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 20px;
+                   margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border-light); }
+    .calc-plan { color: var(--text-secondary); font-size: .95rem; }
+    .calc-plan b { color: var(--text-primary); font-size: 1.05rem; }
+    .calc-price b { font-size: 1.9rem; font-weight: 800; font-variant-numeric: tabular-nums;
+                    background: linear-gradient(135deg, var(--emerald-400), var(--teal-400));
+                    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    [data-theme="light"] .calc-price b { background-image: linear-gradient(135deg, #047857, #0f766e); }
+    .calc-price span { color: var(--text-secondary); font-size: .95rem; }
+    .calc-note { flex-basis: 100%; color: var(--text-muted); font-size: .88rem; }
+    .calc-foot { margin-top: 16px; font-size: .88rem; color: var(--text-muted); line-height: 1.6; }
+    .calc-foot a { color: var(--emerald-400); }
+    [data-theme="light"] .calc-foot a { color: var(--emerald-700); }
+
     /* ---- Sticky demo CTA ---- */
     .sticky-cta {
       position: fixed; right: 24px; bottom: 24px; z-index: 90;
@@ -2720,6 +2761,7 @@
     <a href="#pricing">Тарифы</a>
     <a href="#api">API</a>
     <a href="#demo">Демо</a>
+    <a href="/compare/">Сравнение</a>
     <a href="/blog/">Блог</a>
     <a href="https://docs.billing.smit34.ru" class="btn-header" target="_blank">Документация</a>
   </nav>
@@ -2755,11 +2797,11 @@
   <div class="hero-golden" aria-hidden="true"></div>
   <div class="container">
     <div class="hero-content">
-      <h1>Современный <span class="gradient-text">биллинг</span> для операторов связи</h1>
-      <p class="hero-desc">Управление абонентами, тарификация, платежи, RADIUS-авторизация, СОРМ-3, мобильное приложение и AI-агент (голос и телефон) в единой системе. Плюс видеонаблюдение, IPTV, телефония, склад и CRM. Развёртывание за 15 минут через Docker.</p>
+      <h1>Современный <span class="gradient-text">биллинг</span> для малых ISP — и AI, который отвечает абонентам</h1>
+      <p class="hero-desc">Полный цикл: авторизация, деньги, поддержка — на одном сервере. AI-агент отвечает вашим клиентам в семи каналах, включая живой телефонный звонок, и закрывает <strong>три обращения из четырёх</strong> без оператора. Переносим данные из Carbon, Mikbill, UTM5 и запускаемся за день.</p>
       <div class="hero-buttons">
-        <a data-demo="1" href="#demo" class="btn-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Запросить демо</a>
-        <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="btn-secondary" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Презентация</a>
+        <a href="https://demo.billing.smit34.ru" target="_blank" rel="noopener" class="btn-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg> Открыть демо-стенд</a>
+        <a data-demo="1" data-prefill="migrate" href="#demo" class="btn-secondary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h13l-3-3M20 17H7l3 3"/></svg> Перенести мою базу</a>
       </div>
     </div>
     <div class="hero-visual">
@@ -2793,14 +2835,14 @@
     </div>
     <div class="stat-item reveal reveal-delay-1">
       <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div>
-      <div class="stat-value" data-count="312">0</div>
-      <div class="stat-label">Моделей данных</div>
+      <div class="stat-value" data-count="73" data-suffix="%">0</div>
+      <div class="stat-label">Обращений закрывает AI без оператора</div>
       <div class="stat-spark"><i style="height:50%"></i><i style="height:42%"></i><i style="height:60%"></i><i style="height:54%"></i><i style="height:70%"></i><i style="height:64%"></i><i style="height:84%"></i></div>
     </div>
     <div class="stat-item reveal reveal-delay-2">
       <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></div>
-      <div class="stat-value">24/7</div>
-      <div class="stat-label">Автоматизация</div>
+      <div class="stat-value" data-count="24">0</div>
+      <div class="stat-label">Модулей: включаете нужные</div>
       <div class="stat-spark"><i style="height:70%"></i><i style="height:80%"></i><i style="height:72%"></i><i style="height:85%"></i><i style="height:78%"></i><i style="height:90%"></i><i style="height:82%"></i></div>
     </div>
     <div class="stat-item reveal reveal-delay-3">
@@ -2815,7 +2857,7 @@
 <!-- ==================== Trust / Built-on ==================== -->
 <div class="trust-band">
   <div class="container">
-    <p class="trust-line reveal">В продакшене у оператора связи · <b>СОРМ-3</b> и <b>152-ФЗ</b> из коробки · развёртывание за <b>15 минут</b> через Docker</p>
+    <p class="trust-line reveal">В бою с 2026 года: <b>три оператора</b>, 6 400 клиентов, деньги проходят путь от банковской выписки до <b>чека в ОФД</b> · развёртывание за <b>15 минут</b> через Docker</p>
     <div class="trust-built reveal reveal-delay-1">Построено на проверенном стеке</div>
     <div class="tech-logos reveal reveal-delay-2">
       <span class="tech-logo">Python 3.11</span>
@@ -2874,7 +2916,7 @@
       <div class="feature-card reveal reveal-delay-1">
         <div class="feature-icon fi-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><rect x="9.5" y="11" width="5" height="4.5" rx="1"/></svg></div>
         <h3>СОРМ-3</h3>
-        <p>13 отчётов в формате СОРМ-3: абоненты, платежи, IP-план, шлюзы. Правильные имена полей, разделитель `;`, экспорт по расписанию.</p>
+        <p>Выгрузка по приказу №573: 13 отчётов, профили под шесть вендоров СОРМ, FTP-передача по расписанию и журнал выгрузок. Сертификация самого решения в процессе — сейчас данные сдаются через сертифицированный комплекс вашего вендора.</p>
       </div>
       <div class="feature-card reveal reveal-delay-2">
         <div class="feature-icon fi-cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6ZM10 20a2 2 0 0 0 4 0"/></svg></div>
@@ -3318,11 +3360,84 @@
 </section>
 
 <!-- ==================== Pricing ==================== -->
+
+<!-- ==================== Переход с текущей системы ==================== -->
+<section id="migrate" class="migrate-section">
+  <div class="container">
+    <div class="section-badge reveal">Переход</div>
+    <h2 class="section-title reveal reveal-delay-1">Вы уже на чём-то работаете</h2>
+    <p class="section-subtitle reveal reveal-delay-2" style="margin:0 auto 34px">
+      Переносим клиентов, тарифы, лицевые счета, услуги и историю операций.
+      Сначала на копии вашей базы — вы смотрите результат до того, как что-то
+      переключается.
+    </p>
+
+    <div class="mig-grid">
+      <div class="mig-card reveal">
+        <div class="mig-from">Carbon Billing 4</div>
+        <p>Структуру его базы система унаследовала — перенос идёт напрямую,
+           без промежуточных выгрузок.</p>
+      </div>
+      <div class="mig-card reveal reveal-delay-1">
+        <div class="mig-from">Mikbill</div>
+        <p>Обычный путь оператора, которому стало тесно в PHP + MySQL:
+           клиенты, тарифы и платежи переносятся целиком.</p>
+      </div>
+      <div class="mig-card reveal reveal-delay-2">
+        <div class="mig-from">UTM5, LANBilling</div>
+        <p>Переносим справочники, абонентов и финансовую историю; RADIUS
+           переключается на новый сервер в отдельное окно.</p>
+      </div>
+      <div class="mig-card reveal reveal-delay-3">
+        <div class="mig-from">Самописное и 1С</div>
+        <p>Разбираем вашу схему и пишем импорт под неё — так уже переносили
+           базы из Expert Billing.</p>
+      </div>
+    </div>
+
+    <ol class="mig-steps reveal">
+      <li><b>Копия базы.</b> Забираем выгрузку и разворачиваем рядом. Ваша
+        система продолжает работать.</li>
+      <li><b>Сверка.</b> Сравниваем балансы, тарифы и начисления с оригиналом.
+        Расхождения видно построчно.</li>
+      <li><b>Переключение.</b> Повторный импорт свежих данных и перевод RADIUS
+        — ночью, без простоя для абонентов.</li>
+    </ol>
+
+    <div style="text-align:center;margin-top:30px">
+      <a data-demo="1" data-prefill="migrate" href="#demo" class="btn-primary">Перенести мою базу</a>
+    </div>
+  </div>
+</section>
+
 <section id="pricing">
   <div class="container">
     <div class="section-badge reveal">Тарифы</div>
     <h2 class="section-title reveal reveal-delay-1">Прозрачное ценообразование</h2>
     <p class="section-subtitle reveal reveal-delay-2">Лицензия по составу модулей. Цены без НДС (УСН), обновления и базовая поддержка включены. Возможен индивидуальный набор модулей.</p>
+
+    <!-- калькулятор: подобрать тариф по числу клиентов -->
+    <div class="calc reveal" id="calc">
+      <div class="calc-head">
+        <h3>Сколько это будет стоить вам</h3>
+        <p>Укажите, сколько у вас клиентов — подберём тариф и посчитаем год.</p>
+      </div>
+      <div class="calc-body">
+        <label class="calc-label" for="calc-range">Клиентов в базе:
+          <output class="calc-out" id="calc-count">1 500</output>
+        </label>
+        <input type="range" id="calc-range" min="100" max="20000" step="100" value="1500"
+               aria-describedby="calc-result">
+        <div class="calc-result" id="calc-result" role="status" aria-live="polite">
+          <div class="calc-plan">Тариф <b id="calc-plan">Pro</b></div>
+          <div class="calc-price"><b id="calc-year">249 000</b> <span>&#8381;/год</span></div>
+          <div class="calc-note" id="calc-note">Это <b>13,8 &#8381;</b> за клиента в месяц</div>
+        </div>
+      </div>
+      <p class="calc-foot">Цена не зависит от числа клиентов — только от набора модулей.
+        Поэтому чем вы больше, тем дешевле обходится каждый.
+        <a data-demo="1" href="#demo">Нужен свой набор модулей →</a></p>
+    </div>
     <div class="pricing-toggle reveal reveal-delay-2">
       <button class="pt-btn active" data-period="m" type="button">Помесячно</button>
       <button class="pt-btn" data-period="y" type="button">За год <span class="pt-save">2 мес в подарок</span></button>
@@ -3542,8 +3657,19 @@
     <div class="faq">
       <details class="faq-item reveal">
         <summary>Поддерживается ли СОРМ-3 и 152-ФЗ?</summary>
-        <div class="faq-a">Да. СОРМ-3 — 13 отчётов в точном формате приказа №573 с FTP-выгрузкой в комплекс и профилями под разных вендоров. Хранение персональных данных и уведомления по 152-ФЗ учтены из коробки.</div>
+        <div class="faq-a">Данные выгружаются в формате приказа №573 — 13 отчётов, профили под шесть вендоров, передача на сервер комплекса по расписанию, журнал всех выгрузок. Сертификата Минцифры на само решение у нас пока нет: выгрузка сдаётся через сертифицированный комплекс вашего вендора, как это и устроено у большинства операторов. Хранение персональных данных и уведомления по 152-ФЗ учтены.</div>
       </details>
+      <details class="faq-item reveal">
+        <summary>Сколько операторов уже работает на системе?</summary>
+        <div class="faq-a">Три организации в промышленной эксплуатации: интернет-провайдер,
+        сервис видеонаблюдения и ИТ-компания — 6 400 клиентов суммарно. Это наши собственные
+        операторы: систему мы сначала поставили себе и только потом вынесли на рынок.
+        Внешних клиентов пока немного, и мы говорим об этом прямо — вместе с тем, что из
+        этого следует для вас: пилот на три месяца, перенос базы силами разработчика, прямой
+        доступ к тем, кто пишет код, и система на вашем сервере, а не в чужом облаке. Уйти
+        можно в любой момент вместе со всеми данными.</div>
+      </details>
+
       <details class="faq-item reveal">
         <summary>Это облако или установка на своём сервере?</summary>
         <div class="faq-a">Self-hosted: система разворачивается через Docker на вашем сервере, данные абонентов остаются у вас. Отдельные модули (видеонаблюдение, ЛК) могут работать и в облачном контуре.</div>
@@ -4278,6 +4404,37 @@
   })();
 </script>
 
+
+<script>
+// Подбор тарифа по числу клиентов. Цена от количества не зависит — это и
+// показываем: с ростом базы стоимость одного клиента падает.
+(function () {
+  var range = document.getElementById('calc-range');
+  if (!range) return;
+  var out = document.getElementById('calc-count'), plan = document.getElementById('calc-plan'),
+      year = document.getElementById('calc-year'), note = document.getElementById('calc-note');
+  var PLANS = [
+    { upTo: 500,   name: 'Старт',      year: 99000 },
+    { upTo: 3000,  name: 'Pro',        year: 249000 },
+    { upTo: 10000, name: 'Бизнес',     year: 379000 },
+    { upTo: 1e9,   name: 'Enterprise', year: 499000 }
+  ];
+  function fmt(x) { return x.toLocaleString('ru-RU'); }
+  function calc() {
+    var n = +range.value;
+    var p = PLANS.find(function (x) { return n <= x.upTo; });
+    out.textContent = fmt(n);
+    plan.textContent = p.name;
+    year.textContent = fmt(p.year);
+    var per = p.year / 12 / n;
+    note.innerHTML = 'Это <b>' + per.toLocaleString('ru-RU', { maximumFractionDigits: per < 10 ? 1 : 0 }) +
+                     ' \u20BD</b> за клиента в месяц';
+  }
+  range.addEventListener('input', calc);
+  calc();
+})();
+</script>
+
 <!-- Sticky demo CTA -->
 <a data-demo="1" href="#demo" class="sticky-cta" id="sticky-cta">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -4706,7 +4863,15 @@
     document.removeEventListener('keydown', trapKeys);
     if (trapReturn && trapReturn.focus) trapReturn.focus();  // вернуть туда, откуда открыли
   }
-  document.querySelectorAll('[data-demo]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); var t = a.getAttribute('data-tariff'); if (t && window.ymGoal) window.ymGoal('tariff_request', { tariff: t }); open(t ? ('Интересует тариф: ' + t) : ''); }); });
+  document.querySelectorAll('[data-demo]').forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault();
+    var t = a.getAttribute('data-tariff');
+    if (t && window.ymGoal) window.ymGoal('tariff_request', { tariff: t });
+    // кнопка переноса приходит со своей темой: разговор начинается с их системы,
+    // а не с общего «расскажите про продукт»
+    var pre = a.getAttribute('data-prefill') === 'migrate'
+      ? 'Хочу перенести базу. Сейчас работаем на: '
+      : (t ? ('Интересует тариф: ' + t) : '');
+    open(pre); }); });
   modal.querySelectorAll('[data-democlose]').forEach(function(el){ el.addEventListener('click', close); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
   function deviceInfo(){
