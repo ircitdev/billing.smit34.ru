@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Публикации: три черновика — СмИТ Биллинг</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --em-400:#34d399; --em-500:#10b981; --em-600:#059669; --em-700:#047857;
+  --teal-400:#2dd4bf; --amber-700:#b45309; --red-700:#b91c1c;
+  --bg:#f6f8fa; --card:#fff; --border:rgba(15,23,42,.09);
+  --text:#0f172a; --dim:#475569; --mute:#64748b;
+  --tint-green:#f1fbf6; --tint-amber:#fdf8ef; --tint-neutral:#f4f6f8;
+  --code-bg:#eef2f6;
+  --shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.05);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#070d14; --card:#111a24; --border:rgba(255,255,255,.09);
+  --text:#e8eef5; --dim:#a8b6c6; --mute:#8b9aac;
+  --tint-green:#0d2019; --tint-amber:#221a0c; --tint-neutral:#161f2a;
+  --code-bg:#1a2430; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);}}
+:root[data-theme="dark"]{
+  --bg:#070d14; --card:#111a24; --border:rgba(255,255,255,.09);
+  --text:#e8eef5; --dim:#a8b6c6; --mute:#8b9aac;
+  --tint-green:#0d2019; --tint-amber:#221a0c; --tint-neutral:#161f2a;
+  --code-bg:#1a2430; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font:400 15px/1.65 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:var(--em-700)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) a{color:var(--em-400)}}
+:root[data-theme="dark"] a{color:var(--em-400)}
+:focus-visible{outline:2px solid var(--em-500);outline-offset:3px;border-radius:4px}
+.wrap{max-width:940px;margin:0 auto;padding:0 20px 90px}
+.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 86%,transparent);border-bottom:1px solid var(--border)}
+.top-in{max-width:940px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{width:30px;height:30px;border-radius:8px;flex:0 0 auto;
+  background:linear-gradient(135deg,var(--em-500),var(--teal-400));
+  color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+.top b{font-size:15px}
+.top .sep{color:var(--mute)}
+.top nav{margin-left:auto;display:flex;gap:14px;font-size:14px}
+.top nav a{color:var(--dim);text-decoration:none}
+.top nav a:hover{color:var(--em-700)}
+header.page{padding:40px 0 6px}
+h1{font-size:33px;line-height:1.16;margin:0 0 12px;letter-spacing:-.02em}
+.sub{color:var(--dim);max-width:72ch;margin:0 0 8px}
+h2{font-size:21px;margin:40px 0 10px;letter-spacing:-.01em;padding-top:6px;scroll-margin-top:70px}
+h3{font-size:17px;margin:26px 0 8px}
+h4{font-size:15.5px;margin:20px 0 6px;color:var(--dim)}
+p,ul,ol{max-width:78ch}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:7px}
+hr{border:0;border-top:1px solid var(--border);margin:34px 0}
+code{font-family:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;font-size:.88em;
+  background:var(--code-bg);padding:2px 6px;border-radius:5px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;
+  padding:12px 14px;overflow-x:auto;margin:10px 0 14px}
+pre code{background:none;padding:0;font-size:13.5px}
+blockquote{margin:16px 0;padding:14px 18px;border-radius:12px;max-width:78ch;
+  background:var(--tint-green);border:1px solid rgba(16,185,129,.28)}
+blockquote p{margin:0 0 8px}
+blockquote p:last-child{margin-bottom:0}
+.tw{overflow-x:auto;border:1px solid var(--border);border-radius:12px;
+  background:var(--card);margin:12px 0 18px;box-shadow:var(--shadow)}
+table.tbl{width:100%;border-collapse:collapse;font-size:14px}
+table.tbl th,table.tbl td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+table.tbl th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);
+  background:var(--tint-neutral);white-space:nowrap}
+table.tbl tr:last-child td{border-bottom:0}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:16px 20px;margin:24px 0 10px;box-shadow:var(--shadow)}
+.toc-t{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin-bottom:10px}
+.toc ol{margin:0;padding-left:20px;columns:2;column-gap:28px;max-width:none}
+.toc li{margin-bottom:5px;break-inside:avoid}
+.toc a{text-decoration:none}
+@media (max-width:640px){.toc ol{columns:1}h1{font-size:25px}h2{font-size:19px}}
+.foot{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--mute);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width: 640px) {
+  /* шапка на узком экране: оставляем только переходы внутри раздела */
+  .top nav a[href="/plan2026/strategy/"],
+  .top nav a[href="/plan2026/"],
+  .top nav a[href="/"] { display: none; }
+}
+
+/* nav-buttons */
+/* ссылки-кнопки: сплошной фон по padding-box + градиент по border-box,
+   поэтому рамка градиентная без псевдоэлементов */
+.top nav { gap: 8px; align-items: center; }
+.top nav a,
+.task .links a,
+.links a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 999px;
+  font-size: 13px; font-weight: 600; line-height: 1.35;
+  color: var(--text); text-decoration: none;
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(var(--card), var(--card)),
+    radial-gradient(150% 180% at 0% 50%,
+      var(--em-500) 0%, rgba(16,185,129,.45) 42%, rgba(16,185,129,.14) 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 100% 100%, 200% 100%;
+  background-position: 0 0, 0 0;
+  transition: color .2s ease, box-shadow .25s ease,
+              transform .15s ease, background-position .5s ease;
+}
+.top nav a:hover,
+.task .links a:hover,
+.links a:hover {
+  color: var(--em-600);
+  background-position: 0 0, 60% 0;
+  box-shadow: 0 4px 16px rgba(16,185,129,.22);
+  transform: translateY(-1px);
+}
+.top nav a:focus-visible,
+.task .links a:focus-visible,
+.links a:focus-visible {
+  outline: 2px solid var(--em-500); outline-offset: 2px;
+}
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (prefers-reduced-motion: reduce) {
+  .top nav a, .links a { transition: color .2s ease; }
+  .top nav a:hover, .links a:hover { transform: none; }
+}
+@media (max-width: 640px) {
+  .top nav a, .links a { padding: 7px 14px; font-size: 12.5px; }
+}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="top-in">
+    <div class="logo">C</div>
+    <b>СмИТ Биллинг</b>
+    <span class="sep">·</span>
+    <span style="color:var(--dim)">материалы 2.5</span>
+    <nav>
+      <a href="/plan2026/strategy/">Стратегический план</a>
+      <a href="/plan2026/roadmap/">Исполнение</a>
+    </nav>
+  </div>
+</div>
+<div class="wrap">
+<header class="page">
+  <h1>Публикации: три черновика</h1>
+  <p class="sub">Дата: 30 августа 2026 · Статус: черновики готовы, публикует человек</p>
+</header>
+<nav class="toc" aria-label="Содержание"><div class="toc-t">Разделы</div><ol><li><a href="#h0">1. NAG.ru — «Деньги без бухгалтера: как мы убрали ручную разноску платежей»</a></li><li><a href="#h1">2. Habr — «Карта кода на 300 тысяч строк: как мы перестали объяснять новичкам архитектуру голосом»</a></li><li><a href="#h2">3. TAdviser — карточка продукта</a></li><li><a href="#h3">Порядок публикаций</a></li></ol></nav>
+<p>Три площадки, три разных читателя. На NAG.ru — владелец небольшого оператора, который считает деньги. На Habr — разработчик, которому интересна инженерная задача. В TAdviser — закупщик, сверяющий карточки продуктов по таблице.</p>
+<p>Ни один текст не должен читаться как реклама: на NAG.ru за это закидывают в комментариях, на Habr — минусуют в карму.</p>
+<hr>
+<h2 id="h0">1. NAG.ru — «Деньги без бухгалтера: как мы убрали ручную разноску платежей»</h2>
+<p><strong>Площадка:</strong> <a href="https://nag.ru" target="_blank" rel="noopener">nag.ru</a> — читают операторы связи, там же обсуждают оборудование и биллинги. <strong>Объём:</strong> 8–10 тысяч знаков. <strong>Иллюстрации:</strong> ролик «Деньги без бухгалтера» (4 минуты) + два скриншота очереди.</p>
+<h3 id="h1">Заголовок и первый абзац</h3>
+<blockquote><p><strong>Деньги без бухгалтера: как разнести 400 платежей в день и не сойти с ума</strong></p><p>У небольшого провайдера есть работа, которую не видно в отчётах, но которая съедает</p><p>человека целиком: взять банковскую выписку, найти в ней плательщика, сопоставить с</p><p>договором, зачислить на лицевой счёт, выставить акт, пробить чек. На 400 платежах</p><p>в день это полный рабочий день бухгалтера — и один невнимательный час превращается</p><p>в звонки «почему у меня отключили интернет, я же заплатил».</p></blockquote>
+<h3 id="h1">Структура</h3>
+<p><strong>Как это устроено у большинства.</strong> Выписка приходит на почту, бухгалтер открывает её в Excel, ищет договор по фамилии, вбивает платёж руками. Ошибки — по фамилиям-омонимам, по платежам от родственников, по назначению «за интернет» без номера договора.</p>
+<p><strong>Что мы сделали.</strong> Цепочка целиком: письмо банка приходит на выделенный ящик → разбирается парсером (Сбер, Альфа, общий формат) → плательщик сопоставляется с клиентом четырьмя стратегиями → платёж зачисляется на лицевой счёт → снимается блокировка за неуплату → формируется счёт и акт → пробивается чек в ОФД → документы уходят клиенту.</p>
+<p><strong>Как ищется клиент.</strong> Четыре стратегии по убыванию надёжности: номер договора в назначении платежа, ИНН плательщика, последние десять цифр телефона, нечёткое совпадение ФИО. Первые три дают точный ответ; четвёртая помечается как требующая проверки — такие платежи не зачисляются автоматически, а попадают в очередь ручного разбора.</p>
+<p><strong>Что осталось человеку.</strong> Очередь спорных случаев. Платежи от родственников с другой фамилией, оплата за двух абонентов одной суммой, переводы без назначения. Это 5–7 % от потока — с ними работает оператор, а не бухгалтер, и не по полдня, а по 15 минут.</p>
+<p><strong>Что пошло не так — честная часть.</strong> Здесь два реальных случая, которые стоит описать без прикрас, потому что именно они вызывают доверие у профессиональной аудитории:</p>
+<ul>
+<li>Кнопка «Забрать письма» при одновременно включённых автозачислении и боевом режиме</li>
+</ul>
+<p>  фискализации пробила 31 чек в ОФД за один клик. Чек в ОФД необратим — отменяется только чеком коррекции через налоговую. Теперь такая комбинация требует отдельного подтверждения.</p>
+<ul>
+<li>Статус «в очереди» полгода был тупиком: операции в него попадали, а ни одна фоновая</li>
+</ul>
+<p>  задача его не разбирала. Накопилось 148 операций на 369 тысяч рублей, прежде чем это заметили. Вывод банальный и потому важный: у каждого статуса должен быть тот, кто его забирает.</p>
+<p><strong>Цифры.</strong> На нашей установке: 18 импортов, 169 операций, 25 из 98 сопоставлений помечены как спорные и разбираются руками. Экономия — примерно рабочий день бухгалтера в неделю.</p>
+<h3 id="h1">Что нужно от человека перед публикацией</h3>
+<ul>
+<li>Согласовать, какие цифры раскрываем (сейчас в тексте наши, реальные).</li>
+<li>Залить ролик так, чтобы он открывался без регистрации.</li>
+<li>Быть готовым отвечать в комментариях: на NAG спросят про Mikbill, UTM5 и «а зачем</li>
+</ul>
+<p>  это, если у меня 300 абонентов».</p>
+<hr>
+<h2 id="h1">2. Habr — «Карта кода на 300 тысяч строк: как мы перестали объяснять новичкам архитектуру голосом»</h2>
+<p><strong>Площадка:</strong> <a href="https://habr.com" target="_blank" rel="noopener">habr.com</a>, хабы «Программирование», «Визуализация данных». <strong>Объём:</strong> 12–15 тысяч знаков. <strong>Иллюстрации:</strong> граф целиком, фрагмент сообщества, скриншот вики.</p>
+<h3 id="h2">Заголовок и первый абзац</h3>
+<blockquote><p><strong>Карта кода на 300 тысяч строк: граф вместо экскурсии для новичка</strong></p><p>Каждый, кто приходил в проект, получал одну и ту же полуторачасовую экскурсию:</p><p>вот здесь абоненты, здесь тарификация, отсюда идёт RADIUS, а вот это лучше не трогать.</p><p>Через неделю человек всё равно спрашивал, где искать начисление абонентской платы.</p><p>Мы решили нарисовать карту один раз.</p></blockquote>
+<h3 id="h2">Структура</h3>
+<p><strong>Задача.</strong> 1156 файлов Python, 287 тысяч строк, 135 моделей данных, история миграции с легаси-системы. Документация описывает, <em>что</em> делает система, но не <em>как связаны</em> её части.</p>
+<p><strong>Подход.</strong> Разбор кода в граф: узлы — классы, функции, модели, шаблоны; рёбра — импорты, вызовы, наследование, связи внешних ключей. Дальше — кластеризация на сообщества и автоматическая генерация вики по ним.</p>
+<p><strong>Что получилось.</strong> 2524 узла, 9003 связи, 34 сообщества. У каждого — своя страница с описанием, списком узлов и переходами в документацию.</p>
+<p><strong>Что оказалось интересным.</strong> Узлы с наибольшим числом связей — те, которые трогать опаснее всего. У нас это базовый класс представлений (197 связей), примеси пагинации и поиска (166 и 160), система уведомлений (159), модель адресов (149). Это готовая карта рисков: изменение в любом из них задевает половину системы, и код-ревью здесь нужен строже.</p>
+<p><strong>Чем помогает в работе.</strong> Вопрос «как связаны блокировка абонента и RADIUS» решается запросом пути по графу, а не чтением десяти файлов. Новичку даётся ссылка на сообщество, а не полтора часа рассказа.</p>
+<p><strong>Ограничения — обязательный раздел.</strong> Граф строится по статическому анализу: динамические импорты, обращения через строковые имена, вызовы через Celery он не видит. Это не полная картина, а карта — и как у любой карты, у неё есть масштаб и белые пятна.</p>
+<h3 id="h2">Что нужно от человека</h3>
+<ul>
+<li>Решить, показываем ли граф публично (сейчас открыт на docs.billing.smit34.ru/understand).</li>
+<li>Быть готовым к вопросу «почему не взяли готовое решение» — ответ есть, но его лучше</li>
+</ul>
+<p>  дать в комментариях, а не в тексте.</p>
+<hr>
+<h2 id="h2">3. TAdviser — карточка продукта</h2>
+<p><strong>Площадка:</strong> <a href="https://tadviser.ru" target="_blank" rel="noopener">tadviser.ru</a> — каталог, по которому закупщики сравнивают системы. <strong>Объём:</strong> карточка по шаблону площадки, 3–4 тысячи знаков.</p>
+<h3 id="h3">Основное описание</h3>
+<blockquote><p><strong>СмИТ Биллинг</strong> — автоматизированная система расчётов для операторов связи.</p><p>Закрывает полный цикл работы провайдера: учёт абонентов и договоров, тарификация,</p><p>начисление абонентской платы, приём платежей, управление доступом через RADIUS,</p><p>отчётность перед государством.</p><p>Ориентирована на операторов от 500 до 5000 абонентов — тех, кто перерос</p><p>самописные скрипты и простые системы, но кому не нужен и не по карману</p><p>enterprise-комплекс с внедрением на полгода.</p></blockquote>
+<h3 id="h3">Функциональные блоки для таблицы</h3>
+<div class="tw"><table class="tbl"><thead><tr><th>Блок</th><th>Что входит</th></tr></thead><tbody>
+<tr><td>Биллинг</td><td>тарификация, абонентская плата, обещанный платёж, бонусы, лицевые счета</td></tr>
+<tr><td>Доступ</td><td>RADIUS (авторизация, учёт сессий, CoA), управление NAS, IP-пулы, captive-портал</td></tr>
+<tr><td>Деньги</td><td>банковские выписки с автозачислением, эквайринг, фискализация 54-ФЗ, счета и акты</td></tr>
+<tr><td>Клиенты</td><td>личный кабинет, мобильные приложения Android и iOS, поддержка, CRM с воронками</td></tr>
+<tr><td>Государство</td><td>выгрузка по приказу Минцифры № 573, профили шести производителей средств СОРМ</td></tr>
+<tr><td>Инфраструктура</td><td>карта сети, мониторинг оборудования, видеонаблюдение, IP-телефония</td></tr>
+<tr><td>Прочее</td><td>мультиорганизация, white-label, ИИ-ассистент на семи каналах</td></tr>
+</tbody></table></div>
+<h3 id="h3">Технические характеристики</h3>
+<div class="tw"><table class="tbl"><thead><tr><th>Параметр</th><th>Значение</th></tr></thead><tbody>
+<tr><td>Разработчик</td><td>ООО «СМИТ», Волгоград</td></tr>
+<tr><td>Технологии</td><td>Python 3.11, Django 4.2, PostgreSQL 17, Redis, Celery, Docker</td></tr>
+<tr><td>Развёртывание</td><td>на сервере клиента (on-premise), Linux + Docker</td></tr>
+<tr><td>Лицензирование</td><td>годовая подписка, тарифы от 79 000 ₽</td></tr>
+<tr><td>Документация</td><td>docs.billing.smit34.ru, русский язык</td></tr>
+<tr><td>Поддержка</td><td>Россия, Волгоград</td></tr>
+</tbody></table></div>
+<h3 id="h3">Оговорки, которые пишем сами</h3>
+<p>Карточка в каталоге — не место для маркетинга, там всё сверяется. Две вещи указываем прямо, чтобы не выяснять их на этапе сделки:</p>
+<ul>
+<li>Сертификата соответствия на решение нет. Выгрузка по приказу № 573 реализована.</li>
+<li>Записи в реестре российского ПО пока нет — заявка готовится.</li>
+</ul>
+<h3 id="h3">Что нужно от человека</h3>
+<ul>
+<li>Зарегистрировать компанию в каталоге TAdviser (процедура с подтверждением).</li>
+<li>Приложить логотип и три скриншота.</li>
+</ul>
+<hr>
+<h2 id="h3">Порядок публикаций</h2>
+<div class="tw"><table class="tbl"><thead><tr><th>#</th><th>Материал</th><th>Когда</th><th>Почему в таком порядке</th></tr></thead><tbody>
+<tr><td>1</td><td>TAdviser</td><td>сразу</td><td>Карточка нужна как ссылка для остальных материалов и для переговоров</td></tr>
+<tr><td>2</td><td>NAG.ru</td><td>через неделю</td><td>Главный материал: наша аудитория, конкретная польза, есть ролик</td></tr>
+<tr><td>3</td><td>Habr</td><td>через две недели</td><td>Технический, работает на репутацию разработки, а не на продажи</td></tr>
+</tbody></table></div>
+<p>Между публикациями держим паузу: три материала в одну неделю выглядят как рекламная кампания, а не как участие в жизни отрасли.</p>
+<div class="foot">
+  <span>Внутренний документ · 30 августа 2026</span>
+  <span><a href="/plan2026/roadmap/">Исполнение плана</a></span>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Опросник оборудования — АЙТИ для ЧОП</title>
+<link rel="icon" href="https://billing.smit34.ru/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brand:#5BA89D; --brand-d:#3F8A7C; --ink:#0f172a; --muted:#64748b;
+    --line:#e2e8f0; --bg:#f1f5f9; --card:#fff; --ok:#16a34a; --err:#dc2626;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.55;font-size:15px}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px 60px}
+
+  /* шапка */
+  header{background:linear-gradient(135deg,#0f766e,#5BA89D);color:#fff;
+         padding:28px 16px 34px;text-align:center;margin-bottom:-18px}
+  header .logo{height:42px;margin-bottom:14px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.2))}
+  header h1{margin:0 0 6px;font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+  header p{margin:0;opacity:.92;font-size:.95rem;max-width:560px;margin:0 auto}
+
+  /* интро-карточка */
+  .intro{background:var(--card);border:1px solid var(--line);border-radius:16px;
+         padding:18px 20px;margin:0 auto 22px;box-shadow:0 8px 24px rgba(15,23,42,.06)}
+  .intro b{color:var(--brand-d)}
+  .intro ul{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:.9rem}
+
+  /* секции */
+  form{display:flex;flex-direction:column;gap:18px}
+  fieldset{background:var(--card);border:1px solid var(--line);border-radius:16px;
+           padding:18px 20px 6px;margin:0;box-shadow:0 4px 14px rgba(15,23,42,.04)}
+  legend{font-weight:700;font-size:1.02rem;padding:0 8px;color:var(--brand-d);
+         display:flex;align-items:center;gap:8px}
+  legend .n{display:inline-flex;width:26px;height:26px;border-radius:8px;background:var(--brand);
+            color:#fff;align-items:center;justify-content:center;font-size:.85rem;font-weight:700}
+  .field{margin-bottom:16px}
+  .field>label{display:block;font-weight:600;margin-bottom:6px;font-size:.92rem}
+  .hint{color:var(--muted);font-size:.82rem;font-weight:400;margin-left:4px}
+  input[type=text],input[type=tel],input[type=email],input[type=number],select,textarea{
+    width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;
+    font-family:inherit;font-size:.95rem;background:#fafcfb;transition:border .15s,box-shadow .15s}
+  input:focus,select:focus,textarea:focus{outline:0;border-color:var(--brand);
+    box-shadow:0 0 0 3px rgba(91,168,157,.18);background:#fff}
+  textarea{resize:vertical;min-height:64px}
+  .radios{display:flex;flex-wrap:wrap;gap:8px}
+  .radios label{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--line);
+    border-radius:20px;cursor:pointer;font-size:.88rem;background:#fafcfb;transition:.15s;user-select:none}
+  .radios label:hover{border-color:var(--brand)}
+  .radios input{accent-color:var(--brand)}
+  .radios input:checked+span{font-weight:600;color:var(--brand-d)}
+  .req{color:var(--err)}
+
+  /* submit */
+  .actions{position:sticky;bottom:0;background:linear-gradient(transparent,var(--bg) 30%);
+           padding-top:18px;margin-top:4px}
+  button{width:100%;padding:15px;border:0;border-radius:12px;background:var(--brand);
+         color:#fff;font-size:1.05rem;font-weight:700;font-family:inherit;cursor:pointer;
+         box-shadow:0 6px 18px rgba(91,168,157,.35);transition:.15s}
+  button:hover{background:var(--brand-d)}
+  button:disabled{opacity:.6;cursor:not-allowed}
+
+  /* статусы */
+  .msg{padding:14px 16px;border-radius:12px;margin-top:14px;font-weight:600;display:none}
+  .msg.ok{background:#dcfce7;color:#15803d;display:block}
+  .msg.err{background:#fee2e2;color:#b91c1c;display:block}
+  .done{text-align:center;padding:48px 20px;display:none}
+  .done .ic{font-size:3rem;margin-bottom:10px}
+  .done h2{margin:0 0 8px;color:var(--ok)}
+  .done p{color:var(--muted);margin:0}
+
+  footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:30px}
+  footer a{color:var(--brand-d);text-decoration:none}
+
+  @media(max-width:520px){
+    header h1{font-size:1.25rem}
+    fieldset{padding:16px 14px 4px}
+    body{font-size:14px}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <img class="logo" src="https://docs.billing.smit34.ru/understand/smit_w.png" alt="СмИТ" onerror="this.style.display='none'">
+  <h1>Опросник оборудования ЧОПа</h1>
+  <p>АЙТИ Консалтинг — каналы связи, видео объектов, SIM-резерв и хостинг пульта для частных охранных предприятий</p>
+</header>
+
+<div class="wrap">
+
+  <div class="intro">
+    Заполните анкету по оборудованию вашего охранного предприятия — это поможет нам
+    подготовить точное предложение по инфраструктуре «под ключ».
+    <ul>
+      <li>Займёт ~5 минут</li>
+      <li>Поля со звёздочкой <span class="req">*</span> — обязательные, остальные по возможности</li>
+      <li>После отправки с вами свяжется специалист</li>
+    </ul>
+  </div>
+
+  <form id="f">
+
+    <!-- Контакты -->
+    <fieldset>
+      <legend><span class="n">0</span> Контакты</legend>
+      <div class="field"><label>Название ЧОП / организации <span class="req">*</span></label>
+        <input type="text" name="org" required placeholder="ООО ЧОП «...»"></div>
+      <div class="field"><label>Контактное лицо <span class="req">*</span></label>
+        <input type="text" name="contact" required placeholder="ФИО"></div>
+      <div class="field"><label>Телефон <span class="req">*</span></label>
+        <input type="tel" name="phone" required placeholder="+7..."></div>
+      <div class="field"><label>Email / мессенджер</label>
+        <input type="text" name="email" placeholder="email или @telegram"></div>
+      <div class="field"><label>Город</label>
+        <input type="text" name="city" placeholder="Волгоград"></div>
+    </fieldset>
+
+    <!-- 1. Пультовое ПО -->
+    <fieldset>
+      <legend><span class="n">1</span> Пультовое ПО (СПО)</legend>
+      <div class="field"><label>Какое пультовое ПО используете?</label>
+        <input type="text" name="spo" placeholder="Лира / Андромеда / Рубеж-08 / Mega-пульт / Кобра / своё"></div>
+      <div class="field"><label>Где сейчас стоит пульт?</label>
+        <div class="radios">
+          <label><input type="radio" name="pult_where" value="свой сервер"><span>Свой сервер</span></label>
+          <label><input type="radio" name="pult_where" value="облако"><span>Облако</span></label>
+          <label><input type="radio" name="pult_where" value="разместить у вас"><span>Хотим разместить у вас</span></label>
+        </div></div>
+      <div class="field"><label>Протокол сигналов от панелей <span class="hint">это критично для приёмника</span></label>
+        <div class="radios">
+          <label><input type="radio" name="protocol" value="Surgard/Contact ID"><span>Surgard / Contact ID</span></label>
+          <label><input type="radio" name="protocol" value="SIA"><span>SIA</span></label>
+          <label><input type="radio" name="protocol" value="проприетарный"><span>Проприетарный TCP</span></label>
+          <label><input type="radio" name="protocol" value="не знаю"><span>Не знаю</span></label>
+        </div></div>
+      <div class="field"><label>Нужно хостить пультовое ПО или только каналы?</label>
+        <div class="radios">
+          <label><input type="radio" name="need_host" value="хостинг ПО"><span>Хостинг ПО</span></label>
+          <label><input type="radio" name="need_host" value="только каналы"><span>Только каналы</span></label>
+        </div></div>
+    </fieldset>
+
+    <!-- 2. Охранные панели -->
+    <fieldset>
+      <legend><span class="n">2</span> Охранные панели на объектах</legend>
+      <div class="field"><label>Производитель/модель приёмно-контрольных приборов?</label>
+        <input type="text" name="panel" placeholder="Болид / Рубеж / Ритм-Контакт / Texecom / DSC"></div>
+      <div class="field"><label>Как панель связывается с пультом?</label>
+        <div class="radios">
+          <label><input type="radio" name="panel_link" value="Ethernet"><span>Ethernet</span></label>
+          <label><input type="radio" name="panel_link" value="GSM/GPRS"><span>GSM / GPRS</span></label>
+          <label><input type="radio" name="panel_link" value="оба"><span>Оба канала</span></label>
+        </div></div>
+      <div class="field"><label>Нужен ли резерв по GSM (наши SIM/M2M)?</label>
+        <div class="radios">
+          <label><input type="radio" name="gsm_reserve" value="да"><span>Да</span></label>
+          <label><input type="radio" name="gsm_reserve" value="нет"><span>Нет</span></label>
+        </div></div>
+    </fieldset>
+
+    <!-- 3. Видео -->
+    <fieldset>
+      <legend><span class="n">3</span> Видеонаблюдение</legend>
+      <div class="field"><label>Камеры на объектах какие?</label>
+        <input type="text" name="cameras" placeholder="Hikvision / Dahua / др., RTSP/ONVIF?"></div>
+      <div class="field"><label>Регистраторы (NVR) есть или камеры напрямую?</label>
+        <div class="radios">
+          <label><input type="radio" name="nvr" value="есть NVR"><span>Есть NVR</span></label>
+          <label><input type="radio" name="nvr" value="напрямую"><span>Камеры напрямую</span></label>
+        </div></div>
+      <div class="field"><label>Сколько объектов мониторят одновременно (стена камер)?</label>
+        <input type="text" name="wall" placeholder="напр. 4–9 объектов"></div>
+      <div class="field"><label>Нужен архив видео? Срок хранения</label>
+        <div class="radios">
+          <label><input type="radio" name="archive" value="не нужен"><span>Не нужен</span></label>
+          <label><input type="radio" name="archive" value="7 дней"><span>7 дней</span></label>
+          <label><input type="radio" name="archive" value="14 дней"><span>14 дней</span></label>
+          <label><input type="radio" name="archive" value="30 дней"><span>30 дней</span></label>
+        </div></div>
+    </fieldset>
+
+    <!-- 4. Каналы -->
+    <fieldset>
+      <legend><span class="n">4</span> Каналы и сеть</legend>
+      <div class="field"><label>Сколько объектов на охране сейчас? <span class="req">*</span></label>
+        <input type="text" name="objects_count" required placeholder="напр. 25, прогноз роста до 40"></div>
+      <div class="field"><label>У объектов проводной интернет или только мобильный?</label>
+        <div class="radios">
+          <label><input type="radio" name="net" value="проводной"><span>Проводной</span></label>
+          <label><input type="radio" name="net" value="мобильный"><span>Только мобильный</span></label>
+          <label><input type="radio" name="net" value="по-разному"><span>По-разному</span></label>
+        </div></div>
+      <div class="field"><label>Нужен VPN от объекта до пульта?</label>
+        <div class="radios">
+          <label><input type="radio" name="vpn" value="да"><span>Да</span></label>
+          <label><input type="radio" name="vpn" value="нет"><span>Нет</span></label>
+          <label><input type="radio" name="vpn" value="не знаю"><span>Не знаю</span></label>
+        </div></div>
+    </fieldset>
+
+    <!-- 5. SIM -->
+    <fieldset>
+      <legend><span class="n">5</span> SIM / M2M</legend>
+      <div class="field"><label>Сколько объектов нуждается в GSM-резерве?</label>
+        <input type="text" name="sim_count" placeholder="напр. 10"></div>
+      <div class="field"><label>Предпочтительный оператор? Нужен ли мультиоператорский M2M?</label>
+        <input type="text" name="sim_operator" placeholder="МТС / Билайн / Мегафон / мультиоператор"></div>
+    </fieldset>
+
+    <!-- 6. Юридическое -->
+    <fieldset>
+      <legend><span class="n">6</span> Юридическое</legend>
+      <div class="field"><label>ЧОП — оператор персональных данных? (для 152-ФЗ при видео)</label>
+        <div class="radios">
+          <label><input type="radio" name="pdn" value="да"><span>Да</span></label>
+          <label><input type="radio" name="pdn" value="нет"><span>Нет</span></label>
+          <label><input type="radio" name="pdn" value="не знаю"><span>Не знаю</span></label>
+        </div></div>
+      <div class="field"><label>Договор на каждый объект или рамочный + спецификации?</label>
+        <div class="radios">
+          <label><input type="radio" name="contract" value="на каждый объект"><span>На каждый объект</span></label>
+          <label><input type="radio" name="contract" value="рамочный"><span>Рамочный + спецификации</span></label>
+        </div></div>
+    </fieldset>
+
+    <!-- комментарий -->
+    <fieldset>
+      <legend><span class="n">7</span> Дополнительно</legend>
+      <div class="field"><label>Что ещё важно учесть? Особые требования, вопросы</label>
+        <textarea name="comment" placeholder="Свободный комментарий"></textarea></div>
+    </fieldset>
+
+    <div class="actions">
+      <button type="submit" id="btn">Отправить анкету</button>
+      <div class="msg" id="msg"></div>
+    </div>
+  </form>
+
+  <div class="done" id="done">
+    <div class="ic">✅</div>
+    <h2>Анкета отправлена!</h2>
+    <p>Спасибо. Мы получили ваши ответы и скоро свяжемся с вами для подготовки предложения.</p>
+  </div>
+
+  <footer>
+    АЙТИ Консалтинг · СмИТ Биллинг &nbsp;·&nbsp;
+    <a href="https://billing.smit34.ru">billing.smit34.ru</a>
+  </footer>
+</div>
+
+<script>
+(function(){
+  // эндпоинт приёма — на rbill (там бот + токен + прокси)
+  var ENDPOINT = 'https://rbill.smit34.ru/api/chop/survey/';
+  var form = document.getElementById('f');
+  var btn = document.getElementById('btn');
+  var msg = document.getElementById('msg');
+
+  // человекочитаемые подписи групп для сообщения
+  var GROUPS = {
+    org:'Организация', contact:'Контакт', phone:'Телефон', email:'Email/мессенджер', city:'Город',
+    spo:'Пультовое ПО', pult_where:'Где пульт', protocol:'Протокол сигналов', need_host:'Хостинг/каналы',
+    panel:'Панели', panel_link:'Связь панели', gsm_reserve:'GSM-резерв',
+    cameras:'Камеры', nvr:'NVR', wall:'Стена камер', archive:'Архив',
+    objects_count:'Объектов сейчас', net:'Интернет', vpn:'VPN',
+    sim_count:'SIM-резерв (объектов)', sim_operator:'Оператор SIM',
+    pdn:'Оператор ПДн', contract:'Договор', comment:'Комментарий'
+  };
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    // валидация обязательных
+    if(!form.org.value.trim() || !form.contact.value.trim() || !form.phone.value.trim() || !form.objects_count.value.trim()){
+      show('err','Заполните обязательные поля (отмечены звёздочкой).');
+      return;
+    }
+    var data = {};
+    new FormData(form).forEach(function(v,k){ if(v) data[k]=v; });
+    data._labels = GROUPS;
+
+    btn.disabled = true; btn.textContent = 'Отправляем...';
+    msg.className = 'msg';
+
+    fetch(ENDPOINT, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    }).then(function(r){ return r.json().catch(function(){return {ok:r.ok};}); })
+      .then(function(res){
+        if(res && res.ok){
+          form.style.display='none';
+          document.querySelector('.intro').style.display='none';
+          document.getElementById('done').style.display='block';
+          window.scrollTo({top:0,behavior:'smooth'});
+        } else {
+          show('err', (res && res.error) || 'Не удалось отправить. Попробуйте ещё раз или позвоните нам.');
+          btn.disabled=false; btn.textContent='Отправить анкету';
+        }
+      }).catch(function(){
+        show('err','Ошибка сети. Проверьте соединение и попробуйте снова.');
+        btn.disabled=false; btn.textContent='Отправить анкету';
+      });
+  });
+
+  function show(kind,text){ msg.className='msg '+kind; msg.textContent=text; }
+})();
+</script>
+<!-- AI-консультант: настройки и промпт на сервере лицензий -->
+<script src="https://license.billing.smit34.ru/widget.js" data-widget="P6kNI2OPzLjak" defer></script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Регистрация программы в Роспатенте — СмИТ Биллинг</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --em-400:#34d399; --em-500:#10b981; --em-600:#059669; --em-700:#047857;
+  --teal-400:#2dd4bf; --amber-700:#b45309; --red-700:#b91c1c;
+  --bg:#f6f8fa; --card:#fff; --border:rgba(15,23,42,.09);
+  --text:#0f172a; --dim:#475569; --mute:#64748b;
+  --tint-green:#f1fbf6; --tint-amber:#fdf8ef; --tint-neutral:#f4f6f8;
+  --code-bg:#eef2f6;
+  --shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.05);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#070d14; --card:#111a24; --border:rgba(255,255,255,.09);
+  --text:#e8eef5; --dim:#a8b6c6; --mute:#8b9aac;
+  --tint-green:#0d2019; --tint-amber:#221a0c; --tint-neutral:#161f2a;
+  --code-bg:#1a2430; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);}}
+:root[data-theme="dark"]{
+  --bg:#070d14; --card:#111a24; --border:rgba(255,255,255,.09);
+  --text:#e8eef5; --dim:#a8b6c6; --mute:#8b9aac;
+  --tint-green:#0d2019; --tint-amber:#221a0c; --tint-neutral:#161f2a;
+  --code-bg:#1a2430; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font:400 15px/1.65 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:var(--em-700)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) a{color:var(--em-400)}}
+:root[data-theme="dark"] a{color:var(--em-400)}
+:focus-visible{outline:2px solid var(--em-500);outline-offset:3px;border-radius:4px}
+.wrap{max-width:940px;margin:0 auto;padding:0 20px 90px}
+.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 86%,transparent);border-bottom:1px solid var(--border)}
+.top-in{max-width:940px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{width:30px;height:30px;border-radius:8px;flex:0 0 auto;
+  background:linear-gradient(135deg,var(--em-500),var(--teal-400));
+  color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+.top b{font-size:15px}
+.top .sep{color:var(--mute)}
+.top nav{margin-left:auto;display:flex;gap:14px;font-size:14px}
+.top nav a{color:var(--dim);text-decoration:none}
+.top nav a:hover{color:var(--em-700)}
+header.page{padding:40px 0 6px}
+h1{font-size:33px;line-height:1.16;margin:0 0 12px;letter-spacing:-.02em}
+.sub{color:var(--dim);max-width:72ch;margin:0 0 8px}
+h2{font-size:21px;margin:40px 0 10px;letter-spacing:-.01em;padding-top:6px;scroll-margin-top:70px}
+h3{font-size:17px;margin:26px 0 8px}
+h4{font-size:15.5px;margin:20px 0 6px;color:var(--dim)}
+p,ul,ol{max-width:78ch}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:7px}
+hr{border:0;border-top:1px solid var(--border);margin:34px 0}
+code{font-family:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;font-size:.88em;
+  background:var(--code-bg);padding:2px 6px;border-radius:5px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;
+  padding:12px 14px;overflow-x:auto;margin:10px 0 14px}
+pre code{background:none;padding:0;font-size:13.5px}
+blockquote{margin:16px 0;padding:14px 18px;border-radius:12px;max-width:78ch;
+  background:var(--tint-green);border:1px solid rgba(16,185,129,.28)}
+blockquote p{margin:0 0 8px}
+blockquote p:last-child{margin-bottom:0}
+.tw{overflow-x:auto;border:1px solid var(--border);border-radius:12px;
+  background:var(--card);margin:12px 0 18px;box-shadow:var(--shadow)}
+table.tbl{width:100%;border-collapse:collapse;font-size:14px}
+table.tbl th,table.tbl td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+table.tbl th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);
+  background:var(--tint-neutral);white-space:nowrap}
+table.tbl tr:last-child td{border-bottom:0}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:16px 20px;margin:24px 0 10px;box-shadow:var(--shadow)}
+.toc-t{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin-bottom:10px}
+.toc ol{margin:0;padding-left:20px;columns:2;column-gap:28px;max-width:none}
+.toc li{margin-bottom:5px;break-inside:avoid}
+.toc a{text-decoration:none}
+@media (max-width:640px){.toc ol{columns:1}h1{font-size:25px}h2{font-size:19px}}
+.foot{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--mute);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width: 640px) {
+  /* шапка на узком экране: оставляем только переходы внутри раздела */
+  .top nav a[href="/plan2026/strategy/"],
+  .top nav a[href="/plan2026/"],
+  .top nav a[href="/"] { display: none; }
+}
+
+/* nav-buttons */
+/* ссылки-кнопки: сплошной фон по padding-box + градиент по border-box,
+   поэтому рамка градиентная без псевдоэлементов */
+.top nav { gap: 8px; align-items: center; }
+.top nav a,
+.task .links a,
+.links a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 999px;
+  font-size: 13px; font-weight: 600; line-height: 1.35;
+  color: var(--text); text-decoration: none;
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(var(--card), var(--card)),
+    radial-gradient(150% 180% at 0% 50%,
+      var(--em-500) 0%, rgba(16,185,129,.45) 42%, rgba(16,185,129,.14) 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 100% 100%, 200% 100%;
+  background-position: 0 0, 0 0;
+  transition: color .2s ease, box-shadow .25s ease,
+              transform .15s ease, background-position .5s ease;
+}
+.top nav a:hover,
+.task .links a:hover,
+.links a:hover {
+  color: var(--em-600);
+  background-position: 0 0, 60% 0;
+  box-shadow: 0 4px 16px rgba(16,185,129,.22);
+  transform: translateY(-1px);
+}
+.top nav a:focus-visible,
+.task .links a:focus-visible,
+.links a:focus-visible {
+  outline: 2px solid var(--em-500); outline-offset: 2px;
+}
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (prefers-reduced-motion: reduce) {
+  .top nav a, .links a { transition: color .2s ease; }
+  .top nav a:hover, .links a:hover { transform: none; }
+}
+@media (max-width: 640px) {
+  .top nav a, .links a { padding: 7px 14px; font-size: 12.5px; }
+}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="top-in">
+    <div class="logo">C</div>
+    <b>СмИТ Биллинг</b>
+    <span class="sep">·</span>
+    <span style="color:var(--dim)">заявка 2.2</span>
+    <nav>
+      <a href="/plan2026/strategy/">Стратегический план</a>
+      <a href="/plan2026/roadmap/">Исполнение</a>
+    </nav>
+  </div>
+</div>
+<div class="wrap">
+<header class="page">
+  <h1>Регистрация программы в Роспатенте</h1>
+  <p class="sub">Дата: 30 августа 2026 · Статус: комплект готов к подаче, требуется подпись директора и оплата пошлины</p>
+</header>
+<nav class="toc" aria-label="Содержание"><div class="toc-t">Разделы</div><ol><li><a href="#h0">Зачем это нужно</a></li><li><a href="#h1">Что подаётся</a></li><li><a href="#h2">Реквизиты для заявления</a></li><li><a href="#h3">Реферат</a></li><li><a href="#h4">Депонируемые материалы</a></li><li><a href="#h5">Порядок действий</a></li><li><a href="#h6">Чего в заявке быть не должно</a></li></ol></nav>
+<hr>
+<h2 id="h0">Зачем это нужно</h2>
+<p>Свидетельство о государственной регистрации программы для ЭВМ решает три задачи сразу.</p>
+<p><strong>Снимает вопрос «а чьё это?»</strong> При продаже лицензии провайдер покупает право использования программы. Если правообладатель не зафиксирован документом, вопрос всплывёт на юридической проверке у первого же клиента с осторожным юристом — и переговоры встанут.</p>
+<p><strong>Открывает вход в реестр российского ПО.</strong> Это формальное требование Минцифры: без свидетельства заявку в реестр не подать. Реестр, в свою очередь, даёт доступ к клиентам с госучастием и освобождение от НДС по подпункту 26 пункта 2 статьи 149 НК РФ.</p>
+<p><strong>Фиксирует дату.</strong> Свидетельство подтверждает, что программа в таком виде существовала на дату подачи. Это защита в споре о заимствовании — как со стороны конкурентов, так и со стороны бывших подрядчиков.</p>
+<p><strong>Подавать нужно раньше остального.</strong> Рассмотрение занимает около двух месяцев; всё остальное — реестр, публикации, продажи — идёт параллельно и от результата не зависит.</p>
+<hr>
+<h2 id="h1">Что подаётся</h2>
+<div class="tw"><table class="tbl"><thead><tr><th>Документ</th><th>Что это</th><th>Готовность</th></tr></thead><tbody>
+<tr><td>Заявление по форме</td><td>Форма Роспатента с реквизитами правообладателя и автора</td><td>реквизиты ниже, подписывает директор</td></tr>
+<tr><td>Реферат</td><td>Описание программы, до 700 знаков</td><td>готов, см. ниже</td></tr>
+<tr><td>Депонируемые материалы</td><td>Распечатка исходного текста, не более 70 страниц</td><td>✅ собраны командой, 70 стр.</td></tr>
+<tr><td>Платёжное поручение</td><td>Пошлина 4 500 ₽ для юрлица</td><td>оплачивается при подаче</td></tr>
+</tbody></table></div>
+<p>Подача — через <a href="https://new.fips.ru" target="_blank" rel="noopener">личный кабинет Роспатента</a> с квалифицированной электронной подписью. При электронной подаче пошлина снижается на 30 %: <strong>3 150 ₽</strong> вместо 4 500 ₽.</p>
+<hr>
+<h2 id="h2">Реквизиты для заявления</h2>
+<p><strong>Правообладатель:</strong></p>
+<div class="tw"><table class="tbl"><thead><tr><th>Поле</th><th>Значение</th></tr></thead><tbody>
+<tr><td>Полное наименование</td><td>ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ «СМИТ»</td></tr>
+<tr><td>Сокращённое</td><td>ООО «СМИТ»</td></tr>
+<tr><td>ИНН / КПП</td><td>3461009378 / 346101001</td></tr>
+<tr><td>ОГРН</td><td>1143443002273</td></tr>
+<tr><td>Адрес</td><td>400117, г. Волгоград, ул. 40 лет ВЛКСМ, д. 80, офис 1</td></tr>
+<tr><td>Руководитель</td><td>Письменный Павел Евгеньевич, директор</td></tr>
+<tr><td>ОКВЭД</td><td>61.10 — деятельность в области связи на базе проводных технологий</td></tr>
+</tbody></table></div>
+<p>Реквизиты сверены с ЕГРЮЛ 30.08.2026.</p>
+<p><strong>Название программы для регистрации:</strong></p>
+<blockquote><p>Программа для ЭВМ «СмИТ Биллинг» — автоматизированная система расчётов</p><p>оператора связи</p></blockquote>
+<p>Название лучше давать полным: «биллинг» в разговорной речи однозначен, но в реестре рядом окажутся десятки программ с таким словом, и уточнение «автоматизированная система расчётов оператора связи» отделит нашу.</p>
+<p><strong>Авторы.</strong> Указываются физические лица, чьим творческим трудом создана программа. Если разработка велась сотрудниками в рамках служебных обязанностей, права переходят работодателю, но авторов всё равно нужно перечислить поимённо. Заполняется перед подачей — я этих данных не знаю.</p>
+<hr>
+<h2 id="h3">Реферат</h2>
+<p>Ограничение Роспатента — 700 знаков. Ниже 690.</p>
+<blockquote><p>Программа предназначена для автоматизации расчётов оператора связи: учёта абонентов и</p><p>договоров, тарификации услуг, начисления абонентской платы, приёма и разноски платежей,</p><p>формирования отчётности. Поддерживает управление доступом абонентов через протокол</p><p>RADIUS, разбор банковских выписок с автоматическим зачислением, фискализацию расчётов</p><p>по 54-ФЗ, выгрузку сведений об абонентах по приказу Минцифры №573, обслуживание</p><p>нескольких юридических лиц в одной установке, личный кабинет абонента и мобильные</p><p>приложения. Тип ЭВМ: IBM PC-совместимый ПК. ОС: Linux. Язык: Python. Объём: 166 КБ.</p></blockquote>
+<p>Объём — по депонируемым материалам (166 КБ, 70 страниц), а не по всей кодовой базе. Проверено сборкой 30.08.2026.</p>
+<hr>
+<h2 id="h4">Депонируемые материалы</h2>
+<p><strong>Требование.</strong> Распечатка исходного текста объёмом не более 70 страниц. Если программа больше — подаются первые 25 и последние 25 страниц, страницы нумеруются сквозной нумерацией, на каждой указывается название программы и правообладатель.</p>
+<p><strong>Наш случай.</strong> Кодовая база на 30.08.2026:</p>
+<div class="tw"><table class="tbl"><thead><tr><th>Что</th><th>Объём</th></tr></thead><tbody>
+<tr><td>Файлов Python</td><td>1 156</td></tr>
+<tr><td>Строк Python</td><td>287 842</td></tr>
+<tr><td>HTML-шаблонов</td><td>529</td></tr>
+<tr><td>Файлов JS и CSS</td><td>435</td></tr>
+</tbody></table></div>
+<p>Это заведомо больше 70 страниц, поэтому подаём выборку. Важно: выборка должна быть <strong>осмысленной</strong>, а не механической — эксперт смотрит, действительно ли это исходный текст программы, описанной в реферате.</p>
+<p><strong>Что включить в листинг</strong> (в этом порядке):</p>
+<ol>
+<li><code>config/settings.py</code>, <code>config/urls.py</code> — конфигурация и карта адресов; показывают</li>
+</ol>
+<p>   состав системы целиком.</p>
+<ol>
+<li><code>billing/models/abonents.py</code>, <code>billing/models/users.py</code>, <code>billing/models/tariff.py</code> —</li>
+</ol>
+<p>   модель данных: абоненты, учётные записи, тарифы.</p>
+<ol>
+<li><code>billing/tasks/billing_worker.py</code> — начисление абонентской платы, ядро расчётов.</li>
+<li><code>radius_python/internet.py</code> — авторизация абонента и учёт сессий по RADIUS.</li>
+<li><code>billing/services/bank_statements/</code> — разбор банковских выписок и зачисление.</li>
+<li><code>billing/fiscal/manager.py</code>, <code>billing/fiscal/providers/atol.py</code> — фискализация 54-ФЗ.</li>
+<li><code>billing/tasks/sorm_export.py</code> — выгрузка по приказу №573.</li>
+<li><code>lk/views/</code> и <code>mobile_api/views/</code> — личный кабинет и мобильное API.</li>
+</ol>
+<p>Каждый пункт соответствует утверждению из реферата. Если эксперт откроет случайную страницу, он увидит код, делающий ровно то, что заявлено.</p>
+<p><strong>Как собрать.</strong> Команда для формирования листинга:</p>
+<pre><code>python manage.py make_deposit_listing --pages 70 --out deposit_listing.txt</code></pre>
+<p><strong>Команда написана и проверена на проде 30.08.2026</strong> — собирает ровно 70 страниц (165,8 КБ, 3360 строк). Читает перечисленные файлы, режет на страницы по 46 строк, проставляет колонтитул «СмИТ Биллинг · ООО "СМИТ" · стр. N из 70».</p>
+<p>Две вещи она делает сама, и обе важны:</p>
+<ul>
+<li><strong>Закрывает ключи и телефоны.</strong> Строки вида <code>secret = '...'</code>, <code>TOKEN = '...'</code>,</li>
+</ul>
+<p>  номера <code>+7 ...</code> заменяются на <code># [значение скрыто при подготовке депонирования]</code>. Файл остаётся в листинге — он подтверждает утверждение реферата, — а значение ключа в государственный орган не уезжает. При первом прогоне так закрылась строка <code>radius_python/internet.py:1224</code> с RADIUS-ключом.</p>
+<ul>
+<li><strong>Держит лимит 70 страниц.</strong> Если материал больше, берётся начало и конец с отбивкой</li>
+</ul>
+<p>  «ПРОПУЩЕНО N СТРОК» посередине — как разрешает Роспатент.</p>
+<hr>
+<h2 id="h5">Порядок действий</h2>
+<div class="tw"><table class="tbl"><thead><tr><th>#</th><th>Шаг</th><th>Кто</th><th>Срок</th></tr></thead><tbody>
+<tr><td>1</td><td>Уточнить авторов программы</td><td>директор</td><td>1 день</td></tr>
+<tr><td>2</td><td>~~Написать команду сборки листинга~~</td><td>✅ сделано 30.08</td><td>—</td></tr>
+<tr><td>3</td><td>Собрать и вычитать листинг</td><td>разработка</td><td>0,5 дня</td></tr>
+<tr><td>4</td><td>Заполнить и подписать заявление</td><td>директор</td><td>1 день</td></tr>
+<tr><td>5</td><td>Оплатить пошлину 3 150 ₽</td><td>бухгалтерия</td><td>1 день</td></tr>
+<tr><td>6</td><td>Подать через ЛК Роспатента с ЭП</td><td>директор</td><td>1 день</td></tr>
+<tr><td>7</td><td>Ожидание рассмотрения</td><td>—</td><td>~2 месяца</td></tr>
+</tbody></table></div>
+<p>Итого нашей работы — около трёх дней с учётом согласований; дальше ожидание, которое ничего не блокирует, кроме заявки в реестр российского ПО.</p>
+<hr>
+<h2 id="h6">Чего в заявке быть не должно</h2>
+<p><strong>Чужого кода.</strong> В депонируемые материалы не должны попасть файлы сторонних библиотек — Django, DRF и прочее устанавливается пакетами и нашим творческим трудом не является. Листинг собирается только из нашего кода.</p>
+<p><strong>Секретов.</strong> Токены, пароли, ключи API в листинг попадать не должны — материалы уходят в государственный орган и хранятся там. Перед подачей листинг проверяется на строки вида <code>TOKEN</code>, <code>SECRET</code>, <code>PASSWORD</code>, <code>KEY</code>.</p>
+<p><strong>Персональных данных.</strong> Комментарии с реальными фамилиями абонентов, телефонами и адресами — тоже под запретом. В коде их быть не должно, но перед подачей стоит проверить.</p>
+<div class="foot">
+  <span>Внутренний документ · 30 августа 2026</span>
+  <span><a href="/plan2026/roadmap/">Исполнение плана</a></span>
+</div>
+</div>
+</body>
+</html>

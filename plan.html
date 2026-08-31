@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>СмИТ Биллинг — План развития и стратегия</title>
+  <meta name="description" content="План развития СмИТ Биллинг 1.6: фактическая реализация, отложенные планы, стратегия multi-operator, централизованный сервер обновлений, captive portal, AI-функции и конкурентный анализ.">
+  <meta property="og:title" content="СмИТ Биллинг — План развития и стратегия 2026">
+  <meta property="og:description" content="Карта дорожной карты продукта: что сделано, что в работе, что отложено в backlog. Конкурентный анализ российского рынка биллинг-систем.">
+  <meta property="og:image" content="https://storage.googleapis.com/uspeshnyy-projects/smit/billing/ogimagekey.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://billing.smit34.ru/plan/">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="theme-color" content="#10b981">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://billing.smit34.ru/plan/">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --emerald-400: #34d399;
+      --emerald-500: #10b981;
+      --emerald-600: #059669;
+      --emerald-700: #047857;
+      --teal-400: #2dd4bf;
+      --teal-500: #14b8a6;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --slate-800: #1e293b;
+      --slate-900: #0f172a;
+      --slate-950: #020617;
+      --red-400: #f87171;
+      --red-500: #ef4444;
+      --amber-400: #fbbf24;
+      --amber-500: #f59e0b;
+      --blue-400: #60a5fa;
+      --blue-500: #3b82f6;
+      --purple-400: #c084fc;
+    }
+
+    [data-theme="light"] {
+      --bg-body: #f8fafc;
+      --bg-card: rgba(255,255,255,0.75);
+      --bg-card-border: rgba(0,0,0,0.08);
+      --bg-header: rgba(248,250,252,0.85);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --border-light: rgba(0,0,0,0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--slate-50);
+      background: var(--slate-950);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background .3s, color .3s;
+    }
+
+    [data-theme="light"] body { color: var(--text-primary); background: var(--bg-body); }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* Hero gradient background */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .gradient-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+      background: linear-gradient(-45deg,
+        rgba(16,185,129,0.08),
+        rgba(6,182,212,0.06),
+        rgba(99,102,241,0.08),
+        rgba(168,85,247,0.06),
+        rgba(16,185,129,0.08));
+      background-size: 400% 400%;
+      animation: gradientShift 18s ease infinite;
+    }
+
+    [data-theme="light"] .gradient-bg {
+      background: linear-gradient(-45deg,
+        rgba(16,185,129,0.06), rgba(6,182,212,0.04),
+        rgba(99,102,241,0.06), rgba(168,85,247,0.04),
+        rgba(16,185,129,0.06));
+      background-size: 400% 400%;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+      z-index: 100;
+      background: rgba(2, 6, 23, 0.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background .3s;
+    }
+
+    [data-theme="light"] .header {
+      background: var(--bg-header);
+      border-bottom-color: var(--border-light);
+    }
+
+    .header-logo { display: flex; align-items: center; gap: 12px; }
+
+    .header-logo-icon {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--emerald-500), var(--teal-400));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem; color: #fff;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    .header-logo-text { font-size: 1.15rem; font-weight: 700; letter-spacing: .3px; }
+    .header-logo-text span { font-weight: 300; opacity: .7; margin-left: 4px; }
+    [data-theme="light"] .header-logo-text { color: var(--text-primary); }
+
+    .header-nav { display: flex; align-items: center; gap: 28px; }
+    .header-nav a { font-size: .9rem; font-weight: 500; color: var(--slate-300); transition: color .2s; }
+    .header-nav a:hover { color: var(--emerald-400); }
+    [data-theme="light"] .header-nav a { color: var(--text-secondary); }
+    [data-theme="light"] .header-nav a:hover { color: var(--emerald-600); }
+
+    .theme-toggle {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.08);
+      color: var(--slate-300);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, transform .2s;
+    }
+    .theme-toggle:hover { background: rgba(255,255,255,0.15); transform: scale(1.05); }
+    [data-theme="light"] .theme-toggle {
+      border-color: rgba(0,0,0,0.12);
+      background: rgba(0,0,0,0.05);
+      color: var(--slate-600);
+    }
+    .theme-toggle .icon-sun { display: none; }
+    [data-theme="light"] .theme-toggle .icon-sun { display: inline; }
+    [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+    /* ---- Section ---- */
+    section { position: relative; z-index: 1; padding: 80px 40px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    .section-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--emerald-400);
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-radius: 100px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--emerald-400), var(--teal-400));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: var(--slate-400);
+      max-width: 720px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    [data-theme="light"] .section-subtitle { color: var(--text-secondary); }
+
+    /* ---- Hero ---- */
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      padding-top: 120px;
+      padding-bottom: 60px;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--emerald-400), var(--teal-400));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 1.2rem;
+      color: var(--slate-400);
+      margin-bottom: 36px;
+      max-width: 760px;
+      line-height: 1.7;
+    }
+
+    [data-theme="light"] .hero-desc { color: var(--text-secondary); }
+
+    .hero-meta {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--slate-400);
+      font-size: .92rem;
+    }
+
+    .meta-item strong { color: var(--emerald-400); font-weight: 600; }
+    [data-theme="light"] .meta-item { color: var(--text-secondary); }
+    [data-theme="light"] .meta-item strong { color: var(--emerald-600); }
+
+    /* ---- Stats grid (главные показатели) ---- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 60px;
+    }
+
+    .stat-card {
+      padding: 28px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+      transition: transform .25s, border-color .25s;
+    }
+    .stat-card:hover { transform: translateY(-4px); border-color: rgba(16,185,129,0.3); }
+    [data-theme="light"] .stat-card { background: var(--bg-card); border-color: var(--bg-card-border); }
+
+    .stat-num {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--emerald-400), var(--teal-400));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: .9rem;
+      color: var(--slate-400);
+      font-weight: 500;
+    }
+    [data-theme="light"] .stat-label { color: var(--text-secondary); }
+
+    /* ---- Plan cards (общая карточка плана) ---- */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 24px;
+    }
+
+    .plan-card {
+      padding: 28px;
+      background: rgba(30, 41, 59, 0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(16,185,129,0.3);
+      box-shadow: 0 20px 40px rgba(16,185,129,0.1);
+    }
+
+    [data-theme="light"] .plan-card { background: var(--bg-card); border-color: var(--bg-card-border); }
+
+    .plan-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--emerald-500), var(--teal-400));
+      opacity: .8;
+    }
+
+    .plan-card.status-done::before { background: linear-gradient(90deg, var(--emerald-500), var(--emerald-400)); }
+    .plan-card.status-partial::before { background: linear-gradient(90deg, var(--amber-500), var(--amber-400)); }
+    .plan-card.status-planned::before { background: linear-gradient(90deg, var(--blue-500), var(--blue-400)); }
+    .plan-card.status-blocked::before { background: linear-gradient(90deg, var(--red-500), var(--red-400)); }
+
+    .plan-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      font-size: .7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      border-radius: 100px;
+      margin-bottom: 14px;
+    }
+
+    .plan-badge.done {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald-400);
+      border: 1px solid rgba(16,185,129,0.3);
+    }
+    .plan-badge.partial {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--amber-400);
+      border: 1px solid rgba(245,158,11,0.3);
+    }
+    .plan-badge.planned {
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--blue-400);
+      border: 1px solid rgba(59,130,246,0.3);
+    }
+    .plan-badge.blocked {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--red-400);
+      border: 1px solid rgba(239,68,68,0.3);
+    }
+
+    .plan-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .plan-card p {
+      color: var(--slate-400);
+      font-size: .95rem;
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+    [data-theme="light"] .plan-card p { color: var(--text-secondary); }
+
+    .plan-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    [data-theme="light"] .plan-meta { border-top-color: var(--border-light); }
+
+    .plan-tag {
+      font-size: .78rem;
+      padding: 3px 10px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+      color: var(--slate-400);
+    }
+    [data-theme="light"] .plan-tag { background: rgba(0,0,0,0.04); color: var(--text-secondary); }
+
+    /* ---- Timeline ---- */
+    .timeline {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 24px;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg,
+        var(--emerald-500),
+        var(--teal-400),
+        rgba(16,185,129,0.2));
+    }
+
+    .tl-item {
+      position: relative;
+      padding-left: 64px;
+      margin-bottom: 32px;
+    }
+
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: 16px;
+      top: 8px;
+      width: 18px;
+      height: 18px;
+      background: var(--emerald-500);
+      border: 3px solid var(--slate-950);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.2);
+    }
+    [data-theme="light"] .tl-item::before { border-color: var(--bg-body); }
+
+    .tl-item.future::before { background: var(--blue-500); box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+    .tl-item.now::before {
+      background: var(--amber-500);
+      box-shadow: 0 0 0 3px rgba(245,158,11,0.2);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(245,158,11,0.3); }
+      50% { box-shadow: 0 0 0 8px rgba(245,158,11,0.05); }
+    }
+
+    .tl-date {
+      font-size: .82rem;
+      color: var(--emerald-400);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+
+    .tl-item.future .tl-date { color: var(--blue-400); }
+    .tl-item.now .tl-date { color: var(--amber-400); }
+
+    .tl-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .tl-desc {
+      color: var(--slate-400);
+      font-size: .95rem;
+      line-height: 1.65;
+    }
+    [data-theme="light"] .tl-desc { color: var(--text-secondary); }
+
+    /* ---- Competitors table ---- */
+    .competitors-wrap {
+      overflow-x: auto;
+      background: rgba(30, 41, 59, 0.3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+    }
+    [data-theme="light"] .competitors-wrap {
+      background: var(--bg-card);
+      border-color: var(--bg-card-border);
+    }
+
+    .competitors-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .92rem;
+    }
+
+    .competitors-table th {
+      padding: 16px 18px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--emerald-400);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(16,185,129,0.04);
+      white-space: nowrap;
+    }
+    [data-theme="light"] .competitors-table th {
+      border-bottom-color: var(--border-light);
+      color: var(--emerald-600);
+    }
+
+    .competitors-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: var(--slate-300);
+    }
+    [data-theme="light"] .competitors-table td {
+      border-bottom-color: var(--border-light);
+      color: var(--text-primary);
+    }
+
+    .competitors-table tr:hover td { background: rgba(16,185,129,0.04); }
+
+    .competitors-table .first-col {
+      font-weight: 600;
+      color: var(--slate-100);
+    }
+    [data-theme="light"] .competitors-table .first-col { color: var(--text-primary); }
+
+    .competitors-table .smit-row td {
+      background: rgba(16,185,129,0.08);
+      font-weight: 600;
+    }
+    .competitors-table .smit-row .first-col {
+      color: var(--emerald-400);
+    }
+
+    .mark-yes { color: var(--emerald-400); font-weight: 700; }
+    .mark-partial { color: var(--amber-400); font-weight: 700; }
+    .mark-no { color: var(--slate-500); }
+    .mark-todo { color: var(--blue-400); }
+
+    /* ---- Recommendations ---- */
+    .reco-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .reco-card {
+      padding: 24px;
+      background: rgba(30, 41, 59, 0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      position: relative;
+      backdrop-filter: blur(8px);
+    }
+    [data-theme="light"] .reco-card { background: var(--bg-card); border-color: var(--bg-card-border); }
+
+    .reco-rank {
+      position: absolute;
+      top: -12px;
+      left: 18px;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, var(--emerald-500), var(--teal-400));
+      color: #fff;
+      font-weight: 700;
+      font-size: .78rem;
+      border-radius: 100px;
+      letter-spacing: .5px;
+    }
+
+    .reco-card h4 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      margin-top: 6px;
+    }
+
+    .reco-card p {
+      color: var(--slate-400);
+      font-size: .92rem;
+      line-height: 1.6;
+    }
+    [data-theme="light"] .reco-card p { color: var(--text-secondary); }
+
+    /* ---- Footer ---- */
+    footer {
+      padding: 60px 40px 40px;
+      background: rgba(2,6,23, 0.4);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    [data-theme="light"] footer {
+      background: rgba(241,245,249,0.6);
+      border-top-color: var(--border-light);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--slate-400);
+      font-size: .9rem;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--emerald-400); }
+    [data-theme="light"] .footer-links a { color: var(--text-secondary); }
+
+    .footer-copyright {
+      color: var(--slate-500);
+      font-size: .85rem;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 768px) {
+      .header { padding: 0 20px; }
+      .header-nav { display: none; }
+      section { padding: 60px 20px; }
+      .hero { padding-top: 100px; }
+      .hero h1 { font-size: 2.2rem; }
+      .section-title { font-size: 1.8rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .stat-card { padding: 18px; }
+      .stat-num { font-size: 1.6rem; }
+      .plans-grid { grid-template-columns: 1fr; }
+      .timeline::before { left: 14px; }
+      .tl-item { padding-left: 48px; }
+      .tl-item::before { left: 6px; width: 14px; height: 14px; }
+      .hero-meta { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gradient-bg"></div>
+
+  <header class="header">
+    <a href="/" class="header-logo">
+      <div class="header-logo-icon">С</div>
+      <div class="header-logo-text">СмИТ Биллинг<span>1.6.0</span></div>
+    </a>
+    <nav class="header-nav">
+      <a href="#overview">Обзор</a>
+      <a href="#status">Статус</a>
+      <a href="#timeline">Roadmap</a>
+      <a href="#competitors">Конкуренты</a>
+      <a href="#recommendations">Рекомендации</a>
+      <a href="https://docs.billing.smit34.ru" target="_blank" rel="noopener">Документация</a>
+    </nav>
+    <button class="theme-toggle" id="themeToggle" aria-label="Сменить тему">
+      <span class="icon-moon">🌙</span>
+      <span class="icon-sun">☀️</span>
+    </button>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <span class="section-badge">План развития 2026</span>
+      <h1>Дорожная карта <span class="gradient-text">СмИТ Биллинг</span></h1>
+      <p class="hero-desc">
+        Полная карта продукта: что реализовано в текущем build 821, что в активной разработке,
+        что отложено в backlog и почему. Конкурентный анализ российского рынка биллинг-систем
+        для ISP и стратегические рекомендации по приоритетам.
+      </p>
+      <div class="hero-meta">
+        <div class="meta-item">📅 <span>Версия документа: <strong>1.0 от 13.05.2026</strong></span></div>
+        <div class="meta-item">🔧 <span>Текущий build: <strong>821</strong></span></div>
+        <div class="meta-item">📊 <span>Активных планов: <strong>30+</strong></span></div>
+        <div class="meta-item">🎯 <span>Целевой сегмент: <strong>малые ISP 500–5 000 абонентов</strong></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OVERVIEW STATS -->
+  <section id="overview">
+    <div class="container">
+      <span class="section-badge">Текущее состояние</span>
+      <h2 class="section-title">Где мы сейчас</h2>
+      <p class="section-subtitle">
+        Платформа на современном стеке (Python 3.11 / Django 4.2 LTS / PostgreSQL 16), развёрнута
+        в Docker, активная команда разработки выпускает релизы каждые 1–3 дня. AI-функции уже
+        работают — мы единственные на российском рынке с встроенной интеграцией Claude в личный
+        кабинет и мобильное приложение.
+      </p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">821</div>
+          <div class="stat-label">Текущий build версии 1.6.0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100+</div>
+          <div class="stat-label">Завершённых плановых задач</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">~30</div>
+          <div class="stat-label">Активных и отложенных планов</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">9</div>
+          <div class="stat-label">Готовых модулей в каталоге</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEY PLANS STATUS -->
+  <section id="status">
+    <div class="container">
+      <span class="section-badge">Статус ключевых направлений</span>
+      <h2 class="section-title">Что готово, что в работе</h2>
+      <p class="section-subtitle">
+        Каждый план в системе имеет статус и обновляется по мере реализации.
+        Ниже — карта самых значимых направлений с указанием фактического состояния.
+      </p>
+
+      <div class="plans-grid">
+        <div class="plan-card status-done">
+          <span class="plan-badge done">Готово · build 393</span>
+          <h3>Логирование по каналам</h3>
+          <p>
+            Раздельные лог-каналы: payment.log, sorm.log, staff.log, radius.log + Nginx access/error.
+            RotatingFileHandler 10 МБ × 5 копий. UI-управление retention/compress в build 801.
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">5 каналов</span>
+            <span class="plan-tag">RotatingFileHandler</span>
+            <span class="plan-tag">logrotate UI</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-done">
+          <span class="plan-badge done">Готово · build 401</span>
+          <h3>Лояльность — реальная механика</h3>
+          <p>
+            Программы лояльности теперь реально применяют скидку % или начисляют бонус в billing_worker.
+            Celery beat авто-назначает по стажу, авто-удаляет просроченные. UI на уровне Бонусов с
+            сводкой и фильтрами.
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">discount_percent</span>
+            <span class="plan-tag">bonus_amount</span>
+            <span class="plan-tag">auto-assign по стажу</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-done">
+          <span class="plan-badge done">Готово · build 394</span>
+          <h3>NAS мониторинг и алерты</h3>
+          <p>
+            Throttling WARNING для DOWN-состояний, Telegram-алерты после N минут даунтайма, дашборд
+            состояния NAS с sparkline 24ч, SLA через VpnConst, экспорт CSV, history с группировкой
+            по дням.
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">NasStatusLog</span>
+            <span class="plan-tag">SLA</span>
+            <span class="plan-tag">Telegram alerts</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-done">
+          <span class="plan-badge done">Готово · builds 412–415</span>
+          <h3>СОРМ — UX и compliance</h3>
+          <p>
+            Расширенная таблица конфигов, кнопка «Выгрузить сейчас», SormReadinessCheck для готовности
+            данных, SormExportLog как audit trail для проверок РКН, inline-actions для 14 отчётов,
+            under-tabs Основные/Отчёты/FTP/Уведомления/История.
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">compliance РКН</span>
+            <span class="plan-tag">13 отчётов</span>
+            <span class="plan-tag">audit trail</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-done">
+          <span class="plan-badge done">Готово · build 431</span>
+          <h3>Резервные копии — UX</h3>
+          <p>
+            Sprint 1 + Sprint 2: confirm-модалки для destructive операций, polling статуса с бейджем
+            «⏳ Идёт N мин», disk usage баннер через shutil.disk_usage, восстановление с вводом
+            «ВОССТАНОВИТЬ», audit-поля last_action_by/at, Telegram-алерт при failure.
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">Health Score 75→88</span>
+            <span class="plan-tag">polling</span>
+            <span class="plan-tag">filters</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-done">
+          <span class="plan-badge done">Готово · builds 457, 463–466</span>
+          <h3>Раздел Интеграции</h3>
+          <p>
+            Единый integration_tester.js, кнопка «Проверить все», IntegrationStatusCache с polling
+            каждые 60 сек. Объединение вкладок: TVIP+LFStream → IPTV, Адреса+Карта → География,
+            Claude AI внутри FreeScout. AI-статус в футере админки.
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">batch-тесты</span>
+            <span class="plan-tag">8 вкладок вместо 11</span>
+            <span class="plan-tag">AI footer</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-done">
+          <span class="plan-badge done">Готово · builds 446–456</span>
+          <h3>Библиотека отчётов с AI</h3>
+          <p>
+            Клик по названию открывает компактную модалку (вместо full-form с 167 полями). Цветные
+            бейджи типов, sticky toolbar, CodeMirror 5 для SQL, AI-помощник создания отчётов на
+            Claude Haiku — диалог на естественном языке → готовый SQL. Bulk-actions и CSV-export.
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">CodeMirror 5</span>
+            <span class="plan-tag">AI-чат</span>
+            <span class="plan-tag">68 SQL-отчётов</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-done">
+          <span class="plan-badge done">Готово · build 808</span>
+          <h3>Captive Portal — RADIUS-сторона</h3>
+          <p>
+            Биллинг-логика walled-garden готова: UI настройки в /admin/settings/system/?tab=blocks,
+            сервис block_policy.py, kill-switch «Разрешить всем», RADIUS authorize возвращает
+            Filter-Id + IP из блок-пула при b_negbal. Ждём настройку NAS + nginx-портал.
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">walled-garden</span>
+            <span class="plan-tag">kill-switch</span>
+            <span class="plan-tag">soft block</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-partial">
+          <span class="plan-badge partial">Частично · build 467</span>
+          <h3>UX-аудит 5 разделов</h3>
+          <p>
+            Дашборд, бэкапы, СОРМ, интеграции — закрыты полностью. Карточка абонента —
+            доработана через серию hot-fix'ов (builds 791, 800, 802, 804, 806) без plan-driven
+            Sprint 2 (полная реструктуризация в backlog).
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">Health Score: ~85</span>
+            <span class="plan-tag">Sprint 2 отложен</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-planned">
+          <span class="plan-badge planned">План · 5–7 недель</span>
+          <h3>Multi-Operator (несколько брендов)</h3>
+          <p>
+            Активация Carbon 4 multi-operator архитектуры: backfill OPERATOR_ID на 7 пустых таблицах,
+            OperatorProfile для сотрудников, OperatorFilterMixin в querysets, раздел /admin/operators/.
+            3 фазы. Запуск — при появлении 2-го клиента.
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">11 моделей</span>
+            <span class="plan-tag">3 фазы</span>
+            <span class="plan-tag">26–33 дня</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-planned">
+          <span class="plan-badge planned">План · 21 день + pilot</span>
+          <h3>Сервер обновлений</h3>
+          <p>
+            Централизованная доставка обновлений: license-сервер хранит подписанные пакеты,
+            биллинг-клиент устанавливает одной кнопкой с pre-backup и авто-откатом. 9 модулей в
+            каталоге, 8 преднастроенных тарифов, защита от пиратства. MVP за 5 дней при появлении
+            2-го клиента.
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">Ed25519 подпись</span>
+            <span class="plan-tag">3 канала</span>
+            <span class="plan-tag">heartbeat</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-blocked">
+          <span class="plan-badge blocked">Заблокирован</span>
+          <h3>Captive Portal — сеть и портал</h3>
+          <p>
+            Биллинг готов (build 808), но walled-garden ACL на боевом MikroTik не настроен,
+            nginx-портал не поднят. Ждём ответ инженера по сетям + выделение IP для портала.
+            Команда manage.py export_walled_garden не написана.
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">блокер: сеть</span>
+            <span class="plan-tag">блокер: IP</span>
+            <span class="plan-tag">3.5 дня</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-planned">
+          <span class="plan-badge planned">План</span>
+          <h3>Voice-bot (TTS/STT)</h3>
+          <p>
+            Голосовой ассистент для обработки звонков в техподдержку через Yandex Cloud TTS/STT.
+            Интегрируется с существующим AI-чатом (Claude). Запуск — после стабилизации
+            текстового AI (build 600+).
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">Yandex Cloud</span>
+            <span class="plan-tag">+Claude</span>
+          </div>
+        </div>
+
+        <div class="plan-card status-planned">
+          <span class="plan-badge planned">Backlog</span>
+          <h3>Услуги и Периоды</h3>
+          <p>
+            Связать справочник Period (Дневной/Ночной/Будни/Выходные) с реальной механикой биллинга,
+            RADIUS-шейпера, скидок. Сейчас Period = пустая метаданная. Отложен — нет реальных
+            бизнес-сценариев «турбо-выходные» / «ночной тариф».
+          </p>
+          <div class="plan-meta">
+            <span class="plan-tag">отложен</span>
+            <span class="plan-tag">~4 дня</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="timeline">
+    <div class="container">
+      <span class="section-badge">Roadmap 2026</span>
+      <h2 class="section-title">Дорожная карта</h2>
+      <p class="section-subtitle">
+        Расстановка приоритетов на ближайшие 12 месяцев. Q1 — фокус на платформе, Q2 —
+        привлечение pilot-клиентов, Q3–Q4 — сертификация и масштабирование.
+      </p>
+
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-date">Q1 2026 (закрыт)</div>
+          <div class="tl-title">Платформа готова на 90%</div>
+          <div class="tl-desc">
+            Реализованы AI-чат в LK и mobile, mobile-app в Google Play, СОРМ полностью, FreeScout-CRM
+            интеграция, библиотека отчётов с AI-помощником, UX-аудит дашборда/бэкапов/СОРМ/интеграций
+            завершён с Health Score 88/100.
+          </div>
+        </div>
+
+        <div class="tl-item now">
+          <div class="tl-date">Q2 2026 (сейчас)</div>
+          <div class="tl-title">Подготовка к продажам</div>
+          <div class="tl-desc">
+            Найти 2–3 pilot-клиентов (бесплатно или со скидкой 50%). Реализовать MVP сервера
+            обновлений за 5 дней. Подать заявку в Роспатент на регистрацию программы для ЭВМ.
+            Migration tools из Mikbill. Запуск YouTube-канала с demo-видео.
+          </div>
+        </div>
+
+        <div class="tl-item future">
+          <div class="tl-date">Q3 2026</div>
+          <div class="tl-title">Multi-operator и сертификация</div>
+          <div class="tl-desc">
+            Multi-operator Фаза 1 (при появлении 2-го клиента). Начать сертификацию СОРМ в Минцифры
+            (срок 6–12 мес, бюджет 500k–1M ₽). Comparison page на сайте billing.smit34.ru.
+            Партнёрство с СКАТ DPI от VAS Experts.
+          </div>
+        </div>
+
+        <div class="tl-item future">
+          <div class="tl-date">Q4 2026</div>
+          <div class="tl-title">Масштабирование</div>
+          <div class="tl-desc">
+            Получить сертификат СОРМ. Целевой результат: 5–10 платных клиентов. Multi-operator
+            Фаза 2–3 (финансы + RADIUS + multi-domain ЛК). DPI-интеграция. Voice-bot (TTS/STT)
+            через Yandex Cloud.
+          </div>
+        </div>
+
+        <div class="tl-item future">
+          <div class="tl-date">2027+</div>
+          <div class="tl-title">Premium-сегмент</div>
+          <div class="tl-desc">
+            Расширение на medium-сегмент (5 000–30 000 абонентов). Multi-tenant SaaS-режим.
+            Защита кода от пиратства уровня v3 (Cython + watermarking + integrity check).
+            International expansion для b2b-клиентов без СОРМ-требований.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPETITORS -->
+  <section id="competitors">
+    <div class="container">
+      <span class="section-badge">Конкурентный анализ</span>
+      <h2 class="section-title">Российский рынок биллинг-систем</h2>
+      <p class="section-subtitle">
+        Объём рынка 5.28 млрд руб (2024), рост 12%/год. 7–10 серьёзных конкурентов с историей
+        15–20 лет каждый. Главные differentiators СмИТ: AI-функции, современный mobile-app,
+        FreeScout-CRM, дизайн-система.
+      </p>
+
+      <div class="competitors-wrap">
+        <table class="competitors-table">
+          <thead>
+            <tr>
+              <th>Параметр</th>
+              <th>СмИТ</th>
+              <th>Carbon</th>
+              <th>Hydra</th>
+              <th>UTM5</th>
+              <th>LANBilling</th>
+              <th>Mikbill</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="smit-row">
+              <td class="first-col">Год основания</td>
+              <td>2025</td>
+              <td>2009</td>
+              <td>2007</td>
+              <td>2003</td>
+              <td>2003</td>
+              <td>2007</td>
+            </tr>
+            <tr>
+              <td class="first-col">Клиентов</td>
+              <td>1 (СмИТ)</td>
+              <td>250+</td>
+              <td>360 в 46 странах</td>
+              <td>тысячи</td>
+              <td>~300</td>
+              <td>open-source</td>
+            </tr>
+            <tr>
+              <td class="first-col">Целевой сегмент</td>
+              <td>small (500–5K)</td>
+              <td>small/medium</td>
+              <td>medium/large</td>
+              <td>small/medium</td>
+              <td>medium/large</td>
+              <td>micro</td>
+            </tr>
+            <tr>
+              <td class="first-col">AI-чат в LK + mobile</td>
+              <td class="mark-yes">✓ Claude</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-no">✗</td>
+            </tr>
+            <tr>
+              <td class="first-col">AI-помощник отчётов</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-no">✗</td>
+            </tr>
+            <tr>
+              <td class="first-col">Современный mobile-app</td>
+              <td class="mark-yes">✓ Flutter</td>
+              <td class="mark-partial">~</td>
+              <td class="mark-partial">~</td>
+              <td class="mark-partial">~</td>
+              <td class="mark-partial">~</td>
+              <td class="mark-no">✗</td>
+            </tr>
+            <tr>
+              <td class="first-col">FreeScout CRM</td>
+              <td class="mark-yes">✓ глубокая</td>
+              <td class="mark-partial">~</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-no">✗</td>
+            </tr>
+            <tr>
+              <td class="first-col">Captive Portal</td>
+              <td class="mark-yes">✓ build 808</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-no">✗</td>
+            </tr>
+            <tr>
+              <td class="first-col">СОРМ-3 экспорт</td>
+              <td class="mark-yes">✓ техн.</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-no">✗</td>
+            </tr>
+            <tr>
+              <td class="first-col">Сертификация Минцифры</td>
+              <td class="mark-todo">в плане</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-no">✗</td>
+            </tr>
+            <tr>
+              <td class="first-col">Multi-operator</td>
+              <td class="mark-todo">в плане</td>
+              <td class="mark-partial">~</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-yes">✓</td>
+              <td class="mark-no">✗</td>
+            </tr>
+            <tr>
+              <td class="first-col">SaaS multi-tenant</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-yes">✓ cloud.hydra</td>
+              <td class="mark-no">✗</td>
+              <td class="mark-yes">✓ cloud.lanbilling</td>
+              <td class="mark-no">✗</td>
+            </tr>
+            <tr>
+              <td class="first-col">Стек технологий</td>
+              <td>Python 3.11+Django+PG16</td>
+              <td>Firebird legacy</td>
+              <td>Java+PG</td>
+              <td>C++</td>
+              <td>C/C++ + MySQL</td>
+              <td>PHP+MySQL</td>
+            </tr>
+            <tr>
+              <td class="first-col">Цена/год (от)</td>
+              <td>—</td>
+              <td>~120k ₽</td>
+              <td>~300k ₽</td>
+              <td>~150k ₽</td>
+              <td>~100k ₽</td>
+              <td>$400</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="section-subtitle" style="margin-top:32px;">
+        Полный анализ (50+ параметров × 7 систем, 8 секций рекомендаций):
+        см. <a href="https://docs.billing.smit34.ru" style="color:var(--emerald-400); text-decoration:underline;">документ конкурентного исследования</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- RECOMMENDATIONS -->
+  <section id="recommendations">
+    <div class="container">
+      <span class="section-badge">Стратегия</span>
+      <h2 class="section-title">Топ-5 рекомендаций</h2>
+      <p class="section-subtitle">
+        В порядке убывания критичности для роста. Без выполнения первых двух
+        остальные планы остаются over-engineering.
+      </p>
+
+      <div class="reco-grid">
+        <div class="reco-card">
+          <span class="reco-rank">★★★★★</span>
+          <h4>Найти 2–3 платных клиентов</h4>
+          <p>
+            Целевая аудитория: ISP 500–3 000 абонентов, региональные сети. Pitch: «современный
+            СмИТ Биллинг с AI-чатом, mobile-app, FreeScout CRM». Первым — pilot 3 месяца
+            бесплатно в обмен на отзывы и use cases.
+          </p>
+        </div>
+
+        <div class="reco-card">
+          <span class="reco-rank">★★★★★</span>
+          <h4>Закрепить AI как differentiator</h4>
+          <p>
+            Что добавить: AI-помощник создания тарифов, AI-анализ оттока, AI-резюмирование тикетов,
+            voice-bot через Yandex Cloud. Маркетинг: demo-видео «AI помогает оператору», whitepaper,
+            кейсы реальных диалогов Claude.
+          </p>
+        </div>
+
+        <div class="reco-card">
+          <span class="reco-rank">★★★★</span>
+          <h4>Сертификация СОРМ в Минцифры</h4>
+          <p>
+            Срок 6–12 месяцев, бюджет 500k–1M ₽. Без сертификата мы не можем легально продавать
+            ISP с лицензией оператора связи. Альтернатива: начать с МКС / коттеджных посёлков
+            (без лицензии оператора).
+          </p>
+        </div>
+
+        <div class="reco-card">
+          <span class="reco-rank">★★★★</span>
+          <h4>Маркетинг и присутствие</h4>
+          <p>
+            TAdviser (бесплатно для упоминаний), NAG.ru (технические статьи), Habr (про graphify),
+            ComNews (обзор биллингов). Партнёрство со СКАТ DPI / FreeScout. Конференции:
+            ConnectedEvent, T+ Telecom.
+          </p>
+        </div>
+
+        <div class="reco-card">
+          <span class="reco-rank">★★★</span>
+          <h4>Migration tools (импорт из конкурентов)</h4>
+          <p>
+            manage.py import_from_mikbill — главный источник наших клиентов. import_from_utm5 —
+            старые UTM-инсталляции. import_from_lanbilling — для среднего сегмента. Carbon Soft
+            активно использует это как marketing-преимущество.
+          </p>
+        </div>
+
+        <div class="reco-card">
+          <span class="reco-rank">★★★</span>
+          <h4>Multi-operator Фаза 1</h4>
+          <p>
+            При появлении 3-го клиента активировать: audit + backfill OPERATOR_ID на 7 пустых
+            таблицах, OperatorProfile для сотрудников, OperatorFilterMixin в querysets,
+            раздел /admin/operators/. ~1.5 недели.
+          </p>
+        </div>
+      </div>
+
+      <div class="hero-meta" style="margin-top:48px; justify-content:center;">
+        <div class="meta-item">⚠️ <span><strong>Что НЕ делать:</strong> конкурировать с Carbon на их поле, целиться в enterprise (Hydra), дорабатывать фичи до 2-го клиента</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="/">Главная</a>
+        <a href="https://docs.billing.smit34.ru" target="_blank" rel="noopener">Документация</a>
+        <a href="https://demo.billing.smit34.ru" target="_blank" rel="noopener">Demo</a>
+        <a href="https://docs.billing.smit34.ru/graphify/wiki/" target="_blank" rel="noopener">Архитектура</a>
+        <a href="/support.html">Поддержка</a>
+        <a href="/privacy.html">Конфиденциальность</a>
+      </div>
+      <div class="footer-copyright">
+        © 2025–2026 ООО «СмИТ» · СмИТ Биллинг 1.6.0 · Документ обновлён 13 мая 2026
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle с сохранением в localStorage
+    (function() {
+      const root = document.documentElement;
+      const saved = localStorage.getItem('smit-plan-theme');
+      if (saved === 'light') root.setAttribute('data-theme', 'light');
+
+      const btn = document.getElementById('themeToggle');
+      btn.addEventListener('click', function() {
+        const cur = root.getAttribute('data-theme');
+        if (cur === 'light') {
+          root.removeAttribute('data-theme');
+          localStorage.setItem('smit-plan-theme', 'dark');
+        } else {
+          root.setAttribute('data-theme', 'light');
+          localStorage.setItem('smit-plan-theme', 'light');
+        }
+      });
+    })();
+
+    // Smooth scroll for anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+<!-- AI-консультант: настройки и промпт на сервере лицензий -->
+<script src="https://license.billing.smit34.ru/widget.js" data-widget="P6kNI2OPzLjak" defer></script>
+</body>
+</html>

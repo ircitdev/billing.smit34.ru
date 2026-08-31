@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Стратегический план развития СмИТ Биллинг</title>
+    <meta name="description" content="Интерактивный стратегический портал и конкурентный анализ рынка биллинг-систем для ISP (СмИТ Биллинг, Build 2286)" />
+    <meta property="og:title" content="Стратегический план развития СмИТ Биллинг" />
+    <meta property="og:description" content="Интерактивный стратегический портал и конкурентный анализ рынка биллинг-систем для ISP (СмИТ Биллинг, Build 2286)" />
+    <meta property="og:type" content="article" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='28' fill='%2310b981'/%3E%3Ctext x='50' y='68' font-size='56' font-weight='900' font-family='system-ui, -apple-system, sans-serif' fill='white' text-anchor='middle'%3EС%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="/plan2026/strategy/assets/index-CZ5Xzvhp.js"></script>
+    <link rel="stylesheet" crossorigin href="/plan2026/strategy/assets/index-Dbc1RzpR.css">
+  </head>
+  <body class="bg-slate-50 text-slate-900 dark:bg-[#0f141c] dark:text-slate-100 antialiased selection:bg-emerald-500 selection:text-white transition-colors duration-200">
+    <div id="root"></div>
+    <!-- AI-консультант: панель справа, настройки и промпт живут на сервере лицензий -->
+    <script src="https://license.billing.smit34.ru/widget.js" data-widget="Pn23sDwUN6JSqDfQ" defer></script>
+  <script data-tariff-bridge="1">
+// Кнопка «Запросить демо» в карточке тарифа открывает разговор с готовым
+// вопросом: человек уже выбрал версию, спрашивать «какая интересует» незачем.
+(function () {
+  function cardTitle(btn) {
+    var n = btn.parentElement, depth = 0;
+    while (n && depth < 6) {
+      var h = n.querySelector('h1,h2,h3,h4');
+      if (h && h.textContent.trim()) return h.textContent.trim();
+      n = n.parentElement;
+      depth++;
+    }
+    return '';
+  }
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('button, a');
+    if (!btn || !/запросить/i.test(btn.textContent || '')) return;
+    var W = window.SmitWidget;
+    if (!W || !W.ask) return;               // виджет не загрузился — не мешаем
+    var name = cardTitle(btn);
+    if (!name) { W.book(); return; }        // кнопка вне карточки — форма записи
+    e.preventDefault();
+    W.ask('Хочу посмотреть СмИТ Биллинг ' + name);
+  }, true);
+})();
+</script>
+<script data-ai-discuss="1">
+// «Обсудить с AI» открывает разговор с готовым вопросом о стратегии:
+// человеку не нужно придумывать формулировку, чтобы начать.
+(function () {
+  var QUESTION = 'Расскажи коротко о стратегии СмИТ Биллинга';
+
+  function place() {
+    if (document.getElementById('smit-ask-strategy')) return;
+    var near = [].slice.call(document.querySelectorAll('button'))
+      .find(function (b) { return b.textContent.trim() === 'Спросить у AI'; });
+    if (!near || !near.parentElement) return;
+
+    var btn = document.createElement('button');
+    btn.id = 'smit-ask-strategy';
+    btn.type = 'button';
+    btn.className = near.className;           // тот же размер и форма, что у соседа
+    btn.style.background = '#10b981';
+    btn.style.color = '#fff';
+    btn.style.fontWeight = '600';
+    btn.textContent = 'Обсудить с AI';
+    btn.addEventListener('click', function () {
+      var W = window.SmitWidget;
+      if (W && W.ask) W.ask(QUESTION);
+      else if (W && W.open) W.open('chat');   // виджет старой версии — хотя бы откроем
+    });
+    near.parentElement.insertBefore(btn, near.nextSibling);
+  }
+
+  place();
+  // страница перерисовывается — возвращаем кнопку на место
+  try {
+    new MutationObserver(place).observe(document.body, { childList: true, subtree: true });
+  } catch (e) {
+    setInterval(place, 1500);
+  }
+})();
+</script>
+</body>
+</html>
+

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Процессы поддержания жизненного цикла — СмИТ Биллинг</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --em-400:#34d399; --em-500:#10b981; --em-600:#059669; --em-700:#047857;
+  --teal-400:#2dd4bf; --amber-700:#b45309; --red-700:#b91c1c;
+  --bg:#f6f8fa; --card:#fff; --border:rgba(15,23,42,.09);
+  --text:#0f172a; --dim:#475569; --mute:#64748b;
+  --tint-green:#f1fbf6; --tint-amber:#fdf8ef; --tint-neutral:#f4f6f8;
+  --code-bg:#eef2f6;
+  --shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.05);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#070d14; --card:#111a24; --border:rgba(255,255,255,.09);
+  --text:#e8eef5; --dim:#a8b6c6; --mute:#8b9aac;
+  --tint-green:#0d2019; --tint-amber:#221a0c; --tint-neutral:#161f2a;
+  --code-bg:#1a2430; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);}}
+:root[data-theme="dark"]{
+  --bg:#070d14; --card:#111a24; --border:rgba(255,255,255,.09);
+  --text:#e8eef5; --dim:#a8b6c6; --mute:#8b9aac;
+  --tint-green:#0d2019; --tint-amber:#221a0c; --tint-neutral:#161f2a;
+  --code-bg:#1a2430; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font:400 15px/1.65 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:var(--em-700)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) a{color:var(--em-400)}}
+:root[data-theme="dark"] a{color:var(--em-400)}
+:focus-visible{outline:2px solid var(--em-500);outline-offset:3px;border-radius:4px}
+.wrap{max-width:940px;margin:0 auto;padding:0 20px 90px}
+.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);
+  background:color-mix(in srgb,var(--bg) 86%,transparent);border-bottom:1px solid var(--border)}
+.top-in{max-width:940px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{width:30px;height:30px;border-radius:8px;flex:0 0 auto;
+  background:linear-gradient(135deg,var(--em-500),var(--teal-400));
+  color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+.top b{font-size:15px}
+.top .sep{color:var(--mute)}
+.top nav{margin-left:auto;display:flex;gap:14px;font-size:14px}
+.top nav a{color:var(--dim);text-decoration:none}
+.top nav a:hover{color:var(--em-700)}
+header.page{padding:40px 0 6px}
+h1{font-size:33px;line-height:1.16;margin:0 0 12px;letter-spacing:-.02em}
+.sub{color:var(--dim);max-width:72ch;margin:0 0 8px}
+h2{font-size:21px;margin:40px 0 10px;letter-spacing:-.01em;padding-top:6px;scroll-margin-top:70px}
+h3{font-size:17px;margin:26px 0 8px}
+h4{font-size:15.5px;margin:20px 0 6px;color:var(--dim)}
+p,ul,ol{max-width:78ch}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:7px}
+hr{border:0;border-top:1px solid var(--border);margin:34px 0}
+code{font-family:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;font-size:.88em;
+  background:var(--code-bg);padding:2px 6px;border-radius:5px}
+pre{background:var(--code-bg);border:1px solid var(--border);border-radius:10px;
+  padding:12px 14px;overflow-x:auto;margin:10px 0 14px}
+pre code{background:none;padding:0;font-size:13.5px}
+blockquote{margin:16px 0;padding:14px 18px;border-radius:12px;max-width:78ch;
+  background:var(--tint-green);border:1px solid rgba(16,185,129,.28)}
+blockquote p{margin:0 0 8px}
+blockquote p:last-child{margin-bottom:0}
+.tw{overflow-x:auto;border:1px solid var(--border);border-radius:12px;
+  background:var(--card);margin:12px 0 18px;box-shadow:var(--shadow)}
+table.tbl{width:100%;border-collapse:collapse;font-size:14px}
+table.tbl th,table.tbl td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--border);vertical-align:top}
+table.tbl th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);
+  background:var(--tint-neutral);white-space:nowrap}
+table.tbl tr:last-child td{border-bottom:0}
+.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:16px 20px;margin:24px 0 10px;box-shadow:var(--shadow)}
+.toc-t{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin-bottom:10px}
+.toc ol{margin:0;padding-left:20px;columns:2;column-gap:28px;max-width:none}
+.toc li{margin-bottom:5px;break-inside:avoid}
+.toc a{text-decoration:none}
+@media (max-width:640px){.toc ol{columns:1}h1{font-size:25px}h2{font-size:19px}}
+.foot{margin-top:50px;padding-top:18px;border-top:1px solid var(--border);
+  color:var(--mute);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width: 640px) {
+  /* шапка на узком экране: оставляем только переходы внутри раздела */
+  .top nav a[href="/plan2026/strategy/"],
+  .top nav a[href="/plan2026/"],
+  .top nav a[href="/"] { display: none; }
+}
+
+/* nav-buttons */
+/* ссылки-кнопки: сплошной фон по padding-box + градиент по border-box,
+   поэтому рамка градиентная без псевдоэлементов */
+.top nav { gap: 8px; align-items: center; }
+.top nav a,
+.task .links a,
+.links a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 999px;
+  font-size: 13px; font-weight: 600; line-height: 1.35;
+  color: var(--text); text-decoration: none;
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(var(--card), var(--card)),
+    radial-gradient(150% 180% at 0% 50%,
+      var(--em-500) 0%, rgba(16,185,129,.45) 42%, rgba(16,185,129,.14) 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 100% 100%, 200% 100%;
+  background-position: 0 0, 0 0;
+  transition: color .2s ease, box-shadow .25s ease,
+              transform .15s ease, background-position .5s ease;
+}
+.top nav a:hover,
+.task .links a:hover,
+.links a:hover {
+  color: var(--em-600);
+  background-position: 0 0, 60% 0;
+  box-shadow: 0 4px 16px rgba(16,185,129,.22);
+  transform: translateY(-1px);
+}
+.top nav a:focus-visible,
+.task .links a:focus-visible,
+.links a:focus-visible {
+  outline: 2px solid var(--em-500); outline-offset: 2px;
+}
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (prefers-reduced-motion: reduce) {
+  .top nav a, .links a { transition: color .2s ease; }
+  .top nav a:hover, .links a:hover { transform: none; }
+}
+@media (max-width: 640px) {
+  .top nav a, .links a { padding: 7px 14px; font-size: 12.5px; }
+}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="top-in">
+    <div class="logo">C</div>
+    <b>СмИТ Биллинг</b>
+    <span class="sep">·</span>
+    <span style="color:var(--dim)">заявка 2.4</span>
+    <nav>
+      <a href="/plan2026/strategy/">Стратегический план</a>
+      <a href="/plan2026/roadmap/">Исполнение</a>
+    </nav>
+  </div>
+</div>
+<div class="wrap">
+<header class="page">
+  <h1>Процессы поддержания жизненного цикла</h1>
+  <p class="sub">Приложение к заявке в реестр российского ПО · подпункт «д» пункта 5 Правил, утверждённых постановлением Правительства РФ № 1236 от 16.11.2015 · показатели — из рабочего контура за 1 июня — 30 августа 2026</p>
+</header>
+<nav class="toc" aria-label="Содержание"><div class="toc-t">Разделы</div><ol><li><a href="#h0">Что требуется и как устроен документ</a></li><li><a href="#h1">Устранение неисправностей</a></li><li><a href="#h2">Совершенствование программы</a></li><li><a href="#h3">Персонал</a></li><li><a href="#h4">Средства, необходимые для поддержки</a></li><li><a href="#h5">Подтверждение</a></li></ol></nav>
+<p><strong>Для заявки в единый реестр российского ПО</strong> — документ по подпункту «д» пункта 5 Правил, утверждённых постановлением Правительства РФ от 16.11.2015 № 1236.</p>
+<p>Правообладатель: ООО «СМИТ», г. Волгоград. Дата составления: 30 августа 2026 года.</p>
+<hr>
+<h2 id="h0">1. Что требуется и как устроен документ</h2>
+<p>Правила требуют описать процессы, обеспечивающие поддержание жизненного цикла программы: <strong>устранение неисправностей</strong>, выявленных в ходе эксплуатации, <strong>совершенствование</strong> программы, а также <strong>сведения о персонале</strong>, необходимом для такой поддержки.</p>
+<p>Ниже описаны процессы, которые действуют в компании и подтверждаются самой системой: сроки реакции заданы политиками обслуживания внутри продукта, обращения регистрируются в собственном модуле поддержки, изменения проходят через журнал версий. Цифры — фактические показатели эксплуатации за три месяца, предшествующие подаче.</p>
+<hr>
+<h2 id="h1">2. Устранение неисправностей</h2>
+<h3>2.1. Как обращение попадает к нам</h3>
+<p>Обращения принимаются в модуль «Поддержка», входящий в состав самой системы. Он хранит переписку, вложения, историю статусов и запись действий сотрудников.</p>
+<div class="tw"><table class="tbl"><thead><tr><th>Канал</th><th>Как поступает</th></tr></thead><tbody>
+<tr><td>Электронная почта</td><td>письмо на адрес поддержки становится обращением автоматически</td></tr>
+<tr><td>Телефон</td><td>звонок с записью и расшифровкой; пропущенный вызов создаёт обращение</td></tr>
+<tr><td>Личный кабинет абонента</td><td>форма обращения внутри кабинета</td></tr>
+<tr><td>Мобильное приложение</td><td>раздел «Поддержка», обращение и переписка</td></tr>
+<tr><td>Мессенджеры</td><td>Telegram, ВКонтакте, MAX</td></tr>
+<tr><td>Виджет на сайте</td><td>текстовый и голосовой помощник</td></tr>
+<tr><td>Административный интерфейс</td><td>обращение заводит сотрудник оператора связи</td></tr>
+</tbody></table></div>
+<p>Всего задействовано 14 каналов приёма. За три месяца зарегистрировано 3 553 обращения, из них закрыто 3 471.</p>
+<h3>2.2. Сроки реакции</h3>
+<p>Сроки не декларативные: они заданы политиками обслуживания в системе и применяются к обращению автоматически, по типу и приоритету.</p>
+<div class="tw"><table class="tbl"><thead><tr><th>Политика</th><th>Первый ответ</th><th>Решение</th></tr></thead><tbody>
+<tr><td>Авария, высокий приоритет</td><td>15 минут</td><td>4 часа</td></tr>
+<tr><td>Перезвон по пропущенному вызову</td><td>30 минут</td><td>24 часа</td></tr>
+<tr><td>Стандартное обращение</td><td>60 минут</td><td>24 часа</td></tr>
+<tr><td>Поддержка по договору сопровождения</td><td>120 минут</td><td>48 часов</td></tr>
+<tr><td>Консультация, низкий приоритет</td><td>240 минут</td><td>72 часа</td></tr>
+<tr><td>Проектная заявка (аудит, доработка)</td><td>8 часов</td><td>5 суток</td></tr>
+</tbody></table></div>
+<p>Система отсчитывает время с момента регистрации, останавливает счётчик на время ожидания ответа клиента и подсвечивает обращения с истекающим сроком.</p>
+<h3>2.3. Первая линия</h3>
+<p>Первую линию ведёт встроенный помощник на основе языковой модели. Он отвечает на типовые вопросы, показывает баланс и состояние услуг, принимает заявку и передаёт обращение специалисту, когда вопрос выходит за рамки типового или когда об этом просит клиент.</p>
+<p>За три месяца участие специалиста потребовалось в 1 086 обращениях из 3 553 — остальные закрыты на первой линии. Медианное время до первого ответа специалиста по обращениям, дошедшим до второй линии, — 64 минуты.</p>
+<h3>2.4. Порядок работы с неисправностью</h3>
+<ol>
+<li><strong>Регистрация.</strong> Обращение получает номер, канал, организацию и приоритет.</li>
+<li><strong>Квалификация.</strong> Специалист второй линии отделяет ошибку в программе от</li>
+</ol>
+<p>   вопроса эксплуатации или неисправности оборудования.</p>
+<ol>
+<li><strong>Воспроизведение.</strong> Ошибка воспроизводится на тестовом стенде, который</li>
+</ol>
+<p>   ежесуточно получает копию рабочей базы. Работать с данными клиента для разбора не требуется.</p>
+<ol>
+<li><strong>Исправление.</strong> Изменение вносится в исходный код, проходит проверку и</li>
+</ol>
+<p>   попадает в очередной выпуск. Критические исправления выпускаются вне очереди, в день обнаружения.</p>
+<ol>
+<li><strong>Проверка и закрытие.</strong> Исправление проверяется на стенде, затем на</li>
+</ol>
+<p>   рабочем контуре; обращение закрывается после подтверждения от заявителя.</p>
+<ol>
+<li><strong>Запись в журнал версий.</strong> Каждое изменение описывается с указанием</li>
+</ol>
+<p>   причины, прежнего и нового поведения.</p>
+<h3>2.5. Предупреждение неисправностей</h3>
+<p>Система следит за собой и сообщает о сбоях до обращения клиента:</p>
+<ul>
+<li>контроль доступности узлов сети и оборудования с оповещением ответственных;</li>
+<li>контроль состояния служб — базы данных, очереди задач, сервера авторизации;</li>
+<li>контроль качества ответов встроенного помощника;</li>
+<li>неизменяемый журнал действий сотрудников — по нему восстанавливается</li>
+</ul>
+<p>  последовательность событий при разборе;</p>
+<ul>
+<li>ежесуточная копия рабочей базы на резервный сервер.</li>
+</ul>
+<hr>
+<h2 id="h2">3. Совершенствование программы</h2>
+<h3>3.1. Откуда берутся изменения</h3>
+<div class="tw"><table class="tbl"><thead><tr><th>Источник</th><th>Как попадает в работу</th></tr></thead><tbody>
+<tr><td>Обращения пользователей</td><td>предложение из обращения переносится в план работ</td></tr>
+<tr><td>Эксплуатация у операторов связи</td><td>замечания сотрудников операторов на встречах сопровождения</td></tr>
+<tr><td>Изменения законодательства</td><td>требования надзорных органов и отраслевые нормы</td></tr>
+<tr><td>Собственный план развития</td><td>план по модулям и функциональности</td></tr>
+</tbody></table></div>
+<h3>3.2. Как выходит обновление</h3>
+<p>Разработка ведётся непрерывно, в собственном хранилище исходного кода с историей изменений. Выпуску присваивается номер сборки; описание изменений ведётся на русском языке и содержит причину, прежнее и новое поведение.</p>
+<p>За три месяца выпущено 838 сборок при 1 694 изменениях исходного кода.</p>
+<p>Порядок выпуска:</p>
+<ol>
+<li>изменение вносится в исходный код и проверяется разработчиком;</li>
+<li>проверка на тестовом стенде с копией рабочих данных;</li>
+<li>сборка образа и установка на рабочий контур;</li>
+<li>проверка работоспособности после установки;</li>
+<li>запись в журнал версий и, при необходимости, в документацию.</li>
+</ol>
+<p>Установка обновления не требует остановки работы операторов связи с абонентами и выполняется без потери данных.</p>
+<h3>3.3. Модульные обновления</h3>
+<p>Функциональность разделена на модули; каждый имеет собственную версию и устанавливается независимо. Оператор связи видит доступные версии в интерфейсе и решает, обновляться ли. Автоматическое обновление по умолчанию выключено — обновление ставится по решению оператора.</p>
+<h3>3.4. Документация</h3>
+<p>Документация ведётся на русском языке и обновляется вместе с программой:</p>
+<ul>
+<li>руководство пользователя и администратора — 26 разделов на сайте</li>
+</ul>
+<p>  документации, включая установку, эксплуатацию и описание интерфейса программирования;</p>
+<ul>
+<li>внутренние регламенты, инструкции и отчёты — 572 документа;</li>
+<li>журнал версий с описанием каждого изменения.</li>
+</ul>
+<hr>
+<h2 id="h3">4. Персонал</h2>
+<p>Поддержку и развитие обеспечивает ООО «СМИТ» силами штатных сотрудников, находящихся на территории Российской Федерации (г. Волгоград). Привлечение иностранных организаций и специалистов не требуется.</p>
+<div class="tw"><table class="tbl"><thead><tr><th>Роль</th><th>Обязанности</th><th>Квалификация</th></tr></thead><tbody>
+<tr><td>Руководитель разработки</td><td>планирование выпусков, архитектура, приёмка изменений</td><td>высшее техническое образование, опыт разработки биллинговых систем</td></tr>
+<tr><td>Разработчик</td><td>внесение изменений, устранение ошибок, документирование</td><td>Python, PostgreSQL, Django, опыт от трёх лет</td></tr>
+<tr><td>Инженер сопровождения</td><td>установка и обновление, резервное копирование, контроль работоспособности</td><td>администрирование Linux, Docker, PostgreSQL</td></tr>
+<tr><td>Специалист поддержки</td><td>приём и разбор обращений, консультирование</td><td>знание предметной области связи и функций системы</td></tr>
+<tr><td>Сетевой инженер</td><td>подключение оборудования, разбор вопросов авторизации абонентов</td><td>сети передачи данных, RADIUS, оборудование доступа</td></tr>
+</tbody></table></div>
+<p>Численность, достаточная для поддержания жизненного цикла, — не менее пяти человек; функции могут совмещаться. Поддержка ведётся на русском языке.</p>
+<p>Приём обращений — круглосуточно, в автоматическом режиме и по каналам связи. Разбор специалистами — в рабочие дни с 8:00 до 17:00 по московскому времени; аварийные обращения обрабатываются по действующей политике вне зависимости от времени суток.</p>
+<hr>
+<h2 id="h4">5. Средства, необходимые для поддержки</h2>
+<p>Средства разработки и эксплуатации — свободно распространяемые либо российского происхождения. Лицензии иностранных правообладателей, ограничивающие использование на территории Российской Федерации, не требуются.</p>
+<div class="tw"><table class="tbl"><thead><tr><th>Назначение</th><th>Средство</th></tr></thead><tbody>
+<tr><td>Язык программирования</td><td>Python</td></tr>
+<tr><td>Платформа разработки</td><td>Django</td></tr>
+<tr><td>Система управления базами данных</td><td>PostgreSQL</td></tr>
+<tr><td>Средство изоляции приложений</td><td>Docker</td></tr>
+<tr><td>Хранение исходного кода</td><td>система контроля версий Git</td></tr>
+<tr><td>Операционная система серверов</td><td>GNU/Linux</td></tr>
+</tbody></table></div>
+<hr>
+<h2 id="h5">6. Подтверждение</h2>
+<p>Изложенные процессы действуют и подтверждаются данными эксплуатации системы у операторов связи. Показатели разделов 2 и 3 получены из рабочего контура за период с 1 июня по 30 августа 2026 года.</p>
+<p>Документ подписывается руководителем ООО «СМИТ» и прилагается к заявлению о включении сведений в единый реестр российских программ для электронных вычислительных машин и баз данных.</p>
+<div class="foot">
+  <span>Внутренний документ · 30 августа 2026</span>
+  <span><a href="/plan2026/reestr/">Комплект заявки в реестр</a></span>
+</div>
+</div>
+</body>
+</html>

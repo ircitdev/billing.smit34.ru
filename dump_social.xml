@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<reg:registerSocResources updateTime="2024-04-10T12:31:00+03:00" formatVersion="1.0" xmlns:reg="http://rkn.gov.ru/register/socResources" xmlns:tns="http://rkn.gov.ru/register/socResources">
+    <content id="1" hash="159bf4db9cddf6682e6eeaaa70750625" includeTime="2022-01-26T22:00:00+03:00">
+        <resourceName><![CDATA[Единый портал государственных и муниципальных услуг (Госуслуги)]]></resourceName>
+        <domain><![CDATA[gosuslugi.ru]]></domain>
+        <ipSubnet>37.220.160.0/21</ipSubnet>
+        <ipSubnet>46.235.184.0/21</ipSubnet>
+        <ipSubnet>78.41.104.0/21</ipSubnet>
+        <ipSubnet>93.93.88.0/21</ipSubnet>
+        <ipSubnet>109.207.0.0/20</ipSubnet>
+        <ipSubnet>185.17.168.0/22</ipSubnet>
+        <ipSubnet>195.208.30.60/30</ipSubnet>
+        <ipSubnet>195.208.64.0/20</ipSubnet>
+        <ipSubnet>195.209.64.0/21</ipSubnet>
+        <ipSubnet>195.209.74.0/24</ipSubnet>
+        <ipSubnet>195.209.75.0/25</ipSubnet>
+        <ipSubnet>195.209.80.0/20</ipSubnet>
+        <ipSubnet>212.193.144.0/20</ipSubnet>
+        <ipSubnet>213.59.252.0/22</ipSubnet>
+    </content>
+    <content id="2" hash="c8a4f1bf99941b462d0a5fb9d294a75c" includeTime="2022-01-26T22:00:00+03:00">
+        <resourceName><![CDATA[Социальная сеть "ВКонтакте"]]></resourceName>
+        <domain><![CDATA[vk.com]]></domain>
+        <ipSubnet>5.181.61.0/24</ipSubnet>
+        <ipSubnet>79.137.139.0/24</ipSubnet>
+        <ipSubnet>79.137.164.0/24</ipSubnet>
+        <ipSubnet>79.137.180.0/24</ipSubnet>
+        <ipSubnet>79.137.183.0/24</ipSubnet>
+        <ipSubnet>87.240.128.0/18</ipSubnet>
+        <ipSubnet>93.186.224.0/20</ipSubnet>
+        <ipSubnet>95.142.192.0/20</ipSubnet>
+        <ipSubnet>95.213.0.0/17</ipSubnet>
+        <ipSubnet>185.32.248.0/22</ipSubnet>
+        <ipSubnet>185.226.52.0/22</ipSubnet>
+        <ipSubnet>45.136.20.0/22</ipSubnet>
+        <ipSubnet>95.163.39.80/29</ipSubnet>
+        <ipSubnet>193.203.40.0/22</ipSubnet>
+        <ipSubnet>5.61.20.180/31</ipSubnet>
+        <ipSubnet>5.61.20.196/30</ipSubnet>
+        <ipSubnet>5.61.20.248/29</ipSubnet>
+        <ipSubnet>5.61.23.186/31</ipSubnet>
+        <ipSubnet>5.61.23.228/31</ipSubnet>
+        <ipSubnet>5.61.23.248/30</ipSubnet>
+        <ipSubnet>185.16.247.226/31</ipSubnet>
+        <ipSubnet>185.100.104.4/30</ipSubnet>
+        <ipSubnet>185.100.104.44/30</ipSubnet>
+        <ipSubnet>185.100.104.48/29</ipSubnet>
+        <ipSubnet>185.100.104.132/30</ipSubnet>
+        <ipSubnet>185.100.105.24/29</ipSubnet>
+        <ipSubnet>185.100.105.64/30</ipSubnet>
+        <ipSubnet>185.100.105.132/30</ipSubnet>
+        <ipSubnet>185.100.105.192/29</ipSubnet>
+        <ipSubnet>185.100.105.200/30</ipSubnet>
+        <ipSubnet>217.20.158.34/31</ipSubnet>
+        <ipSubnet>5.101.40.2/32</ipSubnet>
+        <ipSubnet>217.20.152.213/32</ipSubnet>
+        <ipSubnet>217.20.156.158/32</ipSubnet>
+        <ipSubnet>217.20.156.18/32</ipSubnet>
+        <ipSubnet>217.20.155.24/32</ipSubnet>
+        <ipSubnet>217.20.147.23/32</ipSubnet>
+        <ipSubnet>95.163.56.192/27</ipSubnet>
+        <ipSubnet>95.163.41.200/30</ipSubnet>
+        <ipSubnet>5.61.16.0/21</ipSubnet>
+        <ipSubnet>185.16.148.0/22</ipSubnet>
+        <ipSubnet>185.16.244.0/22</ipSubnet>
+        <ipSubnet>217.20.144.0/20</ipSubnet>
+        <ipSubnet>87.240.160.0/26</ipSubnet>
+        <ipSubnet>95.142.201.192/27</ipSubnet>
+        <ipSubnet>95.142.202.0/27</ipSubnet>
+        <ipSubnet>95.142.203.192/27</ipSubnet>
+        <ipSubnet>95.142.206.192/27</ipSubnet>
+        <ipSubnet>185.32.249.192/27</ipSubnet>
+        <ipSubnet>185.32.250.192/27</ipSubnet>
+        <ipSubnet>185.32.251.192/27</ipSubnet>
+        <ipSubnet>185.100.104.0/22</ipSubnet>
+    </content>
+</reg:registerSocResources>

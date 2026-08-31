@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>20 целевых провайдеров — СмИТ Биллинг</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --em-400: #34d399; --em-500: #10b981; --em-600: #059669; --em-700: #047857;
+  --teal-400: #2dd4bf;
+  --amber-500: #f59e0b; --amber-700: #b45309;
+  --red-400: #f87171; --red-500: #ef4444; --red-700: #b91c1c;
+  --blue-500: #3b82f6; --blue-700: #1d4ed8; --slate-500: #64748b;
+  --bg: #f6f8fa; --card: #ffffff; --border: rgba(15,23,42,.09);
+  --text: #0f172a; --dim: #475569; --mute: #64748b;
+  --tint-green: #f1fbf6; --tint-amber: #fdf8ef; --tint-red: #fdf5f5;
+  --tint-blue: #f2f6fd; --tint-neutral: #f4f6f8;
+  --shadow: 0 1px 2px rgba(15,23,42,.04), 0 8px 24px rgba(15,23,42,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #070d14; --card: #111a24; --border: rgba(255,255,255,.09);
+    --text: #e8eef5; --dim: #a8b6c6; --mute: #8b9aac;
+    --tint-green: #0d2019; --tint-amber: #221a0c; --tint-red: #241315;
+    --tint-blue: #101a2b; --tint-neutral: #161f2a;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #070d14; --card: #111a24; --border: rgba(255,255,255,.09);
+  --text: #e8eef5; --dim: #a8b6c6; --mute: #8b9aac;
+  --tint-green: #0d2019; --tint-amber: #221a0c; --tint-red: #241315;
+  --tint-blue: #101a2b; --tint-neutral: #161f2a;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 400 15px/1.6 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+a { color: var(--em-700); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) a { color: var(--em-400); } }
+:root[data-theme="dark"] a { color: var(--em-400); }
+:focus-visible { outline: 2px solid var(--em-500); outline-offset: 3px; border-radius: 4px; }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px 80px; }
+
+/* шапка */
+.top {
+  position: sticky; top: 0; z-index: 20; backdrop-filter: blur(14px);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+.top-in { max-width: 1080px; margin: 0 auto; padding: 12px 20px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.logo { width: 30px; height: 30px; border-radius: 8px; flex: 0 0 auto;
+  background: linear-gradient(135deg, var(--em-500), var(--teal-400));
+  color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.top b { font-size: 15px; }
+.top .sep { color: var(--mute); }
+.top nav { margin-left: auto; display: flex; gap: 14px; font-size: 14px; }
+.top nav a { color: var(--dim); text-decoration: none; }
+.top nav a:hover { color: var(--em-700); }
+
+header.page { padding: 40px 0 8px; }
+h1 { font-size: 34px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -.02em; }
+.sub { color: var(--dim); max-width: 70ch; margin: 0 0 22px; }
+
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px; margin-bottom: 28px; }
+.kpi { background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 14px 16px; box-shadow: var(--shadow); }
+.kpi b { display: block; font-size: 26px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi span { color: var(--mute); font-size: 12.5px; }
+.kpi.ok b { color: var(--em-600); }
+.kpi.wait b { color: var(--amber-700); }
+
+h2 { font-size: 22px; margin: 44px 0 6px; letter-spacing: -.01em; }
+h2:first-of-type { margin-top: 30px; }
+h3 { font-size: 16.5px; margin: 26px 0 8px; }
+.lead { color: var(--dim); max-width: 76ch; margin: 0 0 18px; }
+p { max-width: 76ch; }
+
+/* блок метода */
+.method { background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px 24px; box-shadow: var(--shadow); margin: 18px 0 8px; }
+.method ol { margin: 0; padding-left: 22px; }
+.method li { margin-bottom: 10px; color: var(--dim); }
+.method li:last-child { margin-bottom: 0; }
+.method li b { color: var(--text); }
+
+.callout { border-radius: 14px; padding: 16px 18px; margin: 18px 0;
+  background: var(--tint-amber); border: 1px solid rgba(245,158,11,.28); }
+.callout.red { background: var(--tint-red); border-color: rgba(239,68,68,.26); }
+.callout.green { background: var(--tint-green); border-color: rgba(16,185,129,.28); }
+.callout p { margin: 0 0 8px; }
+.callout p:last-child { margin-bottom: 0; }
+.callout b { color: var(--text); }
+
+/* фильтр-чипы */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 18px; }
+.chip { display: inline-flex; align-items: center; gap: .45em; min-height: 34px;
+  padding: 6px 14px; border-radius: 99px; cursor: pointer;
+  background: var(--card); border: 1px solid var(--border);
+  color: var(--dim); font-size: 13.5px; font-weight: 600;
+  font-family: inherit; transition: border-color .18s, color .18s, background .18s; }
+.chip:hover { border-color: rgba(16,185,129,.45); color: var(--em-700); }
+.chip[aria-pressed="true"] { background: var(--tint-green); color: var(--em-700);
+  border-color: rgba(16,185,129,.5); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .chip:hover,
+  :root:not([data-theme="light"]) .chip[aria-pressed="true"] { color: var(--em-400); }
+}
+:root[data-theme="dark"] .chip:hover,
+:root[data-theme="dark"] .chip[aria-pressed="true"] { color: var(--em-400); }
+.chip .cnt { color: var(--mute); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+.region { margin-top: 34px; }
+.region-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.region-head h2 { margin: 0; font-size: 20px; }
+.region-head .cnt { color: var(--mute); font-size: 13.5px; }
+
+/* карточки компаний */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+.co { background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 16px 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+.co.known { border-color: rgba(16,185,129,.38); background: var(--tint-green); }
+.co-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 3px; }
+.co-n { flex: 0 0 auto; width: 24px; height: 24px; border-radius: 7px;
+  display: grid; place-items: center; font-size: 12px; font-weight: 700;
+  background: var(--tint-neutral); color: var(--mute); font-variant-numeric: tabular-nums; }
+.co.known .co-n { background: rgba(16,185,129,.16); color: var(--em-700); }
+.co-name { font-weight: 700; font-size: 15.5px; line-height: 1.35; }
+.co-meta { color: var(--mute); font-size: 12.5px; margin: 2px 0 10px 34px; }
+.co-rows { display: grid; gap: 7px; font-size: 13.5px; margin-bottom: 12px; }
+.co-row { display: grid; grid-template-columns: 74px 1fr; gap: 10px; align-items: baseline; }
+.co-row dt { color: var(--mute); font-size: 12.5px; }
+.co-row dd { margin: 0; color: var(--dim); }
+.co-row dd a { text-decoration: none; font-weight: 600; }
+.co-pain { margin-top: auto; padding: 10px 12px; border-radius: 10px;
+  background: var(--tint-neutral); font-size: 13px; line-height: 1.55; color: var(--dim); }
+.co.known .co-pain { background: rgba(255,255,255,.55); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .co.known .co-pain { background: rgba(0,0,0,.22); }
+}
+:root[data-theme="dark"] .co.known .co-pain { background: rgba(0,0,0,.22); }
+.co-pain b { color: var(--text); }
+
+.sys { display: inline-flex; align-items: center; gap: .4em; padding: 3px 10px;
+  border-radius: 99px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.sys.utm5 { background: rgba(16,185,129,.16); color: var(--em-700); border: 1px solid rgba(16,185,129,.34); }
+.sys.maybe { background: var(--tint-blue); color: var(--blue-700); border: 1px solid rgba(59,130,246,.3); }
+.sys.self { background: var(--tint-amber); color: var(--amber-700); border: 1px solid rgba(245,158,11,.3); }
+.sys.none { background: var(--tint-neutral); color: var(--mute); border: 1px solid var(--border); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .sys.utm5 { color: var(--em-400); }
+  :root:not([data-theme="light"]) .sys.maybe { color: #93b4fc; }
+}
+:root[data-theme="dark"] .sys.utm5 { color: var(--em-400); }
+:root[data-theme="dark"] .sys.maybe { color: #93b4fc; }
+
+/* приоритет обзвона */
+.calls { display: grid; gap: 12px; margin-top: 16px; }
+.call { background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 15px 18px; box-shadow: var(--shadow);
+  display: grid; grid-template-columns: 34px 1fr; gap: 4px 14px; align-items: start; }
+.call .rank { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center;
+  font-weight: 800; font-size: 13px; color: #fff;
+  background: linear-gradient(135deg, var(--em-500), var(--teal-400)); }
+.call h3 { margin: 2px 0 4px; font-size: 15.5px; }
+.call p { margin: 0; color: var(--dim); font-size: 14px; }
+
+/* таблица запасных */
+table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 10px; }
+.tw { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px;
+  background: var(--card); }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border);
+  vertical-align: top; }
+th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--mute);
+  background: var(--tint-neutral); position: sticky; top: 0; }
+tr:last-child td { border-bottom: 0; }
+
+/* чеклист */
+.next { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 9px; }
+.next li { display: grid; grid-template-columns: 22px 1fr; gap: 11px; align-items: start;
+  color: var(--dim); font-size: 14.5px; }
+.next li::before { content: ''; width: 16px; height: 16px; margin-top: 4px;
+  border: 1.5px solid var(--border); border-radius: 4px; }
+
+.foot { margin-top: 50px; padding-top: 18px; border-top: 1px solid var(--border);
+  color: var(--mute); font-size: 13px; display: flex; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px; }
+
+.hidden { display: none !important; }
+
+@media (max-width: 640px) {
+  h1 { font-size: 26px; }
+  .cards { grid-template-columns: 1fr; }
+  .co-row { grid-template-columns: 68px 1fr; }
+  .call { grid-template-columns: 1fr; }
+  .call .rank { margin-bottom: 4px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (max-width: 640px) {
+  /* шапка на узком экране: оставляем только переходы внутри раздела */
+  .top nav a[href="/plan2026/strategy/"],
+  .top nav a[href="/plan2026/"],
+  .top nav a[href="/"] { display: none; }
+}
+
+/* nav-buttons */
+/* ссылки-кнопки: сплошной фон по padding-box + градиент по border-box,
+   поэтому рамка градиентная без псевдоэлементов */
+.top nav { gap: 8px; align-items: center; }
+.top nav a,
+.task .links a,
+.links a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 999px;
+  font-size: 13px; font-weight: 600; line-height: 1.35;
+  color: var(--text); text-decoration: none;
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(var(--card), var(--card)),
+    radial-gradient(150% 180% at 0% 50%,
+      var(--em-500) 0%, rgba(16,185,129,.45) 42%, rgba(16,185,129,.14) 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 100% 100%, 200% 100%;
+  background-position: 0 0, 0 0;
+  transition: color .2s ease, box-shadow .25s ease,
+              transform .15s ease, background-position .5s ease;
+}
+.top nav a:hover,
+.task .links a:hover,
+.links a:hover {
+  color: var(--em-600);
+  background-position: 0 0, 60% 0;
+  box-shadow: 0 4px 16px rgba(16,185,129,.22);
+  transform: translateY(-1px);
+}
+.top nav a:focus-visible,
+.task .links a:focus-visible,
+.links a:focus-visible {
+  outline: 2px solid var(--em-500); outline-offset: 2px;
+}
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (prefers-reduced-motion: reduce) {
+  .top nav a, .links a { transition: color .2s ease; }
+  .top nav a:hover, .links a:hover { transform: none; }
+}
+@media (max-width: 640px) {
+  .top nav a, .links a { padding: 7px 14px; font-size: 12.5px; }
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="top-in">
+    <div class="logo">C</div>
+    <b>СмИТ Биллинг</b>
+    <span class="sep">·</span>
+    <span style="color:var(--dim)">целевые клиенты</span>
+    <nav>
+      <a href="/plan2026/strategy/">Стратегический план</a>
+      <a href="/plan2026/roadmap/">Исполнение</a>
+      <a href="/">Сайт</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="page">
+  <h1>20 целевых провайдеров Юга России</h1>
+  <p class="sub">
+    Кому продаём лицензию первым. Задача 1.1 из
+    <a href="/plan2026/roadmap/">плана работ</a>: Волгоградская, Ростовская,
+    Астраханская области и Краснодарский край. Контакты и юрлица проверены машинно,
+    размер абонентской базы — <b>не подтверждён ни для одной компании</b>.
+  </p>
+
+  <div class="kpis">
+    <div class="kpi ok"><b>20</b><span>компаний в основном списке</span></div>
+    <div class="kpi"><b>4</b><span>региона</span></div>
+    <div class="kpi ok"><b>6</b><span>юрлиц с ИНН и директором</span></div>
+    <div class="kpi wait"><b>4</b><span>системы опознаны из 20</span></div>
+    <div class="kpi wait"><b>0</b><span>подтверждённых баз абонентов</span></div>
+  </div>
+</header>
+
+<h2>Как собирали</h2>
+<p class="lead">
+  Каталоги провайдеров (101internet, dominternet, justconnect) для этой задачи бесполезны:
+  они показывают федералов и партнёрские лендинги, а локальных операторов либо прячут,
+  либо подменяют московскими агрегаторами-подключенцами.
+</p>
+
+<div class="method">
+  <ol>
+    <li><b>2ГИС, рубрика «Интернет-провайдеры»</b> по 16 городам — единственный источник,
+        где локальные операторы видны наравне с федералами. Названия и телефоны сняты из карточек.</li>
+    <li><b>Отсев агрегаторов.</b> «Первые сети», «1Gbit», «Мосинтер», «Флайнет Телеком»,
+        «Анлим телеком», «Гиганет Телеком», «Бизнес Телеком», «Искрателеком», «АКАДО»
+        выдавались в <i>любом</i> нераспознанном городе одним и тем же списком. Проверка:
+        для Михайловки и Ейска 2ГИС отдал ровно тот же набор, что для Волжского.</li>
+    <li><b>ЕГРЮЛ через DaData</b> с фильтром по ОКВЭД 61.x и адресу в целевом регионе —
+        юрлицо, ИНН, руководитель, статус, юридический адрес.</li>
+    <li><b>Опознание биллинга по личному кабинету</b> — HTTP-заголовки, титул, характерные
+        пути и артефакты вёрстки.</li>
+  </ol>
+</div>
+
+<h3>Что выдаёт систему</h3>
+<div class="tw">
+  <table>
+    <thead><tr><th>Маркер</th><th>Система</th></tr></thead>
+    <tbody>
+      <tr><td><code>utm5_user_http</code> в meta, <code>sites/all/modules/utm5/</code></td><td>NetUP UTM5</td></tr>
+      <tr><td><code>/index/main/lkview/...</code> на PHP</td><td>Carbon Billing или его форк</td></tr>
+      <tr><td>cookie <code>_session_id</code> без CSRF-токена Django</td><td>самописный кабинет на Ruby on Rails</td></tr>
+      <tr><td><code>PHPSESSID</code> + <code>X-Powered-By: PHP 5.x / 7.2</code></td><td>самопис на устаревшем PHP</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>Список</h2>
+<p class="lead">
+  Телефон — из карточки 2ГИС, это основной номер компании, а не прямой контакт руководителя.
+  Зелёным выделены четыре компании, где систему удалось опознать: с ними разговор начинается
+  не с «расскажите о себе».
+</p>
+
+<div class="chips" role="group" aria-label="Фильтр списка">
+  <button class="chip" type="button" data-filter="all" aria-pressed="true">Все <span class="cnt">20</span></button>
+  <button class="chip" type="button" data-filter="known" aria-pressed="false">Система известна <span class="cnt">4</span></button>
+  <button class="chip" type="button" data-filter="34" aria-pressed="false">Волгоградская <span class="cnt">5</span></button>
+  <button class="chip" type="button" data-filter="61" aria-pressed="false">Ростовская <span class="cnt">6</span></button>
+  <button class="chip" type="button" data-filter="30" aria-pressed="false">Астраханская <span class="cnt">3</span></button>
+  <button class="chip" type="button" data-filter="23" aria-pressed="false">Краснодарский <span class="cnt">6</span></button>
+</div>
+
+<!-- ВОЛГОГРАДСКАЯ -->
+<section class="region" data-region="34">
+  <div class="region-head"><h2>Волгоградская область</h2><span class="cnt">5 компаний</span></div>
+  <div class="cards">
+
+    <article class="co known" data-region="34" data-known="1">
+      <div class="co-top"><span class="co-n">1</span><span class="co-name">ЗАО «Вист он-Лайн»</span></div>
+      <div class="co-meta">Волгоград · ИНН 3442052988</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:+78442319393">+7 8442 31-93-93</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>Ковалев Константин Иванович</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys self">самопис на Rails</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> nginx 1.10.3 на Ubuntu 16.04 — обе EOL с 2021.
+         «Мобильное приложение» <code>ru.volgaspot.lk.twa</code> — TWA-обёртка сайта, не нативное.
+         Кабинет живёт на двух доменах сразу.</p>
+    </article>
+
+    <article class="co" data-region="34" data-known="0">
+      <div class="co-top"><span class="co-n">2</span><span class="co-name">ООО «Пауэрнет» (Powernet)</span></div>
+      <div class="co-meta">Волжский · ИНН 3435100768</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:88005500800">8 800 550-08-00</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>Карпов Алексей Александрович</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> сайта нет — в 2ГИС указана только группа ВКонтакте.
+         Ни витрины, ни онлайн-заявки.</p>
+    </article>
+
+    <article class="co" data-region="34" data-known="0">
+      <div class="co-top"><span class="co-n">3</span><span class="co-name">ООО «КТО»</span></div>
+      <div class="co-meta">Камышин · ИНН 3453006302 · kto34.ru</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd>в карточке не показан</dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>Орлов Артём Владимирович</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> PHP 5.6.40 — EOL с декабря 2018. Сайт — набор статических
+         <code>.php</code>, личного кабинета не найдено. Юрлицо от 2020 года: молодая компания
+         на стеке десятилетней давности.</p>
+    </article>
+
+    <article class="co" data-region="34" data-known="0">
+      <div class="co-top"><span class="co-n">4</span><span class="co-name">Мбит-сити</span></div>
+      <div class="co-meta">Урюпинск · юрлицо не сопоставлено</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:+79375550005">+7 937 555-00-05</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>нет данных</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> <code>mbitcity.ru</code> — заглушка из privacy и terms,
+         то есть лендинг под публикацию приложения в сторах. Сайта для клиентов нет.</p>
+    </article>
+
+    <article class="co" data-region="34" data-known="0">
+      <div class="co-top"><span class="co-n">5</span><span class="co-name">ООО «ЛТ» (Линк-телеком)</span></div>
+      <div class="co-meta">Фролово · ИНН 3456002480</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:88005110455">8 800 511-04-55</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>Жабин Олег Игоревич</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> юридический адрес — квартира. Малый оператор, сайт не найден.</p>
+    </article>
+
+  </div>
+</section>
+
+<!-- РОСТОВСКАЯ -->
+<section class="region" data-region="61">
+  <div class="region-head"><h2>Ростовская область</h2><span class="cnt">6 компаний</span></div>
+  <div class="cards">
+
+    <article class="co known" data-region="61" data-known="1">
+      <div class="co-top"><span class="co-n">6</span><span class="co-name">ООО «Оптикнэт» (ОптикNET)</span></div>
+      <div class="co-meta">Азов · ИНН 6140016555 · optiknet.ru</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:+79001309060">+7 900 130-90-60</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>Чернявский Дмитрий Александрович</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys maybe">похоже на Carbon</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> кабинет <code>stat.optiknet.ru</code> на PHP 7.2.11 — EOL
+         с ноября 2020, пути <code>/index/main/lkview/</code>. Если это Carbon — прямое попадание
+         в наш сценарий миграции: мы сами прошли этот путь.</p>
+    </article>
+
+    <article class="co" data-region="61" data-known="0">
+      <div class="co-top"><span class="co-n">7</span><span class="co-name">ООО «РТО-Дон»</span></div>
+      <div class="co-meta">Шахты · ИНН 6155073838 · rto-don.ru</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:88002227565">8 800 222-75-65</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>Севрюков Алексей Александрович</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> на сайте нет ссылки на личный кабинет — либо его нет,
+         либо он не для клиентов.</p>
+    </article>
+
+    <article class="co" data-region="61" data-known="0">
+      <div class="co-top"><span class="co-n">8</span><span class="co-name">ООО «Орбита»</span></div>
+      <div class="co-meta">Новочеркасск · ИНН 6150093478</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:+78633180318">+7 8633 18-03-18</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>Максимович Виталий Александрович</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> домен не сопоставлен, сайт не найден.</p>
+    </article>
+
+    <article class="co" data-region="61" data-known="0">
+      <div class="co-top"><span class="co-n">9</span><span class="co-name">ООО «Микроэл»</span></div>
+      <div class="co-meta">Волгодонск · ИНН 6143049372</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:+79518472228">+7 951 847-22-28</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>Бондаренко Сергей Леонидович</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> сайта нет — только <code>vk.com/vdonsk_ru</code>.
+         Юрлицо с 2001 года: 25 лет на рынке и никакого онлайн-присутствия.</p>
+    </article>
+
+    <article class="co" data-region="61" data-known="0">
+      <div class="co-top"><span class="co-n">10</span><span class="co-name">Альфанет Телеком</span></div>
+      <div class="co-meta">Таганрог, Краснодар · юрлицо не сопоставлено</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:88003016708">8 800 301-67-08</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>нет данных</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Зацепка:</b> работает минимум в двух регионах — значит есть
+         филиальная структура, а мульти-организация у нас закрыта.</p>
+    </article>
+
+    <article class="co" data-region="61" data-known="0">
+      <div class="co-top"><span class="co-n">11</span><span class="co-name">Пж19</span></div>
+      <div class="co-meta">Таганрог · юрлицо не сопоставлено</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd>в карточке не показан</dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>нет данных</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> данных почти нет — нужен звонок, чтобы понять,
+         оператор это вообще или подрядчик.</p>
+    </article>
+
+  </div>
+</section>
+
+<!-- АСТРАХАНСКАЯ -->
+<section class="region" data-region="30">
+  <div class="region-head"><h2>Астраханская область</h2><span class="cnt">3 компании</span></div>
+  <div class="cards">
+
+    <article class="co known" data-region="30" data-known="1">
+      <div class="co-top"><span class="co-n">12</span><span class="co-name">ООО «Аст-Системс»</span></div>
+      <div class="co-meta">Астрахань · ИНН 3017049553 · ast-systems.ru</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:+78512238238">+7 8512 23-82-38</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>Гуров Александр Сергеевич</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys utm5">NetUP UTM5 — точно</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> UTM5 — закрытая коробка с лицензией по абонентам,
+         без CRM, без поддержки внутри системы, без мобильного приложения.
+         Подтверждено маркером <code>utm5_user_http</code> в кабинете.</p>
+    </article>
+
+    <article class="co" data-region="30" data-known="0">
+      <div class="co-top"><span class="co-n">13</span><span class="co-name">РЕАЛ</span></div>
+      <div class="co-meta">Астрахань · юрлицо не сопоставлено</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:+78512666678">+7 8512 66-66-78</a> — дом<br><a href="tel:+78512667592">+7 8512 66-75-92</a> — бизнес</dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>нет данных</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Зацепка:</b> раздельные линии для дома и бизнеса — значит в базе
+         есть юрлица, а у нас закрыты реквизиты и сегментация тарифов для них.</p>
+    </article>
+
+    <article class="co" data-region="30" data-known="0">
+      <div class="co-top"><span class="co-n">14</span><span class="co-name">ТелПлюс</span></div>
+      <div class="co-meta">Астрахань · telplus.ru</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:+78512245555">+7 8512 24-55-55</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>нет данных</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Зацепка:</b> сайт на 1С-Битрикс с разделом b2b (аренда, телефония,
+         решения) — многопрофильный оператор, но личного кабинета на сайте не видно.</p>
+    </article>
+
+  </div>
+</section>
+
+<!-- КРАСНОДАРСКИЙ -->
+<section class="region" data-region="23">
+  <div class="region-head"><h2>Краснодарский край</h2><span class="cnt">6 компаний</span></div>
+  <div class="cards">
+
+    <article class="co known" data-region="23" data-known="1">
+      <div class="co-top"><span class="co-n">15</span><span class="co-name">ООО «Спринт Инет»</span></div>
+      <div class="co-meta">Новороссийск · ИНН 2315209384 · sprint-inet.ru</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:+78617303060">+7 8617 30-30-60</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>Агаджаньян Вячеслав Сашикович</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys utm5">NetUP UTM5 — точно</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> кабинет — модуль UTM5, вкрученный в Drupal
+         (<code>sites/all/modules/utm5/</code>). Биллинг и витрина сцеплены: любое изменение
+         сайта упирается в модуль кабинета.</p>
+    </article>
+
+    <article class="co" data-region="23" data-known="0">
+      <div class="co-top"><span class="co-n">16</span><span class="co-name">ANNEX.PRO</span></div>
+      <div class="co-meta">Новороссийск · юрлицо не сопоставлено</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:88005509291">8 800 550-92-91</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>нет данных</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Зацепка:</b> домен <code>annex.pro</code> не отвечает, но бесплатная
+         линия 8-800 работает — значит на маркетинг деньги есть.</p>
+    </article>
+
+    <article class="co" data-region="23" data-known="0">
+      <div class="co-top"><span class="co-n">17</span><span class="co-name">ООО «КубаньЭнергоСервис»</span></div>
+      <div class="co-meta">Славянск-на-Кубани · ИНН 2370011762</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:88005501416">8 800 550-14-16</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>Головко Наталья Павловна</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Зацепка:</b> основной ОКВЭД — связь, но название и профиль
+         энергетические: интернет как побочный бизнес. Такому клиенту коробка «под ключ»
+         интереснее, чем своя разработка.</p>
+    </article>
+
+    <article class="co" data-region="23" data-known="0">
+      <div class="co-top"><span class="co-n">18</span><span class="co-name">Сойка</span></div>
+      <div class="co-meta">Славянск-на-Кубани · юрлицо не сопоставлено</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:+79385044281">+7 938 504-42-81</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>нет данных</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> мобильный номер как основной контакт — совсем малый
+         оператор, у которого биллинг скорее всего в таблицах.</p>
+    </article>
+
+    <article class="co" data-region="23" data-known="0">
+      <div class="co-top"><span class="co-n">19</span><span class="co-name">Пикнет</span></div>
+      <div class="co-meta">Славянск-на-Кубани · юрлицо не сопоставлено</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:+79898222777">+7 989 822-27-77</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>нет данных</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Боль:</b> то же, что у «Сойки» — мобильный номер, юрлицо
+         не сопоставлено.</p>
+    </article>
+
+    <article class="co" data-region="23" data-known="0">
+      <div class="co-top"><span class="co-n">20</span><span class="co-name">FormozaTelecom</span></div>
+      <div class="co-meta">Славянск-на-Кубани · юрлицо не сопоставлено</div>
+      <dl class="co-rows">
+        <div class="co-row"><dt>Телефон</dt><dd><a href="tel:+79184770444">+7 918 477-04-44</a></dd></div>
+        <div class="co-row"><dt>Директор</dt><dd>нет данных</dd></div>
+        <div class="co-row"><dt>Система</dt><dd><span class="sys none">не установлена</span></dd></div>
+      </dl>
+      <p class="co-pain"><b>Зацепка:</b> в одном городе с «Сойкой», «Пикнетом» и «Миром Телеком» —
+         четыре оператора на 60 тысяч населения. Жёсткая конкуренция и чувствительность к оттоку.</p>
+    </article>
+
+  </div>
+</section>
+
+<h2>Чего в этой таблице нет</h2>
+
+<div class="callout red">
+  <p><b>Размер абонентской базы.</b> Критерий отбора был «500–5 000 абонентов», но публично
+     эту цифру не раскрывает никто, и оценить её по сайту нельзя. В список отобраны компании,
+     которые по косвенным признакам — один-два города, отсутствие федеральной рекламы, местный
+     номер — в этот диапазон <i>вероятно</i> попадают. Это гипотеза, а не факт.</p>
+</div>
+
+<p>Проверять придётся тремя способами:</p>
+<ol>
+  <li><b>Реестр лицензий Роскомнадзора</b> — покажет территорию действия лицензии;
+      по числу населённых пунктов можно грубо прикинуть масштаб.</li>
+  <li><b>Карта покрытия на сайте оператора</b> — там, где сайт есть: число домов в списке.</li>
+  <li><b>Прямой вопрос на первом звонке.</b> Самый честный путь: «сколько у вас абонентов» —
+      вопрос, на который малый оператор отвечает без проблем.</li>
+</ol>
+
+<p><b>Прямого контакта руководителя тоже нет.</b> В карточках — ФИО директора из ЕГРЮЛ
+   и общий телефон компании. Личных мобильных и почты нет, и добывать их из открытых
+   источников не нужно: у оператора на тысячу абонентов звонок на общий номер доходит
+   до директора за одно переключение.</p>
+
+<p><b>Система биллинга неизвестна у 16 из 20.</b> Опознать удалось только там, где личный
+   кабинет открыт наружу и содержит маркеры. Остальным нужен звонок либо просмотр кабинета
+   изнутри.</p>
+
+<h2>Кому звонить первым</h2>
+<p class="lead">Приоритет не по размеру, а по тому, насколько коротким будет разговор.</p>
+
+<div class="calls">
+  <div class="call">
+    <span class="rank">1</span>
+    <div>
+      <h3>ООО «Аст-Системс», Астрахань</h3>
+      <p>Единственный, где система известна точно, а значит известно и чего в ней нет:
+         CRM, мобильного приложения, поддержки внутри системы. Разговор начинается не с
+         «расскажите о себе», а с «у вас UTM5 — значит вот эти пять вещей вы делаете руками».</p>
+    </div>
+  </div>
+  <div class="call">
+    <span class="rank">2</span>
+    <div>
+      <h3>ООО «Спринт Инет», Новороссийск</h3>
+      <p>То же самое плюс Drupal: у них биллинг и сайт сцеплены, любое изменение витрины
+         упирается в модуль кабинета.</p>
+    </div>
+  </div>
+  <div class="call">
+    <span class="rank">3</span>
+    <div>
+      <h3>ООО «Оптикнэт», Азов</h3>
+      <p>Если подтвердится Carbon — это наш родной сценарий миграции: мы сами прошли этот
+         путь и можем показать результат, а не обещать его.</p>
+    </div>
+  </div>
+  <div class="call">
+    <span class="rank">4</span>
+    <div>
+      <h3>ЗАО «Вист он-Лайн», Волгоград</h3>
+      <p>Свой регион, можно приехать. Их «мобильное приложение» — обёртка сайта;
+         у нас нативное на Flutter под обе платформы.</p>
+    </div>
+  </div>
+  <div class="call">
+    <span class="rank">5</span>
+    <div>
+      <h3>ООО «Микроэл», Волгодонск</h3>
+      <p>25 лет на рынке и ни сайта, ни кабинета. Либо им ничего не нужно, либо нужно
+         всё сразу. Узнать это стоит одного звонка.</p>
+    </div>
+  </div>
+</div>
+
+<div class="callout green">
+  <p><b>Отдельно — Славянск-на-Кубани целиком.</b> Четыре оператора в небольшом городе,
+     и тот, кто первым даст абонентам приложение и онлайн-оплату, забирает отток остальных.
+     Это единственная точка на карте, где нашу систему можно продать как оружие
+     в конкурентной борьбе, а не как замену бухгалтерии.</p>
+</div>
+
+<h2>Запасные</h2>
+<p class="lead">Проверить, если основные не пойдут.</p>
+<div class="tw">
+  <table>
+    <thead><tr><th>Компания</th><th>Город</th><th>Телефон</th><th>Комментарий</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Мир Телеком</td><td>Славянск-на-Кубани</td>
+        <td><a href="tel:+78614632744">+7 8614 63-27-44</a></td>
+        <td>Возможно, ООО «Мир Телеком» ИНН 2308178706 (Краснодар, Клюев Евгений Атомарович) —
+            совпадение не подтверждено</td>
+      </tr>
+      <tr>
+        <td>Телекомакс</td><td>Краснодар</td>
+        <td><a href="tel:+79654773080">+7 965 477-30-80</a></td>
+        <td>Сайт <code>telecomax.ru</code> отдаёт 403</td>
+      </tr>
+      <tr>
+        <td>ИСС</td><td>Анапа</td><td>—</td>
+        <td>Телефон в карточке 2ГИС не показан</td>
+      </tr>
+      <tr>
+        <td>ООО «ЦД-Р» (Цифровой Диалог)<br>ИНН 6164126853</td><td>Ростов-на-Дону</td>
+        <td><a href="tel:+78612120909">+7 861 212-09-09</a></td>
+        <td>Некряч Галина Олеговна. Рубрика в 2ГИС — 10534, не «интернет-провайдеры»:
+            возможно, интегратор, а не оператор</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout">
+  <p><b>Исключены из списка.</b> ООО «Новый интернет» (Новороссийск, ИНН 2315158130) —
+     ликвидировано. ООО «Абрикос» (Волгоград, ИНН 3444142690) — ликвидировано.
+     «Зелёная точка» — 730 тысяч абонентов в 16 городах, это не наш сегмент.</p>
+</div>
+
+<h2>Что дальше</h2>
+<ul class="next">
+  <li>Проверить каждого по реестру лицензий РКН — территория и виды услуг</li>
+  <li>Дозвониться и записать: сколько абонентов, какая система, что болит</li>
+  <li>Довести опознание биллинга по оставшимся 16 — по кабинету изнутри</li>
+  <li>Занести всех в CRM отдельной воронкой «Продажа лицензии», источник — этот список</li>
+  <li>По результатам первых пяти звонков пересобрать скрипт разговора</li>
+</ul>
+<p>Первые три пункта — работа на неделю. Заводить в CRM имеет смысл сразу, чтобы разговоры
+   не потерялись: воронка, источник и причины отказа настраиваются без кода.</p>
+
+<div class="foot">
+  <span>Собрано 30 августа 2026 · источники: 2ГИС, ЕГРЮЛ через DaData, публичные сайты операторов</span>
+  <span><a href="/plan2026/strategy/">Стратегический план</a> · <a href="/plan2026/roadmap/">Исполнение</a></span>
+</div>
+
+</div>
+
+<script>
+(function () {
+  var chips = [].slice.call(document.querySelectorAll('.chip'));
+  var cards = [].slice.call(document.querySelectorAll('.co'));
+  var regions = [].slice.call(document.querySelectorAll('.region'));
+
+  function apply(filter) {
+    cards.forEach(function (c) {
+      var show = filter === 'all'
+        || (filter === 'known' && c.getAttribute('data-known') === '1')
+        || c.getAttribute('data-region') === filter;
+      c.classList.toggle('hidden', !show);
+    });
+    // регион без единой видимой карточки прячем вместе с заголовком
+    regions.forEach(function (r) {
+      var visible = r.querySelectorAll('.co:not(.hidden)').length;
+      r.classList.toggle('hidden', visible === 0);
+      var cnt = r.querySelector('.region-head .cnt');
+      if (cnt && visible) {
+        cnt.textContent = visible + (visible === 1 ? ' компания'
+          : (visible < 5 ? ' компании' : ' компаний'));
+      }
+    });
+    chips.forEach(function (ch) {
+      ch.setAttribute('aria-pressed', String(ch.getAttribute('data-filter') === filter));
+    });
+  }
+
+  chips.forEach(function (ch) {
+    ch.addEventListener('click', function () { apply(ch.getAttribute('data-filter')); });
+  });
+})();
+</script>
+
+</body>
+</html>

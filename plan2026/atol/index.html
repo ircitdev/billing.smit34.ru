@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Подключение кассы клиента — СмИТ Биллинг</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --em-400: #34d399; --em-500: #10b981; --em-600: #059669; --em-700: #047857;
+  --teal-400: #2dd4bf; --amber-500: #f59e0b; --amber-700: #b45309;
+  --red-400: #f87171; --red-700: #b91c1c;
+  --bg: #f6f8fa; --card: #ffffff; --border: rgba(15,23,42,.09);
+  --text: #0f172a; --dim: #475569; --mute: #64748b;
+  --tint-green: #f1fbf6; --tint-amber: #fdf8ef; --tint-red: #fdf5f5; --tint-neutral: #f4f6f8;
+  --code-bg: #eef2f6;
+  --shadow: 0 1px 2px rgba(15,23,42,.04), 0 8px 24px rgba(15,23,42,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #070d14; --card: #111a24; --border: rgba(255,255,255,.09);
+    --text: #e8eef5; --dim: #a8b6c6; --mute: #8b9aac;
+    --tint-green: #0d2019; --tint-amber: #221a0c; --tint-red: #241315; --tint-neutral: #161f2a;
+    --code-bg: #1a2430;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #070d14; --card: #111a24; --border: rgba(255,255,255,.09);
+  --text: #e8eef5; --dim: #a8b6c6; --mute: #8b9aac;
+  --tint-green: #0d2019; --tint-amber: #221a0c; --tint-red: #241315; --tint-neutral: #161f2a;
+  --code-bg: #1a2430;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 400 15px/1.65 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased; overflow-x: clip;
+}
+a { color: var(--em-700); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) a { color: var(--em-400); } }
+:root[data-theme="dark"] a { color: var(--em-400); }
+:focus-visible { outline: 2px solid var(--em-500); outline-offset: 3px; border-radius: 4px; }
+
+.wrap { max-width: 940px; margin: 0 auto; padding: 0 20px 90px; }
+.top { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(14px);
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  border-bottom: 1px solid var(--border); }
+.top-in { max-width: 940px; margin: 0 auto; padding: 12px 20px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.logo { width: 30px; height: 30px; border-radius: 8px; flex: 0 0 auto;
+  background: linear-gradient(135deg, var(--em-500), var(--teal-400));
+  color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.top b { font-size: 15px; }
+.top .sep { color: var(--mute); }
+.top nav { margin-left: auto; display: flex; gap: 14px; font-size: 14px; }
+.top nav a { color: var(--dim); text-decoration: none; }
+.top nav a:hover { color: var(--em-700); }
+
+header.page { padding: 40px 0 6px; }
+h1 { font-size: 33px; line-height: 1.16; margin: 0 0 12px; letter-spacing: -.02em; }
+.sub { color: var(--dim); max-width: 72ch; margin: 0 0 8px; }
+h2 { font-size: 21px; margin: 40px 0 10px; letter-spacing: -.01em;
+  padding-top: 6px; scroll-margin-top: 70px; }
+p, ul, ol { max-width: 78ch; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 14px; padding-left: 22px; }
+li { margin-bottom: 7px; }
+code { font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: .88em; background: var(--code-bg); padding: 2px 6px; border-radius: 5px; }
+pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 14px; overflow-x: auto; margin: 10px 0 12px; }
+pre code { background: none; padding: 0; font-size: 13.5px; }
+
+.callout { border-radius: 14px; padding: 15px 18px; margin: 18px 0; max-width: 78ch;
+  background: var(--tint-amber); border: 1px solid rgba(245,158,11,.28); }
+.callout.red { background: var(--tint-red); border-color: rgba(239,68,68,.26); }
+.callout.grey { background: var(--tint-neutral); border-color: var(--border); }
+.callout.amber { background: var(--tint-amber); border-color: rgba(245,158,11,.28); }
+.callout p { margin: 0 0 8px; }
+.callout p:last-child { margin-bottom: 0; }
+.callout-t { font-size: 14.5px; }
+.note-p { color: var(--dim); font-size: 14px; background: var(--tint-neutral);
+  border: 1px solid var(--border); border-radius: 10px; padding: 11px 14px; max-width: 78ch; }
+
+.tw { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px;
+  background: var(--card); margin: 12px 0 18px; box-shadow: var(--shadow); }
+table.tbl { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.tbl th, table.tbl td { text-align: left; padding: 10px 13px;
+  border-bottom: 1px solid var(--border); vertical-align: top; }
+table.tbl th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--mute); background: var(--tint-neutral); white-space: nowrap; }
+table.tbl tr:last-child td { border-bottom: 0; }
+
+/* оглавление */
+.toc { background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 16px 20px; margin: 24px 0 10px; box-shadow: var(--shadow); }
+.toc-t { font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--mute); margin-bottom: 10px; }
+.toc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 28px; max-width: none; }
+.toc li { margin-bottom: 5px; break-inside: avoid; }
+.toc a { text-decoration: none; }
+@media (max-width: 640px) { .toc ol { columns: 1; } }
+
+.foot { margin-top: 50px; padding-top: 18px; border-top: 1px solid var(--border);
+  color: var(--mute); font-size: 13px; display: flex; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px; }
+@media (max-width: 640px) { h1 { font-size: 25px; } h2 { font-size: 19px; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (max-width: 640px) {
+  /* шапка на узком экране: оставляем только переходы внутри раздела */
+  .top nav a[href="/plan2026/strategy/"],
+  .top nav a[href="/plan2026/"],
+  .top nav a[href="/"] { display: none; }
+}
+
+/* nav-buttons */
+/* ссылки-кнопки: сплошной фон по padding-box + градиент по border-box,
+   поэтому рамка градиентная без псевдоэлементов */
+.top nav { gap: 8px; align-items: center; }
+.top nav a,
+.task .links a,
+.links a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 999px;
+  font-size: 13px; font-weight: 600; line-height: 1.35;
+  color: var(--text); text-decoration: none;
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(var(--card), var(--card)),
+    radial-gradient(150% 180% at 0% 50%,
+      var(--em-500) 0%, rgba(16,185,129,.45) 42%, rgba(16,185,129,.14) 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  background-size: 100% 100%, 200% 100%;
+  background-position: 0 0, 0 0;
+  transition: color .2s ease, box-shadow .25s ease,
+              transform .15s ease, background-position .5s ease;
+}
+.top nav a:hover,
+.task .links a:hover,
+.links a:hover {
+  color: var(--em-600);
+  background-position: 0 0, 60% 0;
+  box-shadow: 0 4px 16px rgba(16,185,129,.22);
+  transform: translateY(-1px);
+}
+.top nav a:focus-visible,
+.task .links a:focus-visible,
+.links a:focus-visible {
+  outline: 2px solid var(--em-500); outline-offset: 2px;
+}
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (prefers-reduced-motion: reduce) {
+  .top nav a, .links a { transition: color .2s ease; }
+  .top nav a:hover, .links a:hover { transform: none; }
+}
+@media (max-width: 640px) {
+  .top nav a, .links a { padding: 7px 14px; font-size: 12.5px; }
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="top-in">
+    <div class="logo">C</div>
+    <b>СмИТ Биллинг</b>
+    <span class="sep">·</span>
+    <span style="color:var(--dim)">подключение кассы</span>
+    <nav>
+      <a href="/plan2026/strategy/">Стратегический план</a>
+      <a href="/plan2026/roadmap/">Исполнение</a>
+      <a href="/plan2026/20ISP/">20 провайдеров</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+<header class="page">
+  <h1>Подключение кассы клиента</h1>
+  <p class="sub">Порядок для внедренца: что подписать, где взять доступы, как проверить чек на тестовом
+контуре и когда включать боевой режим. Шаги 1–3 делает клиент (это его юрлицо, его касса
+и его договоры), 4–10 — мы.</p>
+</header>
+
+<nav class="toc" aria-label="Содержание">
+  <div class="toc-t">Шаги</div>
+  <ol><li><a href="#kassa-step-1">Касса, фискальный накопитель и договор с ОФД</a></li>
+    <li><a href="#kassa-step-2">Регистрация ККТ в налоговой</a></li>
+    <li><a href="#kassa-step-3">Реквизиты доступа к API — где их взять</a></li>
+    <li><a href="#kassa-step-4">Карточка кассы в биллинге</a></li>
+    <li><a href="#kassa-step-5">Проверка связи</a></li>
+    <li><a href="#kassa-step-6">Тестовый чек</a></li>
+    <li><a href="#kassa-step-7">Разбор очереди перед запуском</a></li>
+    <li><a href="#kassa-step-8">Включение боевого режима</a></li>
+    <li><a href="#kassa-step-9">Первый боевой платёж</a></li>
+    <li><a href="#kassa-step-10">Несколько организаций</a></li>
+    <li><a href="#kassa-checklist">Короткий чек-лист внедрения</a></li></ol>
+</nav>
+
+<div class="callout red">
+  <p class="callout-t"><strong><i class="ti ti-alert-triangle"></i> Касса всегда принадлежит клиенту</strong></p>
+  <p>Чек пробивается от имени юрлица, которое получило деньги: в чеке его ИНН, его система
+  налогообложения, его фискальный накопитель. Пробивать чеки клиента нашей кассой нельзя —
+  это чужая выручка в нашей отчётности перед ФНС. Поэтому договор с ОФД, регистрация ККТ
+  и доступы к API — всегда на стороне клиента, мы только настраиваем отправку.</p>
+</div>
+
+<h2 id="kassa-step-1">Шаг 1. Касса, фискальный накопитель и договор с ОФД</h2>
+<p>Клиенту нужна <strong>облачная касса</strong> — физическая ККТ, размещённая в дата-центре
+оператора и работающая по API. Для приёма платежей за интернет её достаточно: касса не стоит
+в офисе, чеки уходят абоненту электронно, на почту или телефон.</p>
+<p>Что оформляется у оператора облачных касс (в нашем случае АТОЛ Онлайн):</p>
+<ul>
+  <li><strong>Аренда ККТ</strong> — сама касса в облаке.</li>
+  <li><strong>Фискальный накопитель</strong> на 15 или 36 месяцев. Срок зависит от системы
+  налогообложения: на УСН доступен ФН-36, на общей системе — обычно 15 месяцев.</li>
+  <li><strong>Договор с ОФД</strong> — оператором фискальных данных, который передаёт чеки
+  в налоговую. Часто оформляется тем же счётом, что и аренда кассы; отдельный ОФД выбирают,
+  если у клиента уже есть действующий договор.</li>
+</ul>
+<p class="note-p">Порядок именно такой: сначала касса и накопитель, затем регистрация в ФНС,
+и только потом появляются реквизиты доступа к API. «Настроить заранее» не выйдет — до
+регистрации ККТ группы касс не существует.</p>
+
+<h2 id="kassa-step-2">Шаг 2. Регистрация ККТ в налоговой</h2>
+<p>Клиент регистрирует кассу в личном кабинете ФНС: подаёт заявление, получает
+<strong>регистрационный номер ККТ</strong>, затем фискализирует накопитель. Нужна
+квалифицированная электронная подпись руководителя. Оператор облачной кассы обычно проводит
+процедуру вместе с клиентом.</p>
+<p>После регистрации у клиента на руках: заводской номер ККТ, регистрационный номер, номер
+фискального накопителя и адрес места расчётов. Для облачной кассы адрес места расчётов —
+это адрес сайта или личного кабинета, через который клиент платит, например
+<code>https://lk.example.ru</code>.</p>
+
+<h2 id="kassa-step-3">Шаг 3. Реквизиты доступа к API — где их взять</h2>
+<div class="callout amber">
+  <p class="callout-t"><strong>Логин от личного кабинета АТОЛ — это не доступ к API</strong></p>
+  <p>Учётная запись, по которой заходят на <code>online.atol.ru/lk</code>, к API отношения
+  не имеет: запрос <code>getToken</code> с ней отвечает «неверный логин или пароль».
+  Реквизиты интеграции выдаются отдельно при подключении услуги «интернет-магазин»
+  и приходят письмом. В интерфейсе личного кабинета раздела с ними нет — если письмо
+  потеряно, доступы восстанавливает поддержка АТОЛ или партнёр, через которого подключались.
+  Этот шаг регулярно оказывается самым долгим, поэтому запрашивать реквизиты стоит
+  в первый же день.</p>
+</div>
+<p>От клиента нужны три значения:</p>
+<div class="tw"><table class="tbl">
+  <thead><tr><th>Что</th><th>Как выглядит</th><th>Где взять</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Логин API</strong></td>
+      <td>строка вида <code>shop-example</code></td>
+      <td>письмо АТОЛ о подключении интернет-магазина</td>
+    </tr>
+    <tr>
+      <td><strong>Пароль API</strong></td>
+      <td>произвольная строка</td>
+      <td>то же письмо; в личном кабинете не показывается</td>
+    </tr>
+    <tr>
+      <td><strong>Код группы ККТ</strong></td>
+      <td><code>имя-магазина_НОМЕР</code>, например <code>smit34-ru_7201</code></td>
+      <td>то же письмо. Группа объединяет кассы одного магазина: чек отправляется в группу,
+      а не в конкретную ККТ</td>
+    </tr>
+  </tbody>
+</table></div>
+<p>Ещё понадобятся <strong>ИНН</strong>, <strong>система налогообложения</strong> и
+<strong>ставка НДС</strong> клиента — но вносятся они не в карточку кассы, а в реквизиты
+компании (<a href="https://docs.billing.smit34.ru/pages/extras.html#multi-org-brand">Брендинг</a>): в чек уходит ИНН оттуда.</p>
+
+<h2 id="kassa-step-4">Шаг 4. Карточка кассы в биллинге</h2>
+<p><strong>Настройки → Фискализация</strong> (<code>/admin/settings/atol_config/</code>) →
+добавить кассу. Поля:</p>
+<div class="tw"><table class="tbl">
+  <thead><tr><th>Поле</th><th>Что указать</th></tr></thead>
+  <tbody>
+    <tr><td>Тип онлайн-кассы</td><td><strong>АТОЛ</strong>. У типа «Другая» драйвера нет —
+    с ним чек не уйдёт, и чек-лист готовности заблокирует боевой режим</td></tr>
+    <tr><td>Название</td><td>произвольное, для себя: «Касса ООО Ромашка (АТОЛ Онлайн)»</td></tr>
+    <tr><td>Логин, Пароль, Группа ККТ</td><td>из письма АТОЛ (шаг 3)</td></tr>
+    <tr><td>ИНН организации</td><td>ИНН клиента. В чек всё равно уйдёт ИНН из реквизитов
+    компании — поле нужно, чтобы чек-лист поймал расхождение</td></tr>
+    <tr><td>Место размещения ККТ</td><td>адрес места расчётов из регистрации ККТ</td></tr>
+    <tr><td>Организация</td><td>юрлицо, которому принадлежит касса. Ключевое поле, когда
+    организаций несколько — см. шаг 10</td></tr>
+    <tr><td>Тестовый сервер</td><td><strong>включить на время настройки</strong>: касса
+    переключится на <code>testonline.atol.ru</code></td></tr>
+  </tbody>
+</table></div>
+<p>Адрес сервера отдельно задавать не нужно: он подставляется сам — боевой или тестовый,
+по этому переключателю. Поле «Адрес сервера» нужно только для нестандартного контура.</p>
+
+<h2 id="kassa-step-5">Шаг 5. Проверка связи</h2>
+<p>Кнопка <strong>«Проверить связь»</strong> запрашивает у ОФД токен и сразу показывает
+результат. Это единственный способ убедиться, что логин, пароль и группа приняты; без
+успешной проверки чек-лист готовности не пропустит дальше.</p>
+<div class="tw"><table class="tbl">
+  <thead><tr><th>Ответ</th><th>Что значит</th></tr></thead>
+  <tbody>
+    <tr><td>Связь есть</td><td>реквизиты верны, токен получен. Результат живёт 5 минут,
+    потом проверку нужно повторить</td></tr>
+    <tr><td>Неверный логин или пароль</td><td>почти всегда — попытка использовать учётку
+    личного кабинета вместо реквизитов API (шаг 3)</td></tr>
+    <tr><td>Ошибка группы</td><td>опечатка в коде группы либо группа от другого контура:
+    у боевого и тестового серверов они разные</td></tr>
+  </tbody>
+</table></div>
+<p>Проверка пишется в <a href="https://docs.billing.smit34.ru/pages/reports.html#audit">журнал аудита</a> — видно, кто и когда
+трогал кассу.</p>
+
+<h2 id="kassa-step-6">Шаг 6. Тестовый чек</h2>
+<p>На тестовом контуре АТОЛ чек не попадает в ФНС и не расходует фискальный накопитель,
+поэтому пробный прогон делается именно там.</p>
+<ol>
+  <li>В карточке кассы включён <strong>тестовый сервер</strong>, реквизиты — тестовые:
+  для <code>testonline.atol.ru</code> АТОЛ выдаёт отдельную пару логин-пароль и свою группу.</li>
+  <li>Взять любую подходящую операцию прихода — или провести пробное пополнение
+  на небольшую сумму.</li>
+  <li>Сначала посмотреть, <em>что</em> уйдёт, ничего не отправляя:
+  <pre><code>python manage.py fiscalize_finop --op-id 12345 --dry-run</code></pre>
+  Команда печатает готовый чек: позиция, сумма, ставка НДС, контакт клиента, реквизиты
+  продавца. Здесь ловятся опечатки в наименовании позиции и неверная ставка.</li>
+  <li>Отправить пробный чек:
+  <pre><code>python manage.py fiscalize_finop --op-id 12345</code></pre></li>
+  <li>Проверить результат в разделе <strong>Отчёты → Очередь чеков</strong>: операция должна
+  пройти «ждёт ответа ОФД» → «пробит», в карточке появятся номер фискального документа,
+  фискальный признак и ссылка на электронный чек.</li>
+</ol>
+<p class="note-p">То же самое можно сделать из интерфейса: в очереди чеков есть отправка
+по одной операции с подтверждением. Команда удобнее тем, что <code>--dry-run</code>
+показывает содержимое чека до отправки.</p>
+<p><strong>Что проверить в тестовом чеке:</strong> наименование позиции — формулировка
+вида «Пополнение лицевого счёта, договор 12345»; ставку НДС — на УСН должно быть
+«НДС не облагается»; контакт клиента — куда уйдёт чек, почта или телефон; ИНН продавца —
+клиента, а не наш.</p>
+
+<h2 id="kassa-step-7">Шаг 7. Разбор очереди перед запуском</h2>
+<p>Пока боевой режим выключен, операции всё равно копятся в очереди чеков — это нормально
+и сделано специально, чтобы ничего не потерялось. Но перед включением очередь нужно
+разобрать: после включения она начнёт уходить в боевой ОФД.</p>
+<ul>
+  <li>Открыть <strong>Отчёты → Очередь чеков</strong> и посмотреть, что там лежит.</li>
+  <li>Всё, что пробивать не нужно — старые операции, тестовые пополнения, платежи через
+  агрегаторы — снять с фискализации корзиной в строке или массово. Движение денег
+  при этом остаётся, снимается только чек.</li>
+  <li>Проверить порог автодосылки <code>FISCAL_PENDING_MAX_AGE_DAYS</code> (по умолчанию
+  3 дня): операции старше него автоматика не трогает, они помечены песочными часами.</li>
+</ul>
+
+<h2 id="kassa-step-8">Шаг 8. Включение боевого режима</h2>
+<p>Переключение на боевой контур — три действия, и все нужны:</p>
+<ol>
+  <li>В карточке кассы <strong>снять «тестовый сервер»</strong> и заменить реквизиты
+  на боевые: тестовые на боевом контуре не работают.</li>
+  <li>Повторить <strong>проверку связи</strong> — уже с боевыми реквизитами.</li>
+  <li>Включить <strong>боевой режим</strong>. Тумблер ведёт в
+  <a href="https://docs.billing.smit34.ru/pages/settings.html#fiscal-readiness">чек-лист готовности</a>: пока обязательные пункты
+  не выполнены, кнопка заблокирована. Сервер проверяет то же самое — попытка включить
+  режим в обход интерфейса будет отклонена.</li>
+</ol>
+<div class="callout red">
+  <p class="callout-t"><strong><i class="ti ti-alert-triangle"></i> Что произойдёт сразу после включения</strong></p>
+  <p>Накопившиеся операции начнут пробиваться <strong>в боевой ОФД</strong>, и это
+  необратимо: отменить чек можно только чеком коррекции через налоговую. Именно поэтому
+  шаг 7 идёт раньше шага 8, а не наоборот.</p>
+  <p>По той же причине ручной забор писем из банка при одновременно включённых
+  автозачислении и боевом режиме требует отдельного подтверждения: письмо каскадом создаёт
+  платежи, а платежи — чеки.</p>
+</div>
+<p>Заодно проверьте настройки, определяющие объём чеков:
+<a href="https://docs.billing.smit34.ru/pages/settings.html#fiscal-sources">источники платежей</a> — по умолчанию только банковские выписки,
+поскольку агрегаторы бьют чек своей кассой, — и список типов операций.</p>
+
+<h2 id="kassa-step-9">Шаг 9. Первый боевой платёж</h2>
+<p>Запуск считается состоявшимся не по зелёному чек-листу, а по первому реальному чеку.
+На первом боевом платеже клиента проверьте: операция в очереди перешла в «пробит»;
+в карточке есть номер фискального документа и ссылка на чек; чек открывается и в нём верные
+ИНН, наименование позиции и ставка НДС; клиент получил чек на почту или телефон.</p>
+<p>Первые сутки полезно держать открытой очередь чеков: застрявшие в ошибке операции
+подсвечиваются там же, а при включённых Telegram-уведомлениях приходит алерт.</p>
+
+<h2 id="kassa-step-10">Шаг 10. Несколько организаций</h2>
+<p>Когда на одной установке работает несколько юрлиц, у каждого своя касса: по 54-ФЗ чек
+пробивает то юрлицо, которое получило деньги.</p>
+<p>Как система выбирает кассу для операции, по убыванию приоритета:</p>
+<ol>
+  <li>касса, явно указанная в самой финоперации;</li>
+  <li>касса, закреплённая за клиентом;</li>
+  <li><strong>касса организации платежа</strong> — обычный путь: организация определяется
+  по счёту получателя из банковской выписки;</li>
+  <li>касса без организации — общая, если у организации своей нет.</li>
+</ol>
+<div class="callout grey">
+  <p class="callout-t"><strong>Чужой кассой чек не уйдёт</strong></p>
+  <p>Если у организации нет своей кассы, система <em>не</em> возьмёт кассу соседнего
+  юрлица — только общую, без организации. Иначе в чеке оказался бы неверный ИНН.
+  Поэтому касса заводится вместе с организацией, а не «потом».</p>
+</div>
+<p>Боевой режим и источники платежей задаются <strong>и глобально, и на каждой кассе</strong>.
+Чек уходит, когда включены оба: главный выключатель и режим конкретной кассы. Это позволяет
+запускать новую организацию, не трогая работающие: у её кассы боевой режим пока выключен,
+у остальных включён. Пустое значение на карточке означает «наследовать глобальную настройку».</p>
+<p>Список касс ограничен организациями, доступными сотруднику: оператор одного юрлица
+не видит и не может править кассу другого.</p>
+
+<h2 id="kassa-checklist">Короткий чек-лист внедрения</h2>
+<div class="tw"><table class="tbl">
+  <thead><tr><th>#</th><th>Шаг</th><th>Кто</th><th>Готово, когда</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Аренда облачной ККТ, фискальный накопитель, договор с ОФД</td>
+        <td>клиент</td><td>счёт оплачен, касса выделена</td></tr>
+    <tr><td>2</td><td>Регистрация ККТ в ФНС, фискализация накопителя</td>
+        <td>клиент</td><td>получен регистрационный номер</td></tr>
+    <tr><td>3</td><td>Реквизиты API: логин, пароль, код группы</td>
+        <td>клиент</td><td>письмо АТОЛ передано нам</td></tr>
+    <tr><td>4</td><td>Реквизиты компании: ИНН, система налогообложения, ставка НДС</td>
+        <td>мы</td><td>заполнен брендинг организации</td></tr>
+    <tr><td>5</td><td>Карточка кассы, тестовый сервер включён</td>
+        <td>мы</td><td>касса сохранена</td></tr>
+    <tr><td>6</td><td>Проверка связи</td><td>мы</td><td>«связь есть»</td></tr>
+    <tr><td>7</td><td>Тестовый чек: <code>--dry-run</code>, затем отправка</td>
+        <td>мы</td><td>чек «пробит», реквизиты в нём верные</td></tr>
+    <tr><td>8</td><td>Разбор очереди: лишнее снять с фискализации</td>
+        <td>мы</td><td>в очереди только то, что нужно пробить</td></tr>
+    <tr><td>9</td><td>Боевые реквизиты, повторная проверка связи</td>
+        <td>мы</td><td>«связь есть» на боевом контуре</td></tr>
+    <tr><td>10</td><td>Включение боевого режима, первый боевой чек</td>
+        <td>мы</td><td>чек-лист зелёный, клиент получил чек</td></tr>
+  </tbody>
+</table></div>
+
+<div class="foot">
+  <span>Задача 1.6 плана работ · тот же текст — в
+    <a href="https://docs.billing.smit34.ru/pages/settings.html#kassa-onboarding">документации системы</a></span>
+  <span><a href="/plan2026/roadmap/">Исполнение плана</a></span>
+</div>
+</div>
+
+</body>
+</html>

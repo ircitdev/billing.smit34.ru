@@ -909,7 +909,9 @@
     .sticky-cta:hover { filter: brightness(1.06); }
     .sticky-cta svg { width: 18px; height: 18px; }
     @media (max-width: 600px) {
-      .sticky-cta { left: 16px; right: 16px; bottom: 16px; justify-content: center; padding: 15px; }
+      /* На телефоне внизу уже есть кнопка AI-виджета: две разные плашки в одном
+         углу спорят друг с другом и закрывают контент. Оставляем виджет. */
+      .sticky-cta { display: none !important; }
     }
     @media (prefers-reduced-motion: reduce) { .sticky-cta { transition: opacity .2s; } }
     /* Бесконечное движение при запрете анимаций: фоновый градиент секции,
@@ -2861,7 +2863,7 @@
   <a href="/blog/" class="mobile-link">Блог</a>
   <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="mobile-link" download><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 3v12M7 11l5 4 5-4M5 20h14"/></svg> Презентация</a>
   <a href="https://docs.billing.smit34.ru" target="_blank" class="mobile-link">Документация</a>
-  <a data-demo="1" href="#demo" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
+  <a data-widget-book="1" href="#demo" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
 </div>
 
 <!-- ==================== Hero ==================== -->
@@ -2876,8 +2878,8 @@
       <h1>Современный <span class="gradient-text">биллинг</span> для малых ISP — и AI, который отвечает абонентам</h1>
       <p class="hero-desc">Полный цикл: авторизация, деньги, поддержка — на одном сервере. AI-агент отвечает вашим клиентам в семи каналах, включая живой телефонный звонок, и закрывает <strong>три обращения из четырёх</strong> без оператора. Переносим данные из Carbon, Mikbill, UTM5 и запускаемся за день.</p>
       <div class="hero-buttons">
-        <a href="https://demo.billing.smit34.ru" target="_blank" rel="noopener" class="btn-primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg> Открыть демо-стенд</a>
-        <a data-demo="1" data-prefill="migrate" href="#demo" class="btn-secondary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h13l-3-3M20 17H7l3 3"/></svg> Перенести мою базу</a>
+        <a href="https://demo.billing.smit34.ru" target="_blank" rel="noopener" class="btn-primary" data-widget-ask="Как посмотреть СмИТ Биллинг вживую?"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg> Открыть демо-стенд</a>
+        <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" download class="btn-secondary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 4 5-4M5 20h14"/></svg> Презентация</a>
       </div>
     </div>
     <div class="hero-visual">
@@ -3609,7 +3611,7 @@
     </ol>
 
     <div style="text-align:center;margin-top:30px">
-      <a data-demo="1" data-prefill="migrate" href="#demo" class="btn-primary">Перенести мою базу</a>
+      <a href="#demo" data-widget-ask="Как перенести мою базу в СмИТ Биллинг?" class="btn-primary">Перенести мою базу</a>
     </div>
   </div>
 </section>
@@ -3676,7 +3678,7 @@
         <div class="price-note" data-note-m="или 99 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок &middot; &minus;17%">или 99 000 &#8381;/год</div>
         <div class="price-mods">4 модуля включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Документ</li></ul>
-        <a href="#demo" data-demo="1" data-tariff="Старт" class="btn-pricing outline">Запросить</a>
+        <a href="#demo" data-tariff="Старт" class="btn-pricing outline">Запросить</a>
       </div>
       <div class="pricing-card reveal">
         <h3>Pro</h3>
@@ -3685,7 +3687,7 @@
         <div class="price-note" data-note-m="или 249 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок &middot; &minus;17%">или 249 000 &#8381;/год</div>
         <div class="price-mods">14 модулей включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li><span class="mod-more">+8 модулей</span></li></ul>
-        <a href="#demo" data-demo="1" data-tariff="Pro" class="btn-pricing outline">Запросить</a>
+        <a href="#demo" data-tariff="Pro" class="btn-pricing outline">Запросить</a>
       </div>
       <div class="pricing-card featured reveal">
         <h3>Бизнес</h3>
@@ -3694,7 +3696,7 @@
         <div class="price-note" data-note-m="или 379 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок &middot; &minus;17%">или 379 000 &#8381;/год</div>
         <div class="price-mods">17 модулей включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li><span class="mod-more">+11 модулей</span></li></ul>
-        <a href="#demo" data-demo="1" data-tariff="Бизнес" class="btn-pricing filled">Запросить</a>
+        <a href="#demo" data-tariff="Бизнес" class="btn-pricing filled">Запросить</a>
       </div>
       <div class="pricing-card reveal">
         <h3>Enterprise</h3>
@@ -3703,7 +3705,7 @@
         <div class="price-note" data-note-m="или 499 000 &#8381;/год" data-note-y="&asymp; 2 месяца в подарок &middot; &minus;17%">или 499 000 &#8381;/год</div>
         <div class="price-mods">20 модулей включено</div>
         <ul><li>ЛК и мобильные приложения</li><li>СОРМ</li><li>Captive Portal</li><li>Лендинги</li><li>Банковские выписки</li><li>Фискализация 54-ФЗ</li><li><span class="mod-more">+14 модулей</span></li></ul>
-        <a href="#demo" data-demo="1" data-tariff="Enterprise" class="btn-pricing outline">Запросить</a>
+        <a href="#demo" data-tariff="Enterprise" class="btn-pricing outline">Запросить</a>
       </div>
     </div>
     <p class="pricing-note reveal">Нужен свой набор модулей? <a href="mailto:uspeshnyy@billing.smit34.ru">Соберём индивидуальный тариф</a>.</p>
@@ -3958,7 +3960,7 @@
     <h2 class="section-title reveal reveal-delay-1">Готовы к переходу?</h2>
     <p class="section-subtitle reveal reveal-delay-2">Мы поможем с миграцией данных из любой существующей системы: Expert Billing, Mikbill, LanBilling и других. Поддержка на всех этапах внедрения.</p>
     <div class="cta-buttons reveal reveal-delay-3">
-      <a data-demo="1" href="#demo" class="btn-primary">Запросить демо</a>
+      <a data-widget-book="1" href="#demo" class="btn-primary">Запросить демо</a>
       <a href="https://docs.billing.smit34.ru" class="btn-secondary" target="_blank">Читать документацию</a>
     </div>
   </div>
@@ -4663,23 +4665,7 @@
 })();
 </script>
 
-<!-- Sticky demo CTA -->
-<a data-demo="1" href="#demo" class="sticky-cta" id="sticky-cta">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-  Запросить демо
-</a>
-<script>
-(function(){
-  var cta = document.getElementById('sticky-cta');
-  if (!cta) return;
-  function upd(){
-    if (window.scrollY > window.innerHeight * 0.7) cta.classList.add('show');
-    else cta.classList.remove('show');
-  }
-  window.addEventListener('scroll', upd, { passive: true });
-  upd();
-})();
-</script>
+
 <script>
 /* Hero WebGL flowing-gradient shader (variant C) — self-contained, no libs */
 (function(){
@@ -5269,5 +5255,30 @@
     });
   })();
 </script>
+<!-- AI-консультант: настройки и промпт на сервере лицензий -->
+<script src="https://license.billing.smit34.ru/widget.js" data-widget="P6kNI2OPzLjak" defer></script>
+<script>
+// Кнопки страницы ведут в виджет: data-widget-ask открывает разговор и сразу
+// задаёт вопрос, ради которого нажали; data-widget-book — форму записи.
+// Если виджет не загрузился (сеть, блокировщик), клик работает как обычная
+// ссылка — поэтому href у кнопок оставлен рабочим.
+(function () {
+  function handler(e) {
+    var W = window.SmitWidget;
+    if (!W) return;
+    var q = this.getAttribute('data-widget-ask');
+    // у кнопок тарифов вопрос собирается из названия версии
+    var tariff = this.getAttribute('data-tariff');
+    if (!q && tariff) q = 'Хочу посмотреть СмИТ Биллинг ' + tariff;
+    if (q && W.ask) { e.preventDefault(); W.ask(q); return; }
+    if (this.hasAttribute('data-widget-book') && W.book) { e.preventDefault(); W.book(); }
+  }
+  document.querySelectorAll('[data-widget-ask],[data-widget-book],[data-tariff]').forEach(function (el) {
+    el.addEventListener('click', handler);
+  });
+})();
+</script>
+
+
 </body>
 </html>
