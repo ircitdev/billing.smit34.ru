@@ -523,6 +523,24 @@
   html.dark .wf-thesis[data-wf-index="5"] .wf-thesis-num { color: #a5b4fc !important; }
   html.dark .wf-thesis[data-wf-index="6"] .wf-thesis-num { color: #f9a8d4 !important; }
 
+  /* ── Полосы прокрутки в стиле портала ───────────────────────────────── */
+  * { scrollbar-width: thin; scrollbar-color: rgba(16,185,129,.5) transparent; }
+  *::-webkit-scrollbar { width: 10px; height: 10px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+  *::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+    background-color: rgba(16,185,129,.45);
+  }
+  *::-webkit-scrollbar-thumb:hover { background-color: rgba(16,185,129,.75); }
+  html.dark *::-webkit-scrollbar-thumb { background-color: rgba(52,211,153,.4); }
+  html.dark *::-webkit-scrollbar-thumb:hover { background-color: rgba(52,211,153,.7); }
+  *::-webkit-scrollbar-corner { background: transparent; }
+
+  /* Пока открыта панель, страница под ней не прокручивается. */
+  html.wf-locked, html.wf-locked body { overflow: hidden !important; }
+
   /* ── Панель «об авторе» ─────────────────────────────────────────────── */
   .wf-author-link { cursor: pointer; }
   .wf-author-link:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -543,12 +561,28 @@
   }
   html.dark .wf-bio { background: #0f141c; color: #e9ecef; }
   .wf-bio.open { transform: translateX(0); }
+  .wf-bio-photo { position: relative; flex: 0 0 auto; }
+  .wf-bio-photo img {
+    display: block; width: 100%; height: 250px;
+    object-fit: cover; object-position: 32% 20%;
+  }
+  .wf-bio-photo::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(15,23,42,0) 42%, rgba(15,23,42,.78));
+  }
+  .wf-bio-photo .wf-bio-caption {
+    position: absolute; left: 20px; right: 20px; bottom: 16px; z-index: 1; color: #fff;
+  }
+  .wf-bio-photo .wf-bio-name { font-size: 1.12rem; font-weight: 700; }
+  .wf-bio-photo .wf-bio-role { font-size: .84rem; color: rgba(255,255,255,.82); }
   .wf-bio-head {
     display: flex; align-items: center; gap: 14px;
-    padding: 22px 22px 18px; border-bottom: 1px solid rgba(0,0,0,.08);
+    padding: 14px 18px; border-bottom: 1px solid rgba(0,0,0,.08);
   }
   html.dark .wf-bio-head { border-color: rgba(255,255,255,.08); }
-  .wf-bio-head img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+  .wf-bio-head .wf-bio-title { font-size: .78rem; text-transform: uppercase;
+    letter-spacing: 1.4px; color: #5a6a7d; }
+  html.dark .wf-bio-head .wf-bio-title { color: #94a3b8; }
   .wf-bio-name { font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
   .wf-bio-role { font-size: .84rem; color: #5a6a7d; }
   html.dark .wf-bio-role { color: #94a3b8; }
@@ -590,6 +624,7 @@
 (function () {
   var QUESTION = 'Расскажи коротко о стратегии СмИТ Биллинга';
   var AUTHOR = 'Успешный А. С.';
+  var PHOTO = 'https://storage.googleapis.com/uspeshnyy-projects/smit/billing/workflow/author.jpg';
 
   // ── полосы кнопок помещаются целиком ─────────────────────────────────
   function fitBars() {
@@ -671,7 +706,7 @@
   }
 
   // ── панель об авторе ─────────────────────────────────────────────────
-  function buildBio(avatarSrc) {
+  function buildBio() {
     var back = document.createElement('div');
     back.className = 'wf-bio-backdrop';
 
@@ -681,10 +716,15 @@
     panel.setAttribute('aria-label', 'Об авторе');
     panel.innerHTML =
       '<div class="wf-bio-head">' +
-        (avatarSrc ? '<img src="' + avatarSrc + '" alt="">' : '') +
-        '<div><div class="wf-bio-name">Успешный Александр Сергеевич</div>' +
-        '<div class="wf-bio-role">Архитектор AI-маркетинговых систем</div></div>' +
+        '<span class="wf-bio-title">Об авторе</span>' +
         '<button class="wf-bio-close" type="button" aria-label="Закрыть">×</button>' +
+      '</div>' +
+      '<div class="wf-bio-photo">' +
+        '<img src="' + PHOTO + '" alt="Александр Успешный">' +
+        '<div class="wf-bio-caption">' +
+          '<div class="wf-bio-name">Успешный Александр Сергеевич</div>' +
+          '<div class="wf-bio-role">Архитектор AI-маркетинговых систем</div>' +
+        '</div>' +
       '</div>' +
       '<div class="wf-bio-body">' +
         '<div class="wf-bio-facts">' +
@@ -711,10 +751,26 @@
     document.body.appendChild(back);
     document.body.appendChild(panel);
 
+    function lock(on) {
+      var root = document.documentElement;
+      if (on) {
+        // компенсируем ширину исчезающей полосы прокрутки, чтобы не дёргалась вёрстка
+        var gap = window.innerWidth - root.clientWidth;
+        if (gap > 0) root.style.paddingRight = gap + 'px';
+        root.classList.add('wf-locked');
+      } else {
+        root.classList.remove('wf-locked');
+        root.style.paddingRight = '';
+      }
+    }
+
     function close() {
       panel.classList.remove('open');
       back.classList.remove('open');
+      lock(false);
     }
+    panel.dataset.wfLock = '1';
+    panel._wfLock = lock;
     back.addEventListener('click', close);
     panel.querySelector('.wf-bio-close').addEventListener('click', close);
     document.addEventListener('keydown', function (e) {
@@ -724,31 +780,41 @@
   }
 
   var bio = null;
-  function openBio(avatarSrc) {
-    if (!bio) bio = buildBio(avatarSrc);
+  function openBio() {
+    if (!bio) bio = buildBio();
     bio.panel.classList.add('open');
     bio.back.classList.add('open');
+    if (bio.panel._wfLock) bio.panel._wfLock(true);
+  }
+
+  function normalize(text) {
+    // неразрывные пробелы и лишние отступы не должны мешать сопоставлению
+    return (text || '').replace(/ /g, ' ').replace(/\s+/g, ' ').trim();
   }
 
   function bindAuthor() {
-    [].forEach.call(document.querySelectorAll('span, div, a, p'), function (el) {
-      if (el.dataset.wfAuthor) return;
-      if (el.children.length) return;
-      if (el.textContent.trim() !== AUTHOR) return;
+    var wanted = [AUTHOR, 'Успешный А. С.', 'Успешный А.С.'];
+    [].forEach.call(document.querySelectorAll('span, div, a, p, b, strong'), function (el) {
+      if (el.dataset.wfAuthor || el.children.length) return;
+      if (wanted.indexOf(normalize(el.textContent)) < 0) return;
+
       el.dataset.wfAuthor = '1';
       el.classList.add('wf-author-link');
       el.setAttribute('role', 'button');
       el.setAttribute('tabindex', '0');
-      var holder = el.closest('div');
-      var img = holder ? holder.querySelector('img') : null;
-      var src = img ? img.src : '';
-      el.addEventListener('click', function (e) {
+
+      // кликабельно и имя, и аватар рядом с ним
+      var holder = el.parentElement;
+      if (holder && holder.children.length <= 4) holder.classList.add('wf-author-link');
+      var target = holder && holder.children.length <= 4 ? holder : el;
+
+      target.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        openBio(src);
+        openBio();
       });
       el.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openBio(src); }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openBio(); }
       });
     });
   }
