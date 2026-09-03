@@ -495,6 +495,34 @@
   html.dark .wf-stat-grid > * { border-color: rgba(16,185,129,.24) !important; }
   html.dark .wf-stat-grid > *:hover { box-shadow: 0 12px 30px rgba(0, 0, 0, .45); }
 
+  /* ── Карточки тезисов: только подложка и цвет номера ────────────────── */
+  /* Геометрию не трогаем: рамки, скругления и отступы остаются родными —
+     иначе получается вторая рамка и обрезанный текст. */
+  .wf-thesis {
+    border-radius: 22px !important;
+    padding: 7px !important;
+    background: linear-gradient(150deg, rgba(16,185,129,.16), rgba(16,185,129,0) 62%) !important;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .wf-thesis[data-wf-index="2"] { background: linear-gradient(150deg, rgba(45,212,191,.15), rgba(45,212,191,0) 58%) !important; }
+  .wf-thesis[data-wf-index="3"] { background: linear-gradient(150deg, rgba(56,189,248,.14), rgba(56,189,248,0) 58%) !important; }
+  .wf-thesis[data-wf-index="4"] { background: linear-gradient(150deg, rgba(251,191,36,.15), rgba(251,191,36,0) 58%) !important; }
+  .wf-thesis[data-wf-index="5"] { background: linear-gradient(150deg, rgba(129,140,248,.15), rgba(129,140,248,0) 58%) !important; }
+  .wf-thesis[data-wf-index="6"] { background: linear-gradient(150deg, rgba(244,114,182,.14), rgba(244,114,182,0) 58%) !important; }
+  .wf-thesis:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(15,23,42,.10); }
+  html.dark .wf-thesis:hover { box-shadow: 0 12px 28px rgba(0,0,0,.45); }
+  .wf-thesis-num { color: #0f766e !important; }
+  .wf-thesis[data-wf-index="2"] .wf-thesis-num { color: #0d9488 !important; }
+  .wf-thesis[data-wf-index="3"] .wf-thesis-num { color: #0369a1 !important; }
+  .wf-thesis[data-wf-index="4"] .wf-thesis-num { color: #b45309 !important; }
+  .wf-thesis[data-wf-index="5"] .wf-thesis-num { color: #4338ca !important; }
+  .wf-thesis[data-wf-index="6"] .wf-thesis-num { color: #be185d !important; }
+  html.dark .wf-thesis-num { color: #5eead4 !important; }
+  html.dark .wf-thesis[data-wf-index="3"] .wf-thesis-num { color: #7dd3fc !important; }
+  html.dark .wf-thesis[data-wf-index="4"] .wf-thesis-num { color: #fcd34d !important; }
+  html.dark .wf-thesis[data-wf-index="5"] .wf-thesis-num { color: #a5b4fc !important; }
+  html.dark .wf-thesis[data-wf-index="6"] .wf-thesis-num { color: #f9a8d4 !important; }
+
   /* ── Панель «об авторе» ─────────────────────────────────────────────── */
   .wf-author-link { cursor: pointer; }
   .wf-author-link:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -617,6 +645,31 @@
     });
   }
 
+  // ── карточки тезисов: подложка и цветной номер ───────────────────────
+  function thesisCards() {
+    var tldr = document.getElementById('tldr');
+    if (!tldr) return;
+    [].forEach.call(tldr.querySelectorAll('div'), function (g) {
+      var kids = g.children;
+      if (kids.length < 4 || kids.length > 6) return;
+      var disp = getComputedStyle(g).display;
+      if (disp !== 'grid' && disp !== 'flex') return;
+      var numbered = [].every.call(kids, function (c) {
+        return c.tagName === 'DIV' && /^\s*0\d[.\s]/.test((c.textContent || '').trim());
+      });
+      if (!numbered) return;
+      [].forEach.call(kids, function (c) {
+        // подложка ложится на внешний контур, родная карточка остаётся как есть
+        c.classList.add('wf-thesis');
+        c.dataset.wfIndex = [].indexOf.call(kids, c) + 1;
+        var badge = c.querySelector('div, span, p');
+        if (badge && /^\s*0\d[.\s]/.test(badge.textContent.trim())) {
+          badge.classList.add('wf-thesis-num');
+        }
+      });
+    });
+  }
+
   // ── панель об авторе ─────────────────────────────────────────────────
   function buildBio(avatarSrc) {
     var back = document.createElement('div');
@@ -700,7 +753,7 @@
     });
   }
 
-  function run() { fitBars(); singleAiButton(); statGrids(); bindAuthor(); }
+  function run() { fitBars(); singleAiButton(); statGrids(); thesisCards(); bindAuthor(); }
 
   run();
   try {
