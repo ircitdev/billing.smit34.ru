@@ -208,6 +208,7 @@
 // это ссылки на docs.billing.smit34.ru, ходить никуда не нужно.
 (function () {
   var DOCS = 'https://docs.billing.smit34.ru/Workflow/';
+  var COVERS = 'https://storage.googleapis.com/uspeshnyy-projects/smit/billing/workflow/';
   var GROUPS = [{name:'Ядро',items:[{f:'smitbilling-runtime.architecture',t:'Runtime-архитектура',k:'Архитектура',v:1},{f:'smitbilling-charges.workflow',t:'Прогон абонплаты',k:'Процесс',v:1},{f:'smitbilling-payment.sequence',t:'Оплата через ЮKassa',k:'Последовательность',v:1},{f:'smitbilling-abonent.lifecycle',t:'Абонент по балансу',k:'Состояния',v:1},{f:'smitbilling-sorm.dataflow',t:'Выгрузка СОРМ',k:'Поток данных',v:1}]},{name:'Сеть',items:[{f:'smitbilling-radius.sequence',t:'Путь RADIUS-пакета',k:'Последовательность',v:1},{f:'smitbilling-block.sequence',t:'Блокировка и возврат доступа',k:'Последовательность',v:0},{f:'smitbilling-finblock.architecture',t:'Финблокировка и заглушка',k:'Архитектура',v:0}]},{name:'Клиенты',items:[{f:'smitbilling-support.workflow',t:'Путь обращения',k:'Процесс',v:1},{f:'smitbilling-ai.sequence',t:'Запрос к ассистенту',k:'Последовательность',v:0},{f:'smitbilling-deal.lifecycle',t:'Жизненный цикл сделки',k:'Состояния',v:0}]},{name:'Деньги',items:[{f:'smitbilling-bank.dataflow',t:'Банковская выписка',k:'Поток данных',v:1},{f:'smitbilling-fiscal.lifecycle',t:'Путь чека до ОФД',k:'Состояния',v:0}]},{name:'Инженерам',items:[{f:'smitbilling-deploy.workflow',t:'Безопасный деплой',k:'Процесс',v:1},{f:'smitbilling-queues.architecture',t:'Очереди и фоновые задачи',k:'Архитектура',v:0},{f:'smitbilling-org.dataflow',t:'Разделение по организациям',k:'Поток данных',v:0}]}];
 
   function icon(d) {
@@ -255,14 +256,14 @@
       track.innerHTML = GROUPS[index].items.map(function (it) {
         var clips = it.v
           ? '<video class="wfx-clip wfx-light" muted loop playsinline preload="none" aria-hidden="true" ' +
-              'data-src="' + DOCS + 'covers/' + it.f + '.mp4"></video>' +
+              'data-src="' + COVERS + it.f + '.mp4"></video>' +
             '<video class="wfx-clip wfx-dark" muted loop playsinline preload="none" aria-hidden="true" ' +
-              'data-src="' + DOCS + 'covers/' + it.f + '_dark.mp4"></video>'
+              'data-src="' + COVERS + it.f + '_dark.mp4"></video>'
           : '';
         return '<a class="wfx-card" href="' + DOCS + it.f + '.html" target="_blank" rel="noopener">' +
           '<span class="wfx-media">' +
-            '<img class="wfx-light" src="' + DOCS + 'covers/' + it.f + '.jpg" alt="' + it.t + '" loading="lazy">' +
-            '<img class="wfx-dark" src="' + DOCS + 'covers/' + it.f + '_dark.jpg" alt="' + it.t + '" loading="lazy">' +
+            '<img class="wfx-light" src="' + COVERS + it.f + '.jpg" alt="' + it.t + '" loading="lazy">' +
+            '<img class="wfx-dark" src="' + COVERS + it.f + '_dark.jpg" alt="' + it.t + '" loading="lazy">' +
             clips +
           '</span>' +
           '<div class="wfx-card-body"><span class="wfx-kind">' + it.k + '</span>' +
