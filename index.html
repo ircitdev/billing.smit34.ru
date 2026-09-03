@@ -5279,6 +5279,30 @@
 })();
 </script>
 
+<script id="smit-open-from-url">
+// Ссылка со стороны (документация, письмо, реклама) может привести человека
+// сразу к нужной вкладке виджета: ?open=book — форма заявки, ?open=chat —
+// разговор. UTM-метки виджет забирает из адреса сам и отправляет с заявкой.
+(function () {
+  var want = new URLSearchParams(location.search).get('open');
+  if (want !== 'book' && want !== 'chat') return;
+
+  function open() {
+    var W = window.SmitWidget;
+    if (!W || !W.open) return false;
+    W.open(want);
+    return true;
+  }
+
+  if (open()) return;
+  // виджет грузится отложенно: ждём его сигнал, а таймер страхует от случая,
+  // когда сигнал прошёл раньше, чем мы подписались
+  document.addEventListener('smit-widget-ready', open, { once: true });
+  var timer = setInterval(function () { if (open()) clearInterval(timer); }, 200);
+  setTimeout(function () { clearInterval(timer); }, 10000);
+})();
+</script>
+
 
 <script data-metrika-goals="1">
 /* Цели Метрики. Хелпер ymGoal объявлен рядом со счётчиком выше. */
