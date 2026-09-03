@@ -5280,5 +5280,70 @@
 </script>
 
 
+<script data-metrika-goals="1">
+/* Цели Метрики. Хелпер ymGoal объявлен рядом со счётчиком выше. */
+(function () {
+  function goal(name, params) {
+    if (typeof window.ymGoal === 'function') window.ymGoal(name, params || {});
+  }
+
+  /* ── что сообщает виджет ───────────────────────────────────────────── */
+  document.addEventListener('smit-widget-open', function (e) {
+    goal('widget_open', { tab: (e.detail && e.detail.tab) || 'chat' });
+  });
+  document.addEventListener('smit-widget-ask', function () {
+    goal('widget_ask');
+  });
+  // главная конверсия: заявка ушла
+  document.addEventListener('smit-widget-lead', function (e) {
+    goal('lead_sent', { contact: (e.detail && e.detail.contact_type) || '' });
+  });
+
+  /* ── клики по странице ─────────────────────────────────────────────── */
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest && e.target.closest('a[href], button');
+    if (!el) return;
+
+    // кнопка тарифа: важно не только «нажали», но и какой пакет смотрят
+    var tariff = el.getAttribute('data-tariff');
+    if (tariff) return goal('tariff_click', { tariff: tariff });
+
+    var href = el.getAttribute('href') || '';
+    if (!href) return;
+
+    if (/SMIT_Billing_KP\.pdf/i.test(href)) return goal('kp_download');
+    if (/Unified_ISP_Platform\.pdf/i.test(href)) return goal('presentation_download');
+    if (/SMIT_Billing_license\.pdf/i.test(href) || href === '/license/') return goal('license_open');
+    if (/demo\.billing\.smit34\.ru/i.test(href)) return goal('demo_open');
+    if (/docs\.billing\.smit34\.ru/i.test(href)) return goal('docs_open');
+    if (/^\/blog\//.test(href)) return goal('blog_open', { post: href.slice(6, 46) });
+    if (/^\/compare\//.test(href)) return goal('compare_open');
+    if (/t\.me\/|^mailto:|^tel:/i.test(href)) return goal('contact_click');
+  }, true);
+
+  /* ── вовлечённость ─────────────────────────────────────────────────── */
+  document.addEventListener('play', function (e) {
+    if (e.target && e.target.tagName === 'VIDEO') goal('video_play');
+  }, true);
+
+  var deep = false;
+  window.addEventListener('scroll', function () {
+    if (deep) return;
+    var h = document.documentElement;
+    if ((h.scrollTop + window.innerHeight) / (h.scrollHeight || 1) >= 0.9) {
+      deep = true;
+      goal('read_deep');
+    }
+  }, { passive: true });
+
+  // калькулятор цены: человек примеряет систему на свою базу
+  var calcSent = false;
+  document.addEventListener('input', function (e) {
+    if (calcSent || !e.target || e.target.id !== 'calc-range') return;
+    calcSent = true;
+    goal('calc_used');
+  }, true);
+})();
+</script>
 </body>
 </html>
