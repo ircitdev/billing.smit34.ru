@@ -449,6 +449,324 @@
 })();
 </script>
 
+<style data-wf-fix="1">
+  /* Навигация по разделам всегда поверх остального: её перекрывали модалки. */
+  div.fixed.left-6.bottom-6 { z-index: 9999 !important; }
+
+  /* Из двух кнопок AI остаётся одна: «Спросить у AI» сразу задаёт вопрос. */
+  #smit-ask-strategy { display: none !important; }
+
+  /* Полосы переключателей на десктопе помещаются целиком: вместо
+     горизонтальной прокрутки — перенос по строкам. */
+  @media (min-width: 1024px) {
+    .wf-fit-bar {
+      overflow-x: visible !important;
+      flex-wrap: wrap !important;
+      max-width: 100% !important;
+    }
+  }
+
+  /* ── Плитки с цифрами: одна линия и мягкие градиенты ────────────────── */
+  @media (min-width: 900px) {
+    .wf-stat-grid {
+      display: grid !important;
+      gap: 14px !important;
+      overflow: visible !important;
+    }
+  }
+  .wf-stat-grid > * {
+    position: relative;
+    border-radius: 20px !important;
+    border: 1px solid rgba(16, 185, 129, .16) !important;
+    background: linear-gradient(135deg, rgba(16,185,129,.16), rgba(20,184,166,.05) 62%, transparent) !important;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    overflow: hidden;
+  }
+  .wf-stat-grid > *:nth-child(2) { background: linear-gradient(135deg, rgba(45,212,191,.17), rgba(16,185,129,.05) 62%, transparent) !important; }
+  .wf-stat-grid > *:nth-child(3) { background: linear-gradient(135deg, rgba(56,189,248,.15), rgba(16,185,129,.05) 62%, transparent) !important; }
+  .wf-stat-grid > *:nth-child(4) { background: linear-gradient(135deg, rgba(251,191,36,.17), rgba(16,185,129,.04) 62%, transparent) !important; }
+  .wf-stat-grid > *:nth-child(5) { background: linear-gradient(135deg, rgba(129,140,248,.16), rgba(16,185,129,.04) 62%, transparent) !important; }
+  .wf-stat-grid > *:nth-child(6) { background: linear-gradient(135deg, rgba(244,114,182,.15), rgba(16,185,129,.04) 62%, transparent) !important; }
+  .wf-stat-grid > *:hover {
+    transform: translateY(-3px);
+    border-color: rgba(16,185,129,.42) !important;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, .10);
+  }
+  html.dark .wf-stat-grid > * { border-color: rgba(16,185,129,.24) !important; }
+  html.dark .wf-stat-grid > *:hover { box-shadow: 0 12px 30px rgba(0, 0, 0, .45); }
+
+  /* ── Панель «об авторе» ─────────────────────────────────────────────── */
+  .wf-author-link { cursor: pointer; }
+  .wf-author-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .wf-bio-backdrop {
+    position: fixed; inset: 0; z-index: 10000;
+    background: rgba(8, 15, 26, .55);
+    opacity: 0; transition: opacity .25s ease; pointer-events: none;
+  }
+  .wf-bio-backdrop.open { opacity: 1; pointer-events: auto; }
+  .wf-bio {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 10001;
+    width: min(420px, 100%);
+    display: flex; flex-direction: column;
+    background: #ffffff; color: #0f172a;
+    box-shadow: -18px 0 48px rgba(15, 23, 42, .22);
+    transform: translateX(100%); transition: transform .3s ease;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  html.dark .wf-bio { background: #0f141c; color: #e9ecef; }
+  .wf-bio.open { transform: translateX(0); }
+  .wf-bio-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 22px 22px 18px; border-bottom: 1px solid rgba(0,0,0,.08);
+  }
+  html.dark .wf-bio-head { border-color: rgba(255,255,255,.08); }
+  .wf-bio-head img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+  .wf-bio-name { font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; }
+  .wf-bio-role { font-size: .84rem; color: #5a6a7d; }
+  html.dark .wf-bio-role { color: #94a3b8; }
+  .wf-bio-close {
+    margin-left: auto; width: 34px; height: 34px; flex: 0 0 34px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    border-radius: 9px; border: 1px solid rgba(0,0,0,.1); background: transparent;
+    color: inherit; font-size: 18px; line-height: 1;
+  }
+  html.dark .wf-bio-close { border-color: rgba(255,255,255,.14); }
+  .wf-bio-body { padding: 20px 22px 26px; overflow-y: auto; }
+  .wf-bio-facts { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+  .wf-bio-fact {
+    flex: 1 1 96px; padding: 12px 14px; border-radius: 14px;
+    background: linear-gradient(135deg, rgba(16,185,129,.14), transparent 70%);
+    border: 1px solid rgba(16,185,129,.2);
+  }
+  .wf-bio-fact b { display: block; font-size: 1.15rem; font-weight: 800; }
+  .wf-bio-fact span { font-size: .74rem; color: #5a6a7d; }
+  html.dark .wf-bio-fact span { color: #94a3b8; }
+  .wf-bio-body p { margin: 0 0 12px; line-height: 1.62; font-size: .93rem; color: #475569; }
+  html.dark .wf-bio-body p { color: #cbd5e1; }
+  .wf-bio-body h4 { margin: 18px 0 8px; font-size: .78rem; text-transform: uppercase;
+    letter-spacing: 1.4px; color: #047857; }
+  html.dark .wf-bio-body h4 { color: #34d399; }
+  .wf-bio-links { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .wf-bio-links a {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 14px; border-radius: 11px; text-decoration: none;
+    border: 1px solid rgba(0,0,0,.09); color: inherit; font-size: .9rem; font-weight: 500;
+  }
+  html.dark .wf-bio-links a { border-color: rgba(255,255,255,.12); }
+  .wf-bio-links a:hover { border-color: #10b981; color: #047857; }
+  html.dark .wf-bio-links a:hover { color: #34d399; }
+</style>
+<script data-wf-fix="1">
+// Мелкие правки портала: полосы переключателей, единственная кнопка AI,
+// оформление карточек и панель с рассказом об авторе.
+(function () {
+  var QUESTION = 'Расскажи коротко о стратегии СмИТ Биллинга';
+  var AUTHOR = 'Успешный А. С.';
+
+  // ── полосы кнопок помещаются целиком ─────────────────────────────────
+  function fitBars() {
+    [].forEach.call(document.querySelectorAll('div'), function (bar) {
+      var kids = bar.children;
+      if (kids.length < 2 || kids.length > 8) return;
+      for (var i = 0; i < kids.length; i++) if (kids[i].tagName !== 'BUTTON') return;
+      if (getComputedStyle(bar).display !== 'flex') return;
+      if (bar.classList.contains('wf-fit-bar')) return;
+      if (bar.scrollWidth > bar.clientWidth + 2) bar.classList.add('wf-fit-bar');
+    });
+  }
+
+  // ── одна кнопка AI, сразу с вопросом ─────────────────────────────────
+  function singleAiButton() {
+    [].forEach.call(document.querySelectorAll('button'), function (b) {
+      if (b.dataset.wfAsk || b.id === 'smit-ask-strategy') return;
+      if (b.textContent.trim() !== 'Спросить у AI') return;
+      b.dataset.wfAsk = '1';
+      b.addEventListener('click', function (e) {
+        var W = window.SmitWidget;
+        if (!W || !W.ask) return;
+        e.preventDefault();
+        e.stopPropagation();
+        W.ask(QUESTION);
+      }, true);
+    });
+  }
+
+  // ── карточки: цифры рынка и тезисы ───────────────────────────────────
+  // ── плитки с цифрами: выстраиваем в одну линию ───────────────────────
+  function statGrids() {
+    var market = document.getElementById('market');
+    if (!market) return;
+    [].forEach.call(market.querySelectorAll('div'), function (g) {
+      var kids = g.children;
+      if (kids.length < 3 || kids.length > 6) return;
+      var disp = getComputedStyle(g).display;
+      if (disp !== 'grid' && disp !== 'flex') return;
+      var allDivs = [].every.call(kids, function (c) { return c.tagName === 'DIV'; });
+      if (!allDivs) return;
+      var numeric = [].every.call(kids, function (c) {
+        return /\d/.test((c.textContent || '').slice(0, 40));
+      });
+      if (!numeric) return;
+      g.classList.add('wf-stat-grid');
+      // сколько плиток — столько колонок: всё помещается в один ряд
+      if (window.matchMedia('(min-width: 900px)').matches) {
+        g.style.gridTemplateColumns = 'repeat(' + kids.length + ', minmax(0, 1fr))';
+      } else {
+        g.style.gridTemplateColumns = '';
+      }
+    });
+  }
+
+  // ── панель об авторе ─────────────────────────────────────────────────
+  function buildBio(avatarSrc) {
+    var back = document.createElement('div');
+    back.className = 'wf-bio-backdrop';
+
+    var panel = document.createElement('aside');
+    panel.className = 'wf-bio';
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-label', 'Об авторе');
+    panel.innerHTML =
+      '<div class="wf-bio-head">' +
+        (avatarSrc ? '<img src="' + avatarSrc + '" alt="">' : '') +
+        '<div><div class="wf-bio-name">Успешный Александр Сергеевич</div>' +
+        '<div class="wf-bio-role">Архитектор AI-маркетинговых систем</div></div>' +
+        '<button class="wf-bio-close" type="button" aria-label="Закрыть">×</button>' +
+      '</div>' +
+      '<div class="wf-bio-body">' +
+        '<div class="wf-bio-facts">' +
+          '<div class="wf-bio-fact"><b>15+</b><span>лет в IT и автоматизации</span></div>' +
+          '<div class="wf-bio-fact"><b>MBA</b><span>CIO, РАНХиГС</span></div>' +
+          '<div class="wf-bio-fact"><b>30–45</b><span>дней система под ключ</span></div>' +
+        '</div>' +
+        '<p>Пятнадцать лет строил системы, которые должны работать без ручного ' +
+        'управления, — иначе компания встаёт. Сейчас делает то же самое для ' +
+        'небольших команд: чтобы клиенту отвечали, когда все заняты, а заявка не ' +
+        'терялась между перепиской, звонком и блокнотом.</p>' +
+        '<h4>Подход</h4>' +
+        '<p>Не разовая настройка, а система: контент → интерес → заявка → продажа. ' +
+        'Сначала карта, где сейчас теряются клиенты, затем сборка за 30–45 дней, ' +
+        'дальше ежемесячная правка по цифрам — переделывать через полгода не придётся.</p>' +
+        '<h4>Связь</h4>' +
+        '<div class="wf-bio-links">' +
+          '<a href="https://uspeshnyy.ru/about" target="_blank" rel="noopener">uspeshnyy.ru</a>' +
+          '<a href="https://t.me/uspeshnyy" target="_blank" rel="noopener">Telegram</a>' +
+          '<a href="tel:+79169535760">+7 916 953-57-60</a>' +
+        '</div>' +
+      '</div>';
+
+    document.body.appendChild(back);
+    document.body.appendChild(panel);
+
+    function close() {
+      panel.classList.remove('open');
+      back.classList.remove('open');
+    }
+    back.addEventListener('click', close);
+    panel.querySelector('.wf-bio-close').addEventListener('click', close);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') close();
+    });
+    return { panel: panel, back: back };
+  }
+
+  var bio = null;
+  function openBio(avatarSrc) {
+    if (!bio) bio = buildBio(avatarSrc);
+    bio.panel.classList.add('open');
+    bio.back.classList.add('open');
+  }
+
+  function bindAuthor() {
+    [].forEach.call(document.querySelectorAll('span, div, a, p'), function (el) {
+      if (el.dataset.wfAuthor) return;
+      if (el.children.length) return;
+      if (el.textContent.trim() !== AUTHOR) return;
+      el.dataset.wfAuthor = '1';
+      el.classList.add('wf-author-link');
+      el.setAttribute('role', 'button');
+      el.setAttribute('tabindex', '0');
+      var holder = el.closest('div');
+      var img = holder ? holder.querySelector('img') : null;
+      var src = img ? img.src : '';
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openBio(src);
+      });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openBio(src); }
+      });
+    });
+  }
+
+  function run() { fitBars(); singleAiButton(); statGrids(); bindAuthor(); }
+
+  run();
+  try {
+    new MutationObserver(run).observe(document.body, { childList: true, subtree: true });
+  } catch (e) {}
+  window.addEventListener('resize', function () { fitBars(); statGrids(); });
+})();
+</script>
+
+<script data-wf-order="1">
+// Порядок разделов: сначала выводы, затем рынок и анализ, потом что делаем,
+// как идёт исполнение, живые доказательства и уже под конец — коммерция.
+// Раздел «Главная стратегическая рекомендация» стоял в середине коммерческого
+// блока, а «Прогресс реализации» — в самом конце, оторванный от рекомендаций.
+(function () {
+  var ORDER = [
+    'tldr',            // тезисы за 60 секунд
+    'tldr-details',    // и сразу главная рекомендация
+    'market',
+    'competitors',
+    'table',
+    'strengths',
+    'weaknesses',
+    'risks',
+    'recommendations',
+    'wf-progress',     // прогресс по этим же рекомендациям
+    'status',
+    'live',
+    'schemes',
+    'pricing',
+    'positioning',
+    'conclusion'
+  ];
+
+  function markProgress(main) {
+    // у раздела с прогрессом нет своего идентификатора — находим по заголовку
+    [].forEach.call(main.children, function (el) {
+      if (el.id) return;
+      var h = el.querySelector('h2,h3');
+      if (h && h.textContent.indexOf('Прогресс реализации') >= 0) el.id = 'wf-progress';
+    });
+  }
+
+  function apply() {
+    var main = document.querySelector('main');
+    if (!main) return;
+    markProgress(main);
+
+    var known = ORDER.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+    if (known.length < ORDER.length - 1) return;   // страница ещё дорисовывается
+
+    var actual = [].filter.call(main.children, function (el) { return ORDER.indexOf(el.id) >= 0; })
+                   .map(function (el) { return el.id; }).join(',');
+    if (actual === known.map(function (el) { return el.id; }).join(',')) return;
+
+    known.forEach(function (el) { main.appendChild(el); });
+  }
+
+  apply();
+  try {
+    new MutationObserver(apply).observe(document.querySelector('main') || document.body,
+                                        { childList: true });
+  } catch (e) {}
+})();
+</script>
+
 </body>
 </html>
 
