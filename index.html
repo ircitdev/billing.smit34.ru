@@ -436,9 +436,13 @@
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       z-index: 200;
-      background: rgba(2, 6, 23, 0.95);
-      backdrop-filter: blur(24px) saturate(1.5);
-      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      /* матовое стекло: страница за меню угадывается, но не читается;
+         Safari понимает размытие только в префиксной записи */
+      background: rgba(2, 6, 23, 0.72);
+      -webkit-backdrop-filter: blur(26px) saturate(180%);
+      backdrop-filter: blur(26px) saturate(180%);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -447,8 +451,18 @@
     }
 
     [data-theme="light"] .mobile-menu {
-      background: rgba(248, 250, 252, 0.97);
+      background: rgba(248, 250, 252, 0.78);
     }
+
+    /* без размытия фон должен стать плотным — иначе текст на тексте */
+    @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .mobile-menu { background: rgba(2, 6, 23, 0.98); }
+      [data-theme="light"] .mobile-menu { background: rgba(248, 250, 252, 0.99); }
+    }
+
+    /* страница под открытым меню стоит на месте: на телефоне
+       фоновая прокрутка уводила содержимое, и меню закрывалось «в никуда» */
+    body.menu-open { position: fixed; left: 0; right: 0; width: 100%; overflow: hidden; }
 
     .mobile-menu.open { pointer-events: auto; }
 
@@ -2856,13 +2870,13 @@
 <div class="mobile-menu" id="mobile-menu">
   <button class="mobile-close" id="mobile-close">&#10005;</button>
   <a href="#features" class="mobile-link">Возможности</a>
-  <a href="#lk" class="mobile-link">Приложение</a>
   <a href="#pricing" class="mobile-link">Тарифы</a>
   <a href="#api" class="mobile-link">API</a>
   <a href="#demo" class="mobile-link">Демо</a>
   <a href="/blog/" class="mobile-link">Блог</a>
   <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="mobile-link" download><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 3v12M7 11l5 4 5-4M5 20h14"/></svg> Презентация</a>
   <a href="https://docs.billing.smit34.ru" target="_blank" class="mobile-link">Документация</a>
+  <a href="https://license.billing.smit34.ru/developers/" target="_blank" rel="noopener" class="mobile-link">Разработчикам</a>
   <a data-widget-book="1" href="#demo" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
 </div>
 
@@ -4011,6 +4025,7 @@
       <h3>Ресурсы</h3>
       <ul>
         <li><a href="https://docs.billing.smit34.ru" target="_blank">Документация</a></li>
+        <li><a href="https://license.billing.smit34.ru/developers/" target="_blank" rel="noopener">Разработчикам</a></li>
         <li><a href="https://docs.billing.smit34.ru/pages/api.html" target="_blank">API Reference</a></li>
         <li><a href="https://docs.billing.smit34.ru/pages/installation.html" target="_blank">Установка</a></li>
         <li><a href="https://docs.billing.smit34.ru/pages/troubleshooting.html" target="_blank">FAQ</a></li>
@@ -4097,15 +4112,23 @@
   // --- Mobile menu ---
   var mobileMenu = document.getElementById('mobile-menu');
   var mobileToggle = document.getElementById('mobile-toggle');
+  // Позицию страницы запоминаем и возвращаем руками: одного overflow:hidden
+  // на телефоне мало — Safari всё равно прокручивает фон, а после закрытия
+  // меню страница оказывалась в начале.
+  var menuScrollY = 0;
   mobileToggle.addEventListener('click', function() {
+    menuScrollY = window.scrollY || window.pageYOffset || 0;
     mobileMenu.classList.add('open');
     mobileToggle.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('menu-open');
+    document.body.style.top = (-menuScrollY) + 'px';
   });
   function closeMobileMenu() {
     mobileMenu.classList.remove('open');
     mobileToggle.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
+    document.body.classList.remove('menu-open');
+    document.body.style.top = '';
+    window.scrollTo(0, menuScrollY);
   }
   document.getElementById('mobile-close').addEventListener('click', closeMobileMenu);
   // Close on link click
