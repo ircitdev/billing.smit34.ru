@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Абонент ушёл в минус: что происходит дальше — блог СмИТ Биллинг</title>
+<meta name="description" content="Отключить сразу — потерять клиента, не отключать — кормить его в долг. Разбираем порядок, при котором должник узнаёт о долге до отключения, а не после.">
+<link rel="canonical" href="https://billing.smit34.ru/blog/minus-na-schete">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Абонент ушёл в минус: что происходит дальше — блог СмИТ Биллинг">
+<meta property="og:description" content="Отключить сразу — потерять клиента, не отключать — кормить его в долг. Разбираем порядок, при котором должник узнаёт о долге до отключения, а не после.">
+<meta property="og:url" content="https://billing.smit34.ru/blog/minus-na-schete">
+<meta property="og:site_name" content="СмИТ Биллинг">
+<meta property="og:image" content="https://billing.smit34.ru/blog/covers/minus-na-schete.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/blog/blog.css?v=1788050743">
+<script>
+  // тема общая с главной: ключ billing-theme, светлая — атрибутом data-theme
+  (function () {
+    try {
+      var saved = localStorage.getItem('billing-theme');
+      var light = saved
+        ? saved === 'light'
+        : window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (light) document.documentElement.setAttribute('data-theme', 'light');
+    } catch (e) {}
+  })();
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111523440', 'ym');
+
+    ym(111523440, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    window.ymGoal = function(g, p){ try { if (window.ym) ym(111523440, 'reachGoal', g, p || {}); } catch (e) {} };
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111523440" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<header class="header">
+  <a href="/" class="header-logo">
+    <div class="header-logo-icon">C</div>
+    <div class="header-logo-text">СмИТ Биллинг<span>3.5</span></div>
+  </a>
+  <nav class="header-nav">
+    <a href="/#features">Возможности</a>
+    <a href="/#modules">Модули</a>
+    <a href="/#lk">Приложение</a>
+    <a href="/#pricing">Тарифы</a>
+    <a href="/#api">API</a>
+    <a href="/#demo">Демо</a>
+    <a href="/blog/" aria-current="page">Блог</a>
+    <a href="https://docs.billing.smit34.ru" class="btn-header" target="_blank">Документация</a>
+  </nav>
+  <div class="header-actions" style="display:flex;align-items:center;gap:8px">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">
+      <span class="icon-sun"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M5 19l1.4-1.4M17.6 6.4L19 5"/></svg></span>
+      <span class="icon-moon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span>
+    </button>
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Меню"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  </div>
+</header>
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" id="mobile-close">&#10005;</button>
+  <a href="/#features" class="mobile-link">Возможности</a>
+  <a href="/#lk" class="mobile-link">Приложение</a>
+  <a href="/#pricing" class="mobile-link">Тарифы</a>
+  <a href="/#api" class="mobile-link">API</a>
+  <a href="/#demo" class="mobile-link">Демо</a>
+  <a href="/blog/" class="mobile-link">Блог</a>
+  <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="mobile-link" download><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 3v12M7 11l5 4 5-4M5 20h14"/></svg> Презентация</a>
+  <a href="https://docs.billing.smit34.ru" target="_blank" class="mobile-link">Документация</a>
+  <a data-demo="1" href="/#demo" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
+</div>
+
+
+<div class="container narrow">
+    <a class="bback" href="/blog/">← Все статьи</a>
+    <div><span class="btag">Деньги</span></div>
+    <h1>Абонент ушёл в минус: что происходит дальше</h1>
+    <div class="bmeta"><time datetime="2026-09-03">3 сентября 2026</time> · 7 минут</div>
+    <picture><source data-cover srcset="/blog/covers/minus-na-schete-light.jpg" media="(prefers-color-scheme: light)"><img class="bpost-cover" src="/blog/covers/minus-na-schete.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
+<p>Минусовой баланс — обычное дело: человек забыл, у него сменилась карта, зарплата пришла позже. Вопрос не в том, бывает ли такое, а в том, что происходит дальше. Два крайних варианта одинаково плохи: отключить в ноль часов — получить злого клиента и звонок «я же плачу три года», не отключать вовсе — кормить в долг всех, кто понял, что можно не платить.</p>
+<h2>Порядок, который работает</h2>
+<ol>
+<li><strong>Предупреждение до отключения.</strong> За несколько дней — уведомление в личном кабинете, в приложении и сообщением: сколько не хватает и до какого числа. Это дешевле любого отключения: часть должников платит здесь и дальше не идёт.</li>
+<li><strong>Обещанный платёж.</strong> Абонент сам продлевает себе доступ на несколько дней. Лимит считается от его тарифа, а не «на глаз»: нельзя пообещать больше, чем стоит месяц.</li>
+<li><strong>Блокировка по балансу.</strong> Если денег не появилось — доступ ограничивается автоматически, а не решением дежурного.</li>
+<li><strong>Страница-заглушка вместо тишины.</strong> Самое важное. Отключённый абонент открывает браузер и видит не «нет интернета», а свою ситуацию: баланс, сумму, кнопку оплаты.</li>
+<li><strong>Возврат доступа без участия человека.</strong> Платёж прошёл — блокировка снимается сама, в течение минуты.</li>
+</ol>
+<div class="bmermaid"><pre class="mermaid">flowchart TD
+  A[Баланс ушёл в минус] --&gt; B[Уведомление:&lt;br/&gt;ЛК, приложение, сообщение]
+  B --&gt; C{Оплатил?}
+  C --&gt;|да| Z[Ничего не происходит]
+  C --&gt;|нет| D{Взял обещанный&lt;br/&gt;платёж?}
+  D --&gt;|да| E[Доступ продлён&lt;br/&gt;на срок обещания]
+  D --&gt;|нет| F[Блокировка&lt;br/&gt;и заглушка с оплатой]
+  E --&gt; C
+  F --&gt;|платёж| Z</pre></div>
+<h2>Почему заглушка важнее самой блокировки</h2>
+<p>Заблокировать умеет любая система. Разница в том, что абонент понимает в момент отключения. Без заглушки происходит так: интернет «пропал», человек звонит в поддержку, оператор объясняет про баланс, диктует реквизиты, ждёт платёж, снимает блокировку руками. Один должник — минимум один звонок и несколько минут чужого времени.</p>
+<p>С заглушкой человек видит причину сам и там же платит. Поддержка в этом не участвует вовсе. На сотне должников в месяц это разница между «поддержка занята объяснением долгов» и «поддержка занята делом».</p>
+<blockquote>Практическая деталь: заглушка должна открываться и по адресу, который абонент набрал сам, и работать без сертификата на чужой домен. Иначе часть пользователей увидит ошибку безопасности вместо страницы оплаты — и всё равно позвонит.</blockquote>
+<h2>Что стоит предусмотреть заранее</h2>
+<ul>
+<li><strong>Кому блокировка не грозит.</strong> Социальные учреждения, камеры видеонаблюдения, служебные подключения — им нужен признак, который отключает автоблокировку независимо от баланса.</li>
+<li><strong>Что делать с юрлицами.</strong> Оплата по счёту приходит с задержкой в несколько дней, и обычные правила для физлиц тут вредны: договор есть, деньги в пути, отключать нельзя.</li>
+<li><strong>Когда именно списывать абонплату.</strong> Если списание идёт в ночь и в ту же ночь наступает блокировка, человек утром обнаруживает себя отключённым, не имея шанса заплатить. Разрыв в сутки-двое решает эту проблему целиком.</li>
+<li><strong>Как выглядит возврат.</strong> Проверьте не только «блокируется ли», но и «разблокируется ли» — и за какое время. Абонент, заплативший и просидевший без интернета ещё час, звонит так же, как неоплативший.</li>
+</ul>
+<h2>Долг — это не только про должника</h2>
+<p>Когда порядок автоматизирован, у вас появляется цифра, которой обычно нет: сколько денег висит в долгах прямо сейчас и как это меняется по месяцам. Дальше видно, где проблема на самом деле — в тарифах, в способах оплаты или в том, что уведомление приходит слишком поздно.</p>
+<p>Из практики: заметная часть «должников» — это люди, которые просто не получили напоминание вовремя. Они платят в тот же день, когда узнают. Разбираться с ними отключением — дорогой способ узнать, что у вас не настроены уведомления.</p>
+<p>Как это устроено в платформе — в разделах про <a href="/#features" rel="noopener">возможности</a> и в <a href="https://docs.billing.smit34.ru" rel="noopener">документации</a>.</p>
+    <div class="bhashes"><a class="bhash" href="/blog/?tag=деньги">#деньги</a><a class="bhash" href="/blog/?tag=блокировка">#блокировка</a><a class="bhash" href="/blog/?tag=абоненты">#абоненты</a></div>
+    <div class="bcta">
+  <h3>Посмотреть платформу в работе</h3>
+  <p>Демо-доступ с реальными данными, презентация для руководства и ответы на вопросы — без обязательств.</p>
+  <a href="/#demo">Запросить демо →</a>
+</div>
+  </div>
+  <div class="container">
+  <section class="brelated">
+    <h2>Читайте также</h2>
+    <div class="brel-grid">
+      <a class="bcard" href="/blog/sorm-573" data-tags="СОРМ,отчётность,закон">
+        <picture><source data-cover srcset="/blog/covers/sorm-573-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/sorm-573.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
+        <div class="bcard-meta"><span class="btag">Закон</span><time datetime="2026-08-30">30 августа 2026</time></div>
+        <h3>СОРМ по приказу №573: что выгружать и почему выгрузка — не главное</h3>
+        <p>Файлы формируются, расписание работает, проверка проходит — а данные внутри пустые. Разбираем, из чего состоит выгрузка и где она ломается на практике.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
+      <a class="bcard" href="/blog/karta-seti" data-tags="сеть,аварии,инфраструктура">
+        <picture><source data-cover srcset="/blog/covers/karta-seti-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/karta-seti.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
+        <div class="bcard-meta"><span class="btag">Сеть</span><time datetime="2026-08-29">29 августа 2026</time></div>
+        <h3>Карта сети: кто останется без интернета, если оборвётся эта трасса</h3>
+        <p>Схема сети обычно живёт в голове монтажника и в файле у одного человека. Что меняется, когда узлы, трассы и абоненты оказываются на одной карте.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
+      <a class="bcard" href="/blog/bankovskie-vypiski" data-tags="финансы,юрлица,автоматизация">
+        <picture><source data-cover srcset="/blog/covers/bankovskie-vypiski-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/bankovskie-vypiski.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
+        <div class="bcard-meta"><span class="btag">Деньги</span><time datetime="2026-08-27">27 августа 2026</time></div>
+        <h3>Платежи юрлиц: как перестать разбирать выписку руками</h3>
+        <p>Оплата пришла, а клиент числится должником и уходит в блокировку. Разбираем путь платежа от письма банка до зачисления и то, почему часть платежей всегда придётся смотреть глазами.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
+    </div>
+  </section>
+  </div>
+</main>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+  // Цвета схемы зашиваются в SVG при отрисовке, поэтому тему нужно знать заранее
+  // и перерисовывать схему при её смене — иначе в светлой остаётся тёмный вариант.
+  var root = document.documentElement;
+  var DARK = {
+    background: 'transparent', primaryColor: '#0f2a22', primaryTextColor: '#e2e8f0',
+    primaryBorderColor: '#10b981', lineColor: '#2dd4bf', secondaryColor: '#132030',
+    tertiaryColor: '#0b1622', mainBkg: '#0f2a22', nodeBorder: '#10b981',
+    clusterBkg: '#0b1622', titleColor: '#e2e8f0', edgeLabelBackground: '#0b1622',
+    fontSize: '17px'
+  };
+  var LIGHT = {
+    background: '#ffffff', primaryColor: '#e7f6ef', primaryTextColor: '#0f172a',
+    primaryBorderColor: '#047857', lineColor: '#047857', secondaryColor: '#f1f5f9',
+    tertiaryColor: '#f8fafc', mainBkg: '#e7f6ef', nodeBorder: '#047857',
+    clusterBkg: '#f8fafc', titleColor: '#0f172a', edgeLabelBackground: '#ffffff',
+    fontSize: '17px'
+  };
+
+  function draw() {
+    var light = root.getAttribute('data-theme') === 'light';
+    document.querySelectorAll('pre.mermaid').forEach(function (el) {
+      if (!el.dataset.src) el.dataset.src = el.textContent;
+      el.removeAttribute('data-processed');
+      el.innerHTML = el.dataset.src;
+    });
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      fontFamily: 'Inter, system-ui, sans-serif',
+      themeVariables: light ? LIGHT : DARK,
+      flowchart: { curve: 'basis', useMaxWidth: false, nodeSpacing: 34, rankSpacing: 46 }
+    });
+    mermaid.run({ querySelector: 'pre.mermaid' });
+  }
+
+  draw();
+  new MutationObserver(draw).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
+<footer class="bfoot">
+  <div class="container">
+    <span>© 2026 СмИТ Биллинг — платформа для операторов связи</span>
+    <a class="sep" href="/">На главную</a>
+    <a href="https://docs.billing.smit34.ru" target="_blank" rel="noopener">Документация</a>
+    <a href="https://t.me/smitbillingdev" target="_blank" rel="noopener">Канал разработки</a>
+  </div>
+</footer>
+<script>
+  (function () {
+    var html = document.documentElement;
+    var themeToggle = document.getElementById('theme-toggle');
+    // Три состояния: как в системе → светлая → тёмная. Без третьего однажды
+    // нажатый переключатель навсегда перекрывал бы системную настройку.
+    var THEME_MODES = ['system', 'light', 'dark'];
+    var THEME_LABEL = {
+      system: 'Тема: как в системе', light: 'Тема: светлая', dark: 'Тема: тёмная'
+    };
+    function themeMode() {
+      try {
+        var v = localStorage.getItem('billing-theme');
+        return v === 'light' || v === 'dark' ? v : 'system';
+      } catch (e) { return 'system'; }
+    }
+    function applyThemeMode(m) {
+      var light = m === 'light' || (m === 'system' &&
+        window.matchMedia('(prefers-color-scheme: light)').matches);
+      if (light) html.setAttribute('data-theme', 'light');
+      else html.removeAttribute('data-theme');
+      try {
+        if (m === 'system') localStorage.removeItem('billing-theme');
+        else localStorage.setItem('billing-theme', m);
+      } catch (e) {}
+      if (themeToggle) {
+        themeToggle.title = THEME_LABEL[m];
+        themeToggle.setAttribute('aria-label', THEME_LABEL[m] + ' (нажмите, чтобы сменить)');
+      }
+    }
+    applyThemeMode(themeMode());
+    if (themeToggle) themeToggle.addEventListener('click', function () {
+      applyThemeMode(THEME_MODES[(THEME_MODES.indexOf(themeMode()) + 1) % 3]);
+    });
+    try {
+      var mq = window.matchMedia('(prefers-color-scheme: light)');
+      var onSystem = function () {
+        if (themeMode() === 'system') applyThemeMode('system');
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onSystem);
+      else if (mq.addListener) mq.addListener(onSystem);
+    } catch (e) {}
+    var menu = document.getElementById('mobile-menu');
+    var open = document.getElementById('mobile-toggle');
+    var close = document.getElementById('mobile-close');
+    if (open && menu) open.addEventListener('click', function () {
+      menu.classList.add('open'); document.body.style.overflow = 'hidden';
+    });
+    function hide() { menu.classList.remove('open'); document.body.style.overflow = ''; }
+    if (close && menu) close.addEventListener('click', hide);
+    if (menu) menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', hide); });
+  })();
+</script>
+<script>
+  // Тему, выбранную вручную, медиа-запрос в <picture> не видит — переключаем
+  // источник обложек сами. Наблюдатель ловит и клик по переключателю, и
+  // смену системной настройки.
+  (function () {
+    var html = document.documentElement;
+    function sync() {
+      var light = html.getAttribute('data-theme') === 'light';
+      document.querySelectorAll('source[data-cover]').forEach(function (s) {
+        s.media = light ? 'all' : 'not all';
+      });
+    }
+    sync();
+    new MutationObserver(sync).observe(html, {
+      attributes: true, attributeFilter: ['data-theme']
+    });
+  })();
+</script>
+</body>
+</html>

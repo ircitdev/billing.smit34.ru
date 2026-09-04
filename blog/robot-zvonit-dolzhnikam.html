@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Блог — СмИТ Биллинг</title>
-<meta name="description" content="Статьи о работе интернет-провайдера: биллинг, поддержка, продажи, оборудование и автоматизация.">
-<link rel="canonical" href="https://billing.smit34.ru/blog/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Блог — СмИТ Биллинг">
-<meta property="og:description" content="Статьи о работе интернет-провайдера: биллинг, поддержка, продажи, оборудование и автоматизация.">
-<meta property="og:url" content="https://billing.smit34.ru/blog/">
+<title>Робот звонит должникам: где помогает, а где портит отношения — блог СмИТ Биллинг</title>
+<meta name="description" content="Автообзвон дешевле оператора в десятки раз — и ровно поэтому им легко испортить впечатление о компании. Что проверить до запуска и какая ошибка обходится дороже всего.">
+<link rel="canonical" href="https://billing.smit34.ru/blog/robot-zvonit-dolzhnikam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Робот звонит должникам: где помогает, а где портит отношения — блог СмИТ Биллинг">
+<meta property="og:description" content="Автообзвон дешевле оператора в десятки раз — и ровно поэтому им легко испортить впечатление о компании. Что проверить до запуска и какая ошибка обходится дороже всего.">
+<meta property="og:url" content="https://billing.smit34.ru/blog/robot-zvonit-dolzhnikam">
 <meta property="og:site_name" content="СмИТ Биллинг">
-<meta property="og:image" content="https://billing.smit34.ru/blog/covers/zayavka-ne-teryaetsya.jpg">
+<meta property="og:image" content="https://billing.smit34.ru/blog/covers/robot-zvonit-dolzhnikam.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/blog/blog.css?v=1788050743">
@@ -80,49 +80,55 @@
 </div>
 
 
-<main>
+<div class="container narrow">
+    <a class="bback" href="/blog/">← Все статьи</a>
+    <div><span class="btag">Автоматизация</span></div>
+    <h1>Робот звонит должникам: где помогает, а где портит отношения</h1>
+    <div class="bmeta"><time datetime="2026-09-04">4 сентября 2026</time> · 6 минут</div>
+    <picture><source data-cover srcset="/blog/covers/robot-zvonit-dolzhnikam-light.jpg" media="(prefers-color-scheme: light)"><img class="bpost-cover" src="/blog/covers/robot-zvonit-dolzhnikam.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
+<p>Мысль приходит всем, у кого больше тысячи абонентов: должников много, звонить некому, пусть звонит робот. Технически это несложно — синтез речи давно звучит прилично, а обзвон по списку настраивается за день. Сложно другое: сделать так, чтобы звонок не выглядел как выбивание долга у человека, который вам ничего не должен.</p>
+<h2>Одна ошибка, которая портит всё</h2>
+<p>Робот говорит: «На вашем счету ноль рублей, оплатите услуги». Абонент кладёт трубку, открывает приложение и видит там нормальный баланс. Дальше он звонит в поддержку — уже раздражённым.</p>
+<p>Причина почти всегда одна: <strong>робот берёт баланс не оттуда</strong>. В биллинге сумм несколько — остаток по договору, остаток по конкретной учётной записи, состояние на момент последнего списания. Если в шаблон подставить не то поле, обзвон превращается в рассылку неправды, причём голосом.</p>
+<blockquote>Проверять это нужно не в настройках, а на живых людях: возьмите десять абонентов из списка обзвона и сверьте то, что скажет робот, с тем, что человек видит в личном кабинете. Расхождение хотя бы на одном — обзвон не запускать.</blockquote>
+<h2>Кому звонить, а кому не надо</h2>
+<ul>
+<li><strong>Не звонить тем, кто уже заплатил.</strong> Список должен собираться в момент звонка, а не выгружаться утром: за день часть людей платит.</li>
+<li><strong>Не звонить тем, у кого обещанный платёж.</strong> Человек уже сказал, когда заплатит, — напоминать ему об этом голосом невежливо.</li>
+<li><strong>Не звонить юрлицам.</strong> Там оплата идёт по счёту через бухгалтерию, и робот, звонящий директору про долг в триста рублей, — это анекдот, который вам потом расскажут.</li>
+<li><strong>Не звонить ночью и в выходные.</strong> Очевидно, но об этом забывают: очередь доезжает до конца списка тогда, когда доезжает.</li>
+<li><strong>Звонить один раз.</strong> Второй звонок по тому же поводу воспринимается как давление, а третий — как хамство.</li>
+</ul>
+<div class="bmermaid"><pre class="mermaid">flowchart TD
+  A[Список должников] --&gt; B{Заплатил&lt;br/&gt;за это время?}
+  B --&gt;|да| X[Не звоним]
+  B --&gt;|нет| C{Есть обещанный&lt;br/&gt;платёж?}
+  C --&gt;|да| X
+  C --&gt;|нет| D{Рабочее время?}
+  D --&gt;|нет| W[Ждём утра]
+  D --&gt;|да| E[Звонок: сумма,&lt;br/&gt;срок, как оплатить]
+  E --&gt; F{Ответил?}
+  F --&gt;|да| G[Отметка и запись]
+  F --&gt;|нет| H[Одна повторная&lt;br/&gt;попытка позже]</pre></div>
+<h2>Что робот делает лучше человека</h2>
+<p>Не «звонит дешевле» — это и так понятно. Лучше он делает три вещи: звонит всем без исключений, говорит одно и то же в одинаковых словах и оставляет след. У каждого звонка есть время, результат и запись; спорную ситуацию можно поднять и послушать, а не выяснять, что именно сказал сотрудник.</p>
+<p>Записи, кстати, полезнее в другом месте: расшифровка разговоров показывает, о чём люди спрашивают на самом деле. Часто оказывается, что половина звонков — не про долг, а про «куда платить» и «почему списалось больше». Это уже не задача обзвона, а повод поправить уведомления и личный кабинет.</p>
+<h2>Где робот не нужен</h2>
+<p>Если у вас настроены уведомления, работает страница-заглушка и оплата в пару касаний, обзвон нужен небольшой части должников — тем, кто выпал из всех каналов. Начинать с робота, когда абонент не получает даже сообщения о долге, — это чинить крышу, начиная с флюгера.</p>
+<p>Порядок разумнее обратный: сначала уведомления и удобная оплата, потом заглушка, и только потом голос — по остатку, который не закрылся сам.</p>
+<p>Что до тона: робот, который сообщает факт и предлагает решение, воспринимается спокойно. Робот, который «напоминает о задолженности» третий раз за неделю, — повод уйти к конкуренту, у которого и цена такая же, и не звонят.</p>
+<p>Про телефонию и голосового агента — на <a href="/#modules" rel="noopener">странице модулей</a>, про уведомления и оплату — в <a href="https://docs.billing.smit34.ru" rel="noopener">документации</a>.</p>
+    <div class="bhashes"><a class="bhash" href="/blog/?tag=автоматизация">#автоматизация</a><a class="bhash" href="/blog/?tag=телефония">#телефония</a><a class="bhash" href="/blog/?tag=деньги">#деньги</a></div>
+    <div class="bcta">
+  <h3>Посмотреть платформу в работе</h3>
+  <p>Демо-доступ с реальными данными, презентация для руководства и ответы на вопросы — без обязательств.</p>
+  <a href="/#demo">Запросить демо →</a>
+</div>
+  </div>
   <div class="container">
-    <div class="bhead">
-      <span class="bkicker">Блог</span>
-      <h1>Как устроена работа провайдера</h1>
-      <p>Разбираем задачи, с которыми оператор связи сталкивается каждый день: заявки и подключения,
-         деньги на счетах, обращения абонентов, оборудование у монтажников. Без общих слов — на том,
-         как это работает в СмИТ Биллинге.</p>
-    </div>
-    <div class="bfilter" id="bfilter" hidden>
-      <span>Тег:</span> <strong id="bfilter-name"></strong>
-      <a href="/blog/">показать все →</a>
-    </div>
-    <h2 class="visually-hidden">Статьи</h2>
-    <div class="bgrid" id="bgrid">
-      <a class="bcard" href="/blog/robot-zvonit-dolzhnikam" data-tags="автоматизация,телефония,деньги">
-        <picture><source data-cover srcset="/blog/covers/robot-zvonit-dolzhnikam-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/robot-zvonit-dolzhnikam.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
-        <div class="bcard-meta"><span class="btag">Автоматизация</span><time datetime="2026-09-04">4 сентября 2026</time></div>
-        <h3>Робот звонит должникам: где помогает, а где портит отношения</h3>
-        <p>Автообзвон дешевле оператора в десятки раз — и ровно поэтому им легко испортить впечатление о компании. Что проверить до запуска и какая ошибка обходится дороже всего.</p>
-        <span class="bcard-more">Читать →</span>
-      </a>
-      <a class="bcard" href="/blog/minus-na-schete" data-tags="деньги,блокировка,абоненты">
-        <picture><source data-cover srcset="/blog/covers/minus-na-schete-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/minus-na-schete.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
-        <div class="bcard-meta"><span class="btag">Деньги</span><time datetime="2026-09-03">3 сентября 2026</time></div>
-        <h3>Абонент ушёл в минус: что происходит дальше</h3>
-        <p>Отключить сразу — потерять клиента, не отключать — кормить его в долг. Разбираем порядок, при котором должник узнаёт о долге до отключения, а не после.</p>
-        <span class="bcard-more">Читать →</span>
-      </a>
-      <a class="bcard" href="/blog/moduli-so-storony" data-tags="платформа,модули,разработка">
-        <picture><source data-cover srcset="/blog/covers/moduli-so-storony-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/moduli-so-storony.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
-        <div class="bcard-meta"><span class="btag">Платформа</span><time datetime="2026-09-02">2 сентября 2026</time></div>
-        <h3>Модули со стороны: как чужой код попадает в ваш биллинг</h3>
-        <p>Нужного модуля нет — ждать полгода или ставить чужой? Разбираем, как устроен каталог расширений: кто пишет, кто проверяет и почему обновления не приезжают сами.</p>
-        <span class="bcard-more">Читать →</span>
-      </a>
-      <a class="bcard" href="/blog/avtopost-o-sborkah" data-tags="разработка,автоматизация,уведомления">
-        <picture><source data-cover srcset="/blog/covers/avtopost-o-sborkah-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/avtopost-o-sborkah.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
-        <div class="bcard-meta"><span class="btag">Разработка</span><time datetime="2026-08-30">30 августа 2026</time></div>
-        <h3>Автопост, который не спамит: заметку пишет человек, расписание проверяет</h3>
-        <p>Соблазн собрать пост о новой версии из истории коммитов заканчивается «fix typo» в ленте подписчиков. Что в уведомлениях автоматизировать можно, а что нельзя.</p>
-        <span class="bcard-more">Читать →</span>
-      </a>
+  <section class="brelated">
+    <h2>Читайте также</h2>
+    <div class="brel-grid">
       <a class="bcard" href="/blog/sorm-573" data-tags="СОРМ,отчётность,закон">
         <picture><source data-cover srcset="/blog/covers/sorm-573-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/sorm-573.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
         <div class="bcard-meta"><span class="btag">Закон</span><time datetime="2026-08-30">30 августа 2026</time></div>
@@ -144,47 +150,50 @@
         <p>Оплата пришла, а клиент числится должником и уходит в блокировку. Разбираем путь платежа от письма банка до зачисления и то, почему часть платежей всегда придётся смотреть глазами.</p>
         <span class="bcard-more">Читать →</span>
       </a>
-      <a class="bcard" href="/blog/zayavka-ne-teryaetsya" data-tags="CRM,продажи,монтаж,автоматизация">
-        <picture><source data-cover srcset="/blog/covers/zayavka-ne-teryaetsya-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/zayavka-ne-teryaetsya.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
-        <div class="bcard-meta"><span class="btag">Продажи</span><time datetime="2026-08-25">25 августа 2026</time></div>
-        <h3>Путь заявки: от звонка до подключения</h3>
-        <p>Где заявки теряются у большинства провайдеров и как выглядит маршрут, на котором ни одна не пропадает: единый приём, воронка, наряд монтажнику и честная оценка рекламы.</p>
-        <span class="bcard-more">Читать →</span>
-      </a>
-      <a class="bcard" href="/blog/ai-agent-v-podderzhke" data-tags="AI,поддержка,автоматизация">
-        <picture><source data-cover srcset="/blog/covers/ai-agent-v-podderzhke-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/ai-agent-v-podderzhke.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
-        <div class="bcard-meta"><span class="btag">Поддержка</span><time datetime="2026-08-22">22 августа 2026</time></div>
-        <h3>AI-агент в поддержке: что он закрывает сам, а что отдаёт человеку</h3>
-        <p>Три четверти обращений закрываются без оператора — но только если агент подключён к биллингу и умеет вовремя позвать человека. Разбираем, где проходит эта граница.</p>
-        <span class="bcard-more">Читать →</span>
-      </a>
-      <a class="bcard" href="/blog/sklad-pod-podotchet" data-tags="склад,оборудование,монтаж">
-        <picture><source data-cover srcset="/blog/covers/sklad-pod-podotchet-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/sklad-pod-podotchet.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
-        <div class="bcard-meta"><span class="btag">Оборудование</span><time datetime="2026-08-18">18 августа 2026</time></div>
-        <h3>Оборудование под подотчёт: как склад перестаёт быть тетрадкой</h3>
-        <p>Роутеры «где-то у монтажников», недостача, которую находят раз в год, и списание задним числом. Как выглядит учёт, при котором вещь всегда числится за кем-то одним.</p>
-        <span class="bcard-more">Читать →</span>
-      </a>
     </div>
-    <p class="bempty" id="bempty" hidden>По этому тегу статей пока нет.</p>
+  </section>
   </div>
 </main>
-<script>
-// ?tag=... — хештег из статьи фильтрует список без перезагрузки данных
-(function () {
-  var tag = new URLSearchParams(location.search).get('tag');
-  if (!tag) return;
-  var shown = 0;
-  document.querySelectorAll('#bgrid .bcard').forEach(function (c) {
-    var has = (c.dataset.tags || '').split(',').indexOf(tag) > -1;
-    c.hidden = !has;
-    if (has) shown++;
-  });
-  var bar = document.getElementById('bfilter');
-  document.getElementById('bfilter-name').textContent = '#' + tag;
-  bar.hidden = false;
-  document.getElementById('bempty').hidden = shown > 0;
-})();
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+  // Цвета схемы зашиваются в SVG при отрисовке, поэтому тему нужно знать заранее
+  // и перерисовывать схему при её смене — иначе в светлой остаётся тёмный вариант.
+  var root = document.documentElement;
+  var DARK = {
+    background: 'transparent', primaryColor: '#0f2a22', primaryTextColor: '#e2e8f0',
+    primaryBorderColor: '#10b981', lineColor: '#2dd4bf', secondaryColor: '#132030',
+    tertiaryColor: '#0b1622', mainBkg: '#0f2a22', nodeBorder: '#10b981',
+    clusterBkg: '#0b1622', titleColor: '#e2e8f0', edgeLabelBackground: '#0b1622',
+    fontSize: '17px'
+  };
+  var LIGHT = {
+    background: '#ffffff', primaryColor: '#e7f6ef', primaryTextColor: '#0f172a',
+    primaryBorderColor: '#047857', lineColor: '#047857', secondaryColor: '#f1f5f9',
+    tertiaryColor: '#f8fafc', mainBkg: '#e7f6ef', nodeBorder: '#047857',
+    clusterBkg: '#f8fafc', titleColor: '#0f172a', edgeLabelBackground: '#ffffff',
+    fontSize: '17px'
+  };
+
+  function draw() {
+    var light = root.getAttribute('data-theme') === 'light';
+    document.querySelectorAll('pre.mermaid').forEach(function (el) {
+      if (!el.dataset.src) el.dataset.src = el.textContent;
+      el.removeAttribute('data-processed');
+      el.innerHTML = el.dataset.src;
+    });
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      fontFamily: 'Inter, system-ui, sans-serif',
+      themeVariables: light ? LIGHT : DARK,
+      flowchart: { curve: 'basis', useMaxWidth: false, nodeSpacing: 34, rankSpacing: 46 }
+    });
+    mermaid.run({ querySelector: 'pre.mermaid' });
+  }
+
+  draw();
+  new MutationObserver(draw).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 </script>
 <footer class="bfoot">
   <div class="container">

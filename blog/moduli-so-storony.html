@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Модули со стороны: как чужой код попадает в ваш биллинг — блог СмИТ Биллинг</title>
+<meta name="description" content="Нужного модуля нет — ждать полгода или ставить чужой? Разбираем, как устроен каталог расширений: кто пишет, кто проверяет и почему обновления не приезжают сами.">
+<link rel="canonical" href="https://billing.smit34.ru/blog/moduli-so-storony">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Модули со стороны: как чужой код попадает в ваш биллинг — блог СмИТ Биллинг">
+<meta property="og:description" content="Нужного модуля нет — ждать полгода или ставить чужой? Разбираем, как устроен каталог расширений: кто пишет, кто проверяет и почему обновления не приезжают сами.">
+<meta property="og:url" content="https://billing.smit34.ru/blog/moduli-so-storony">
+<meta property="og:site_name" content="СмИТ Биллинг">
+<meta property="og:image" content="https://billing.smit34.ru/blog/covers/moduli-so-storony.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/blog/blog.css?v=1788050743">
+<script>
+  // тема общая с главной: ключ billing-theme, светлая — атрибутом data-theme
+  (function () {
+    try {
+      var saved = localStorage.getItem('billing-theme');
+      var light = saved
+        ? saved === 'light'
+        : window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (light) document.documentElement.setAttribute('data-theme', 'light');
+    } catch (e) {}
+  })();
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111523440', 'ym');
+
+    ym(111523440, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    window.ymGoal = function(g, p){ try { if (window.ym) ym(111523440, 'reachGoal', g, p || {}); } catch (e) {} };
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111523440" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</head>
+<body>
+<header class="header">
+  <a href="/" class="header-logo">
+    <div class="header-logo-icon">C</div>
+    <div class="header-logo-text">СмИТ Биллинг<span>3.5</span></div>
+  </a>
+  <nav class="header-nav">
+    <a href="/#features">Возможности</a>
+    <a href="/#modules">Модули</a>
+    <a href="/#lk">Приложение</a>
+    <a href="/#pricing">Тарифы</a>
+    <a href="/#api">API</a>
+    <a href="/#demo">Демо</a>
+    <a href="/blog/" aria-current="page">Блог</a>
+    <a href="https://docs.billing.smit34.ru" class="btn-header" target="_blank">Документация</a>
+  </nav>
+  <div class="header-actions" style="display:flex;align-items:center;gap:8px">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">
+      <span class="icon-sun"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M5 19l1.4-1.4M17.6 6.4L19 5"/></svg></span>
+      <span class="icon-moon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span>
+    </button>
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Меню"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  </div>
+</header>
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" id="mobile-close">&#10005;</button>
+  <a href="/#features" class="mobile-link">Возможности</a>
+  <a href="/#lk" class="mobile-link">Приложение</a>
+  <a href="/#pricing" class="mobile-link">Тарифы</a>
+  <a href="/#api" class="mobile-link">API</a>
+  <a href="/#demo" class="mobile-link">Демо</a>
+  <a href="/blog/" class="mobile-link">Блог</a>
+  <a href="/SMIT_Billing_Unified_ISP_Platform.pdf" class="mobile-link" download><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 3v12M7 11l5 4 5-4M5 20h14"/></svg> Презентация</a>
+  <a href="https://docs.billing.smit34.ru" target="_blank" class="mobile-link">Документация</a>
+  <a data-demo="1" href="/#demo" class="mobile-link" style="color:var(--emerald-400)">Запросить демо</a>
+</div>
+
+
+<div class="container narrow">
+    <a class="bback" href="/blog/">← Все статьи</a>
+    <div><span class="btag">Платформа</span></div>
+    <h1>Модули со стороны: как чужой код попадает в ваш биллинг</h1>
+    <div class="bmeta"><time datetime="2026-09-02">2 сентября 2026</time> · 6 минут</div>
+    <picture><source data-cover srcset="/blog/covers/moduli-so-storony-light.jpg" media="(prefers-color-scheme: light)"><img class="bpost-cover" src="/blog/covers/moduli-so-storony.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
+<p>У каждого провайдера есть задача, которой нет в базовом биллинге. Своя схема лояльности, выгрузка в бухгалтерию именно в том формате, который просит бухгалтер, интеграция с местным оператором видеонаблюдения. Обычно выбор такой: ждать, пока это появится у вендора, или платить за доработку и потом сопровождать её отдельно от основного продукта.</p>
+<p>Третий путь — <strong>каталог расширений</strong>: модули и виджеты, которые ставятся в установку как приложения на телефон, и написать их может не только команда вендора. Разберём, как это устроено и на что смотреть, когда решаете ставить чужое.</p>
+<h2>Модуль, виджет и вендор-пак — разные вещи</h2>
+<ul>
+<li><strong>Модуль</strong> — часть биллинга целиком: раздел меню, свои таблицы, фоновые задачи. Так подключаются склад, видеонаблюдение, банковские выписки.</li>
+<li><strong>Виджет</strong> — небольшой блок на существующей странице: карточка на дашборде, панель в карточке абонента, вкладка в сделке. Приезжает архивом и не трогает ядро.</li>
+<li><strong>Вендор-пак</strong> — вообще не код, а описание формата: например, состав файлов выгрузки СОРМ для конкретного производителя. Появился новый требуемый формат — добавляется пак, а биллинг не меняется.</li>
+</ul>
+<p>Разделение не формальное. Чем меньше сущность вмешивается в ядро, тем дешевле её проверить и тем меньше шансов, что обновление что-то сломает.</p>
+<h2>Путь расширения от автора до вашей установки</h2>
+<div class="bmermaid"><pre class="mermaid">flowchart LR
+  A[Автор&lt;br/&gt;заявка и кабинет] --&gt; B[Пакет: код,&lt;br/&gt;манифест, версия]
+  B --&gt; C{Автоматический&lt;br/&gt;разбор}
+  C --&gt; D{Проверка&lt;br/&gt;человеком}
+  D --&gt;|вернуть| B
+  D --&gt;|опубликовать| E[Каталог]
+  E --&gt; F[Ваша установка:&lt;br/&gt;видно то, что в тарифе]
+  F --&gt; G[Обновление&lt;br/&gt;по вашему решению]</pre></div>
+<p>Ключевых мест два, и оба про доверие.</p>
+<p><strong>Первое — проверка в две ступени.</strong> Сначала пакет разбирает автоматика: состав файлов, манифест, обращения наружу, попытки читать то, что модулю не положено. Она ничего не отклоняет — только пишет заключение. Решение принимает человек, который смотрит и пакет, и это заключение.</p>
+<p>Почему автоматике не дают права отказа: она ошибается в обе стороны, а цена ошибок разная. Пропущенный ею вредный пакет увидит модератор. Отклонённый по формальному признаку полезный модуль автор второй раз присылать не станет — и вы его не увидите никогда.</p>
+<p><strong>Второе — автообновление выключено по умолчанию.</strong> Новая версия появляется в каталоге и ждёт. Кнопку «обновить» нажимает человек, который отвечает за работу биллинга. Тихо подменять код в системе, где считаются чужие деньги, нельзя — даже если обновление хорошее.</p>
+<h2>Что вы видите со своей стороны</h2>
+<p>В каталоге у вас — только то, что положено по тарифу. У каждого расширения обложка, описание, список возможностей, версия и история изменений. Установка — одно действие; удаление тоже, и оно не оставляет мусора в интерфейсе.</p>
+<p>Отдельно стоит смотреть на две вещи: сколько установок у этого расширения и когда была последняя версия. Модуль, который никто не ставит и который не обновлялся год, — это не «стабильный», а брошенный.</p>
+<blockquote>Здравое правило: расширение, которое трогает деньги, стоит ставить только от вендора или от автора с историей. Расширение, которое рисует красивый блок на дашборде, можно пробовать смелее — оно ничего не считает.</blockquote>
+<h2>Если нужного нет</h2>
+<p>Тогда его можно написать — самому или руками подрядчика, которого вы и так знаете. Автор подаёт заявку, получает кабинет, загружает версию и после публикации получает долю от подписки за каждую действующую установку. Заявка открыта всем: <a href="https://license.billing.smit34.ru/developers/" target="_blank" rel="noopener">форма для разработчиков</a>.</p>
+<p>Провайдеру это выгодно не из-за доли, а из-за скорости: задача, которая в очереди вендора ждала бы полгода, решается тем, кто в ней заинтересован. При этом код всё равно проходит проверку и живёт по общим правилам каталога.</p>
+<p>Список того, что уже есть, — на <a href="/#modules" rel="noopener">странице модулей</a>. Как модуль попадает в установку технически — в <a href="https://docs.billing.smit34.ru" rel="noopener">документации</a>.</p>
+    <div class="bhashes"><a class="bhash" href="/blog/?tag=платформа">#платформа</a><a class="bhash" href="/blog/?tag=модули">#модули</a><a class="bhash" href="/blog/?tag=разработка">#разработка</a></div>
+    <div class="bcta">
+  <h3>Посмотреть платформу в работе</h3>
+  <p>Демо-доступ с реальными данными, презентация для руководства и ответы на вопросы — без обязательств.</p>
+  <a href="/#demo">Запросить демо →</a>
+</div>
+  </div>
+  <div class="container">
+  <section class="brelated">
+    <h2>Читайте также</h2>
+    <div class="brel-grid">
+      <a class="bcard" href="/blog/sorm-573" data-tags="СОРМ,отчётность,закон">
+        <picture><source data-cover srcset="/blog/covers/sorm-573-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/sorm-573.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
+        <div class="bcard-meta"><span class="btag">Закон</span><time datetime="2026-08-30">30 августа 2026</time></div>
+        <h3>СОРМ по приказу №573: что выгружать и почему выгрузка — не главное</h3>
+        <p>Файлы формируются, расписание работает, проверка проходит — а данные внутри пустые. Разбираем, из чего состоит выгрузка и где она ломается на практике.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
+      <a class="bcard" href="/blog/karta-seti" data-tags="сеть,аварии,инфраструктура">
+        <picture><source data-cover srcset="/blog/covers/karta-seti-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/karta-seti.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
+        <div class="bcard-meta"><span class="btag">Сеть</span><time datetime="2026-08-29">29 августа 2026</time></div>
+        <h3>Карта сети: кто останется без интернета, если оборвётся эта трасса</h3>
+        <p>Схема сети обычно живёт в голове монтажника и в файле у одного человека. Что меняется, когда узлы, трассы и абоненты оказываются на одной карте.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
+      <a class="bcard" href="/blog/bankovskie-vypiski" data-tags="финансы,юрлица,автоматизация">
+        <picture><source data-cover srcset="/blog/covers/bankovskie-vypiski-light.jpg" media="(prefers-color-scheme: light)"><img class="bcard-cover" src="/blog/covers/bankovskie-vypiski.jpg" alt="" loading="lazy" width="1600" height="900"></picture>
+        <div class="bcard-meta"><span class="btag">Деньги</span><time datetime="2026-08-27">27 августа 2026</time></div>
+        <h3>Платежи юрлиц: как перестать разбирать выписку руками</h3>
+        <p>Оплата пришла, а клиент числится должником и уходит в блокировку. Разбираем путь платежа от письма банка до зачисления и то, почему часть платежей всегда придётся смотреть глазами.</p>
+        <span class="bcard-more">Читать →</span>
+      </a>
+    </div>
+  </section>
+  </div>
+</main>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+  // Цвета схемы зашиваются в SVG при отрисовке, поэтому тему нужно знать заранее
+  // и перерисовывать схему при её смене — иначе в светлой остаётся тёмный вариант.
+  var root = document.documentElement;
+  var DARK = {
+    background: 'transparent', primaryColor: '#0f2a22', primaryTextColor: '#e2e8f0',
+    primaryBorderColor: '#10b981', lineColor: '#2dd4bf', secondaryColor: '#132030',
+    tertiaryColor: '#0b1622', mainBkg: '#0f2a22', nodeBorder: '#10b981',
+    clusterBkg: '#0b1622', titleColor: '#e2e8f0', edgeLabelBackground: '#0b1622',
+    fontSize: '17px'
+  };
+  var LIGHT = {
+    background: '#ffffff', primaryColor: '#e7f6ef', primaryTextColor: '#0f172a',
+    primaryBorderColor: '#047857', lineColor: '#047857', secondaryColor: '#f1f5f9',
+    tertiaryColor: '#f8fafc', mainBkg: '#e7f6ef', nodeBorder: '#047857',
+    clusterBkg: '#f8fafc', titleColor: '#0f172a', edgeLabelBackground: '#ffffff',
+    fontSize: '17px'
+  };
+
+  function draw() {
+    var light = root.getAttribute('data-theme') === 'light';
+    document.querySelectorAll('pre.mermaid').forEach(function (el) {
+      if (!el.dataset.src) el.dataset.src = el.textContent;
+      el.removeAttribute('data-processed');
+      el.innerHTML = el.dataset.src;
+    });
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      fontFamily: 'Inter, system-ui, sans-serif',
+      themeVariables: light ? LIGHT : DARK,
+      flowchart: { curve: 'basis', useMaxWidth: false, nodeSpacing: 34, rankSpacing: 46 }
+    });
+    mermaid.run({ querySelector: 'pre.mermaid' });
+  }
+
+  draw();
+  new MutationObserver(draw).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
+<footer class="bfoot">
+  <div class="container">
+    <span>© 2026 СмИТ Биллинг — платформа для операторов связи</span>
+    <a class="sep" href="/">На главную</a>
+    <a href="https://docs.billing.smit34.ru" target="_blank" rel="noopener">Документация</a>
+    <a href="https://t.me/smitbillingdev" target="_blank" rel="noopener">Канал разработки</a>
+  </div>
+</footer>
+<script>
+  (function () {
+    var html = document.documentElement;
+    var themeToggle = document.getElementById('theme-toggle');
+    // Три состояния: как в системе → светлая → тёмная. Без третьего однажды
+    // нажатый переключатель навсегда перекрывал бы системную настройку.
+    var THEME_MODES = ['system', 'light', 'dark'];
+    var THEME_LABEL = {
+      system: 'Тема: как в системе', light: 'Тема: светлая', dark: 'Тема: тёмная'
+    };
+    function themeMode() {
+      try {
+        var v = localStorage.getItem('billing-theme');
+        return v === 'light' || v === 'dark' ? v : 'system';
+      } catch (e) { return 'system'; }
+    }
+    function applyThemeMode(m) {
+      var light = m === 'light' || (m === 'system' &&
+        window.matchMedia('(prefers-color-scheme: light)').matches);
+      if (light) html.setAttribute('data-theme', 'light');
+      else html.removeAttribute('data-theme');
+      try {
+        if (m === 'system') localStorage.removeItem('billing-theme');
+        else localStorage.setItem('billing-theme', m);
+      } catch (e) {}
+      if (themeToggle) {
+        themeToggle.title = THEME_LABEL[m];
+        themeToggle.setAttribute('aria-label', THEME_LABEL[m] + ' (нажмите, чтобы сменить)');
+      }
+    }
+    applyThemeMode(themeMode());
+    if (themeToggle) themeToggle.addEventListener('click', function () {
+      applyThemeMode(THEME_MODES[(THEME_MODES.indexOf(themeMode()) + 1) % 3]);
+    });
+    try {
+      var mq = window.matchMedia('(prefers-color-scheme: light)');
+      var onSystem = function () {
+        if (themeMode() === 'system') applyThemeMode('system');
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onSystem);
+      else if (mq.addListener) mq.addListener(onSystem);
+    } catch (e) {}
+    var menu = document.getElementById('mobile-menu');
+    var open = document.getElementById('mobile-toggle');
+    var close = document.getElementById('mobile-close');
+    if (open && menu) open.addEventListener('click', function () {
+      menu.classList.add('open'); document.body.style.overflow = 'hidden';
+    });
+    function hide() { menu.classList.remove('open'); document.body.style.overflow = ''; }
+    if (close && menu) close.addEventListener('click', hide);
+    if (menu) menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', hide); });
+  })();
+</script>
+<script>
+  // Тему, выбранную вручную, медиа-запрос в <picture> не видит — переключаем
+  // источник обложек сами. Наблюдатель ловит и клик по переключателю, и
+  // смену системной настройки.
+  (function () {
+    var html = document.documentElement;
+    function sync() {
+      var light = html.getAttribute('data-theme') === 'light';
+      document.querySelectorAll('source[data-cover]').forEach(function (s) {
+        s.media = light ? 'all' : 'not all';
+      });
+    }
+    sync();
+    new MutationObserver(sync).observe(html, {
+      attributes: true, attributeFilter: ['data-theme']
+    });
+  })();
+</script>
+</body>
+</html>
